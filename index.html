@@ -7,45 +7,53 @@
     <!-- 引入 Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* 隱藏捲軸但保留滾動功能 (淺色主題配置) */
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        ::-webkit-scrollbar-track { background: #f3f4f6; }
+        ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
         .slide-in { animation: slideIn 0.3s ease-out forwards; }
         @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
     </style>
 </head>
-<body class="h-screen bg-slate-950 text-white font-sans flex flex-col overflow-hidden selection:bg-blue-500 selection:text-white">
+<body class="h-screen bg-gray-50 text-gray-900 font-sans flex flex-col overflow-hidden selection:bg-red-600 selection:text-white">
 
     <!-- ==========================================
          VIEW 1: 啟動首頁 (Landing Page)
          ========================================== -->
-    <div id="view-landing" class="hidden h-screen flex-col items-center justify-center p-6 text-center w-full">
+    <div id="view-landing" class="hidden h-screen flex-col items-center justify-center p-6 text-center w-full bg-white">
         <div class="mb-12">
-            <h1 class="text-4xl md:text-6xl font-black mb-4 bg-gradient-to-r from-blue-400 via-white to-red-400 bg-clip-text text-transparent drop-shadow-lg">
+            <h1 class="text-4xl md:text-6xl font-black mb-4 bg-gradient-to-r from-red-600 to-black bg-clip-text text-transparent drop-shadow-sm">
                 跆拳道比賽雲端系統
             </h1>
-            <p class="text-slate-400 text-lg md:text-xl">支援多裝置手動推播同步！請選擇本裝置模式：</p>
+            <p class="text-gray-500 text-lg md:text-xl font-medium">支援多裝置手動推播同步！請選擇本裝置模式：</p>
         </div>
         
         <div class="flex flex-col md:flex-row gap-6 w-full max-w-4xl justify-center px-4">
             <!-- 顯示板按鈕 -->
-            <button onclick="launchDisplay()" class="flex-1 group bg-slate-900 border-2 border-slate-700 hover:border-blue-500 rounded-3xl p-6 md:p-8 transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] flex flex-col items-center">
-                <div class="bg-blue-500/20 p-5 md:p-6 rounded-full mb-4 md:mb-6 group-hover:bg-blue-500/30 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400 md:w-16 md:h-16"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+            <button onclick="launchDisplay()" class="flex-1 group bg-white border-2 border-gray-200 hover:border-red-600 rounded-3xl p-6 md:p-8 transition-all hover:scale-105 hover:shadow-xl flex flex-col items-center shadow-sm">
+                <div class="bg-red-50 p-5 md:p-6 rounded-full mb-4 md:mb-6 group-hover:bg-red-100 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-600 md:w-16 md:h-16"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
                 </div>
-                <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">大螢幕顯示板</h2>
-                <p class="text-slate-400 text-sm md:text-base">連接投影機或大電視</p>
+                <h2 class="text-2xl md:text-3xl font-bold text-black mb-2">大螢幕顯示板</h2>
+                <p class="text-gray-500 text-sm md:text-base">連接投影機或大電視</p>
             </button>
 
             <!-- 控制面板按鈕 -->
-            <button onclick="launchControl()" class="flex-1 group bg-slate-900 border-2 border-slate-700 hover:border-amber-500 rounded-3xl p-6 md:p-8 transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(245,158,11,0.3)] flex flex-col items-center">
-                <div class="bg-amber-500/20 p-5 md:p-6 rounded-full mb-4 md:mb-6 group-hover:bg-amber-500/30 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-400 md:w-16 md:h-16"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+            <button onclick="launchControl()" class="flex-1 group bg-white border-2 border-gray-200 hover:border-black rounded-3xl p-6 md:p-8 transition-all hover:scale-105 hover:shadow-xl flex flex-col items-center shadow-sm">
+                <div class="bg-gray-100 p-5 md:p-6 rounded-full mb-4 md:mb-6 group-hover:bg-gray-200 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-black md:w-16 md:h-16"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
                 </div>
-                <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">大會控制面板</h2>
-                <p class="text-slate-400 text-sm md:text-base">用 iPad / 手機遙控比分</p>
+                <h2 class="text-2xl md:text-3xl font-bold text-black mb-2">大會控制面板</h2>
+                <p class="text-gray-500 text-sm md:text-base">用 iPad / 手機遙控比分</p>
             </button>
+        </div>
+        
+        <div class="mt-12 text-gray-600 text-sm bg-gray-50 px-6 py-4 rounded-2xl border border-gray-200 max-w-2xl text-left shadow-sm">
+            <strong class="text-black block mb-2">📱 多裝置遙控教學：</strong>
+            1. 喺主電腦（連接電視嗰部）打開呢個網址，點擊「大螢幕顯示板」。<br>
+            2. 用你嘅手機或 iPad 掃描 / 打開同一個網址，點擊「大會控制面板」。<br>
+            3. 兩邊會自動透過雲端連接，你在手機的更改可以推播至電視！
         </div>
     </div>
 
@@ -53,19 +61,19 @@
     <!-- ==========================================
          VIEW 2: 大螢幕顯示板 (Display Page)
          ========================================== -->
-    <div id="view-display" class="hidden h-screen flex-col overflow-hidden w-full">
+    <div id="view-display" class="hidden h-screen flex-col overflow-hidden w-full bg-gray-50">
         <!-- 頂部 Header -->
-        <header class="bg-slate-900 border-b border-slate-800 py-3 md:py-4 px-8 flex justify-center items-center shadow-lg relative shrink-0">
+        <header class="bg-white border-b-4 border-red-600 py-3 md:py-4 px-8 flex justify-center items-center shadow-sm relative shrink-0">
             <!-- 手動更新按鈕 -->
-            <button onclick="fetchCloudState()" class="absolute left-6 md:left-8 flex items-center p-2 md:p-3 text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 hover:text-white rounded-xl transition-all border border-emerald-500/30" title="手動獲取最新資料">
+            <button onclick="fetchCloudState()" class="absolute left-6 md:left-8 flex items-center p-2 md:p-3 text-gray-600 bg-gray-100 hover:bg-gray-200 hover:text-black rounded-xl transition-all border border-gray-200 shadow-sm" title="手動獲取最新資料">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 md:mr-2"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>
                 <span class="font-bold text-sm hidden md:inline">獲取更新</span>
             </button>
             
-            <h1 id="display-event-name" class="text-[clamp(1.75rem,4vmin,3rem)] font-black tracking-wider bg-gradient-to-r from-blue-400 via-white to-red-400 bg-clip-text text-transparent">
+            <h1 id="display-event-name" class="text-[clamp(1.75rem,4vmin,3rem)] font-black tracking-wider text-black">
                 載入中...
             </h1>
-            <button onclick="toggleFullScreen()" class="absolute right-6 md:right-8 p-2 md:p-3 text-slate-500 hover:text-white hover:bg-slate-800 rounded-full transition-all" title="全螢幕">
+            <button onclick="toggleFullScreen()" class="absolute right-6 md:right-8 p-2 md:p-3 text-gray-400 hover:text-black hover:bg-gray-100 rounded-full transition-all" title="全螢幕">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="md:w-7 md:h-7"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
             </button>
         </header>
@@ -78,10 +86,10 @@
         </main>
 
         <!-- 底部準備召集 -->
-        <div class="bg-slate-900 border-t-4 border-amber-500 p-3 md:p-4 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] z-10 flex flex-col md:flex-row items-center justify-center gap-3 md:gap-6 shrink-0">
+        <div class="bg-white border-t-4 border-red-600 p-3 md:p-4 shadow-[0_-5px_20px_rgba(0,0,0,0.05)] z-10 flex flex-col md:flex-row items-center justify-center gap-3 md:gap-6 shrink-0">
             <div class="flex items-center shrink-0">
-                <span class="text-[clamp(1.25rem,2.5vmin,2rem)] font-black text-amber-400 tracking-widest animate-pulse flex items-center">
-                    <span class="bg-amber-500 text-slate-950 px-2 md:px-3 py-0.5 md:py-1 rounded-lg mr-2 md:mr-3 text-[clamp(1rem,2vmin,1.5rem)]">廣播</span>
+                <span class="text-[clamp(1.25rem,2.5vmin,2rem)] font-black text-black tracking-widest animate-pulse flex items-center">
+                    <span class="bg-red-600 text-white px-2 md:px-3 py-0.5 md:py-1 rounded-lg mr-2 md:mr-3 text-[clamp(1rem,2vmin,1.5rem)] shadow-sm">廣播</span>
                     大會準備召集
                 </span>
             </div>
@@ -91,21 +99,21 @@
         </div>
         
         <!-- 賽事詳情彈出視窗 (Modal) -->
-        <div id="match-modal" class="hidden fixed inset-0 z-[60] flex justify-center items-center bg-black/80 backdrop-blur-sm p-4 opacity-0 transition-opacity duration-300" onclick="if(event.target === this) closeMatchModal()">
-            <div class="bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl w-full max-w-3xl transform scale-95 transition-transform duration-300 flex flex-col overflow-hidden" id="match-modal-content">
-                <div class="bg-slate-800 p-4 flex justify-between items-center border-b border-slate-700">
-                    <h3 class="text-2xl font-bold text-white flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-blue-400"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        <div id="match-modal" class="hidden fixed inset-0 z-[60] flex justify-center items-center bg-black/60 backdrop-blur-sm p-4 opacity-0 transition-opacity duration-300" onclick="if(event.target === this) closeMatchModal()">
+            <div class="bg-white border border-gray-200 rounded-3xl shadow-2xl w-full max-w-3xl transform scale-95 transition-transform duration-300 flex flex-col overflow-hidden" id="match-modal-content">
+                <div class="bg-gray-50 p-4 flex justify-between items-center border-b border-gray-200">
+                    <h3 class="text-2xl font-bold text-black flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-red-600"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                         賽事資料庫
                     </h3>
-                    <button onclick="closeMatchModal()" class="text-slate-400 hover:text-white p-2 rounded-full hover:bg-slate-700 transition-colors">
+                    <button onclick="closeMatchModal()" class="text-gray-400 hover:text-black p-2 rounded-full hover:bg-gray-200 transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                     </button>
                 </div>
                 <div class="p-6 md:p-8 flex flex-col items-center max-h-[80vh] overflow-y-auto">
-                    <div id="modal-match-number" class="text-4xl md:text-5xl font-black text-amber-400 mb-2 tracking-wider"></div>
-                    <div id="modal-match-content" class="text-xl md:text-2xl text-slate-300 mb-8 font-medium text-center"></div>
-                    <div id="modal-players-container" class="w-full flex flex-wrap justify-center items-stretch bg-slate-950 rounded-2xl p-6 border border-slate-800 gap-4"></div>
+                    <div id="modal-match-number" class="text-4xl md:text-5xl font-black text-red-600 mb-2 tracking-wider"></div>
+                    <div id="modal-match-content" class="text-xl md:text-2xl text-gray-800 mb-8 font-bold text-center"></div>
+                    <div id="modal-players-container" class="w-full flex flex-wrap justify-center items-stretch bg-gray-50 rounded-2xl p-6 border border-gray-200 gap-4"></div>
                 </div>
             </div>
         </div>
@@ -115,24 +123,24 @@
     <!-- ==========================================
          VIEW 3: 大會控制面板 (Control Page)
          ========================================== -->
-    <div id="view-control" class="hidden h-screen flex-col overflow-y-auto bg-slate-950 w-full relative">
+    <div id="view-control" class="hidden h-screen flex-col overflow-y-auto bg-gray-50 w-full relative">
         <!-- 控制面板 Header -->
-        <div class="bg-slate-900 border-b border-slate-800 p-4 md:p-6 sticky top-0 z-10 flex flex-wrap gap-4 justify-between items-center shadow-md">
-            <h2 class="text-xl md:text-3xl font-black text-amber-500 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 md:mr-3"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
-                遙控控制台
+        <div class="bg-white border-b border-gray-200 p-4 md:p-6 sticky top-0 z-10 flex flex-wrap gap-4 justify-between items-center shadow-sm">
+            <h2 class="text-xl md:text-3xl font-black text-black flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 md:mr-3 text-red-600"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+                大會遙控控制台
             </h2>
             <div class="flex items-center space-x-2 md:space-x-4">
                 <!-- 推播更新按鈕 -->
-                <button onclick="pushCloudState()" class="flex items-center px-3 py-1.5 md:px-4 md:py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg transition-all shadow-[0_0_15px_rgba(37,99,235,0.5)]">
+                <button onclick="pushCloudState()" class="flex items-center px-3 py-1.5 md:px-4 md:py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition-all shadow-md">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 md:mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
                     <span class="hidden md:inline">推播更新至大螢幕</span>
                     <span class="md:hidden">推播更新</span>
                 </button>
-                <div id="cloud-status" class="flex items-center text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 bg-slate-800 text-slate-400 rounded-full border border-slate-700 transition-colors hidden md:flex">
-                    <div class="w-2 h-2 rounded-full bg-slate-500 mr-2"></div> 手動模式
+                <div id="cloud-status" class="flex items-center text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 bg-gray-100 text-gray-500 rounded-full border border-gray-200 transition-colors hidden md:flex">
+                    <div class="w-2 h-2 rounded-full bg-gray-400 mr-2"></div> 手動模式
                 </div>
-                <button onclick="window.location.hash=''; window.location.reload();" class="text-slate-400 hover:text-white px-3 py-1.5 md:px-4 md:py-2 bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors font-medium text-xs md:text-sm">
+                <button onclick="window.location.hash=''; window.location.reload();" class="text-gray-600 hover:text-black hover:bg-gray-100 bg-white border border-gray-200 px-3 py-1.5 md:px-4 md:py-2 rounded-lg transition-colors font-bold text-xs md:text-sm shadow-sm">
                     退出
                 </button>
             </div>
@@ -143,33 +151,31 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
                 
                 <!-- 1. 賽事名稱設定 -->
-                <div class="bg-slate-900 p-4 md:p-6 rounded-2xl border border-slate-800 shadow-lg">
-                    <label class="block text-xs md:text-sm font-bold text-slate-400 mb-2 md:mb-3 tracking-widest uppercase">全域賽事名稱 (修改需推播)</label>
-                    <input id="input-event-name" type="text" oninput="updateEventName(this.value)" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 md:p-4 text-lg md:text-xl text-white font-bold focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 transition-all"/>
+                <div class="bg-white p-4 md:p-6 rounded-2xl border border-gray-200 shadow-sm">
+                    <label class="block text-xs md:text-sm font-bold text-gray-500 mb-2 md:mb-3 tracking-widest uppercase">全域賽事名稱 (修改需推播)</label>
+                    <input id="input-event-name" type="text" oninput="updateEventName(this.value)" class="w-full bg-gray-50 border border-gray-300 rounded-xl p-3 md:p-4 text-lg md:text-xl text-black font-bold focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all"/>
                 </div>
 
                 <!-- 2. 統一準備召集設定 -->
-                <div class="bg-slate-900 p-4 md:p-6 rounded-2xl border border-slate-800 shadow-lg relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-3xl -mr-10 -mt-10"></div>
-                    <label class="block text-xs md:text-sm font-bold text-amber-500 mb-2 md:mb-3 tracking-widest uppercase flex items-center relative z-10">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                <div class="bg-white p-4 md:p-6 rounded-2xl border border-gray-200 shadow-sm relative overflow-hidden">
+                    <label class="block text-xs md:text-sm font-bold text-black mb-2 md:mb-3 tracking-widest uppercase flex items-center relative z-10">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-red-600"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
                         大會統一準備召集名單
                     </label>
-                    <input id="input-prep-matches" type="text" oninput="updatePrepMatches(this.value)" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 md:p-4 text-lg md:text-xl text-white font-bold focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/50 transition-all relative z-10" placeholder="以逗號分隔，例如: 102, 202, 302"/>
+                    <input id="input-prep-matches" type="text" oninput="updatePrepMatches(this.value)" class="w-full bg-gray-50 border border-gray-300 rounded-xl p-3 md:p-4 text-lg md:text-xl text-black font-bold focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all relative z-10" placeholder="以逗號分隔，例如: 102, 202, 302"/>
                 </div>
 
                 <!-- 3. 匯入/管理賽事名單 (CSV & Editor) -->
-                <div class="bg-slate-900 p-4 md:p-6 rounded-2xl border border-slate-800 shadow-lg relative overflow-hidden flex flex-col justify-between">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl -mr-10 -mt-10"></div>
+                <div class="bg-white p-4 md:p-6 rounded-2xl border border-gray-200 shadow-sm relative overflow-hidden flex flex-col justify-between">
                     <div>
-                        <label class="block text-xs md:text-sm font-bold text-emerald-400 mb-2 tracking-widest uppercase flex items-center relative z-10">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                        <label class="block text-xs md:text-sm font-bold text-black mb-2 tracking-widest uppercase flex items-center relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-red-600"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
                             賽事名單 (Database)
                         </label>
-                        <input type="file" accept=".csv" onchange="handleCSVUpload(event)" class="w-full text-sm text-slate-400 file:mr-2 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-emerald-500/20 file:text-emerald-400 hover:file:bg-emerald-500/30 transition-all cursor-pointer relative z-10 mt-1 mb-1" title="匯入 CSV 檔案"/>
-                        <p class="text-[10px] text-slate-500 relative z-10">格式：場次, 比賽內容, 選手A, 選手B...</p>
+                        <input type="file" accept=".csv" onchange="handleCSVUpload(event)" class="w-full text-sm text-gray-500 file:mr-2 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-gray-100 file:text-black hover:file:bg-gray-200 transition-all cursor-pointer relative z-10 mt-1 mb-1" title="匯入 CSV 檔案"/>
+                        <p class="text-[10px] text-gray-400 relative z-10">格式：場次, 比賽內容, 選手A, 選手B...</p>
                     </div>
-                    <button onclick="openDatabaseManager()" class="w-full mt-3 bg-emerald-600/20 hover:bg-emerald-500 hover:text-white text-emerald-400 border border-emerald-500/30 font-bold py-2 md:py-3 px-4 rounded-xl transition-colors relative z-10 text-sm flex justify-center items-center shadow-lg">
+                    <button onclick="openDatabaseManager()" class="w-full mt-3 bg-white hover:bg-gray-50 text-black border border-gray-300 font-bold py-2 md:py-3 px-4 rounded-xl transition-colors relative z-10 text-sm flex justify-center items-center shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                         查看及編輯名單
                     </button>
@@ -187,56 +193,56 @@
     <!-- ==========================================
          賽事名單管理 Modal (Database Manager)
          ========================================== -->
-    <div id="database-modal" class="hidden fixed inset-0 z-[70] flex justify-center items-center bg-black/80 backdrop-blur-sm p-4 md:p-6 opacity-0 transition-opacity duration-300">
-        <div class="bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl w-full max-w-5xl h-[90vh] flex flex-col overflow-hidden transform scale-95 transition-transform duration-300" id="database-modal-content">
-            <div class="bg-slate-800 p-4 md:p-6 flex justify-between items-center border-b border-slate-700 shrink-0">
-                <h3 class="text-xl md:text-2xl font-bold text-white flex items-center">
-                    <svg class="mr-2 text-emerald-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+    <div id="database-modal" class="hidden fixed inset-0 z-[70] flex justify-center items-center bg-black/60 backdrop-blur-sm p-4 md:p-6 opacity-0 transition-opacity duration-300">
+        <div class="bg-white border border-gray-200 rounded-3xl shadow-2xl w-full max-w-5xl h-[90vh] flex flex-col overflow-hidden transform scale-95 transition-transform duration-300" id="database-modal-content">
+            <div class="bg-gray-50 p-4 md:p-6 flex justify-between items-center border-b border-gray-200 shrink-0">
+                <h3 class="text-xl md:text-2xl font-bold text-black flex items-center">
+                    <svg class="mr-2 text-red-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
                     賽事名單管理 (Database Manager)
                 </h3>
-                <button onclick="closeDatabaseManager()" class="text-slate-400 hover:text-white p-2 rounded-full hover:bg-slate-700 transition-colors">
+                <button onclick="closeDatabaseManager()" class="text-gray-400 hover:text-black p-2 rounded-full hover:bg-gray-200 transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </button>
             </div>
             
             <div class="flex-grow flex flex-col md:flex-row overflow-hidden min-h-0">
                 <!-- 左側：表單 -->
-                <div class="w-full md:w-1/3 bg-slate-950 p-4 md:p-6 border-b md:border-b-0 md:border-r border-slate-800 flex flex-col gap-4 overflow-y-auto shrink-0">
-                    <h4 id="db-form-title" class="text-lg font-bold text-emerald-400 mb-2">新增場次</h4>
+                <div class="w-full md:w-1/3 bg-gray-50 p-4 md:p-6 border-b md:border-b-0 md:border-r border-gray-200 flex flex-col gap-4 overflow-y-auto shrink-0">
+                    <h4 id="db-form-title" class="text-lg font-bold text-black mb-2">新增場次</h4>
                     <div>
-                        <label class="block text-xs font-bold text-slate-400 mb-1">場次號碼 (必需)</label>
-                        <input id="db-match-id" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white focus:border-emerald-500 focus:outline-none" placeholder="例如: 101">
+                        <label class="block text-xs font-bold text-gray-500 mb-1">場次號碼 (必需)</label>
+                        <input id="db-match-id" type="text" class="w-full bg-white border border-gray-300 rounded-lg p-2 text-black focus:border-red-600 focus:ring-1 focus:ring-red-600 focus:outline-none shadow-sm" placeholder="例如: 101">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-400 mb-1">比賽內容</label>
-                        <input id="db-match-content" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white focus:border-emerald-500 focus:outline-none" placeholder="例如: 男子組決賽">
+                        <label class="block text-xs font-bold text-gray-500 mb-1">比賽內容</label>
+                        <input id="db-match-content" type="text" class="w-full bg-white border border-gray-300 rounded-lg p-2 text-black focus:border-red-600 focus:ring-1 focus:ring-red-600 focus:outline-none shadow-sm" placeholder="例如: 男子組決賽">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-400 mb-1">選手名單 (用逗號分隔)</label>
-                        <textarea id="db-match-players" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white focus:border-emerald-500 focus:outline-none resize-none" placeholder="例如: 張家輝, 陳奕迅"></textarea>
+                        <label class="block text-xs font-bold text-gray-500 mb-1">選手名單 (用逗號分隔)</label>
+                        <textarea id="db-match-players" rows="3" class="w-full bg-white border border-gray-300 rounded-lg p-2 text-black focus:border-red-600 focus:ring-1 focus:ring-red-600 focus:outline-none resize-none shadow-sm" placeholder="例如: 張家輝, 陳奕迅"></textarea>
                     </div>
                     <div class="flex gap-2 mt-2">
-                        <button id="db-save-btn" onclick="saveMatchData()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 rounded-lg transition-colors">
+                        <button id="db-save-btn" onclick="saveMatchData()" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded-lg transition-colors shadow-sm">
                             儲存
                         </button>
-                        <button onclick="resetMatchForm()" class="px-4 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2 rounded-lg transition-colors">
+                        <button onclick="resetMatchForm()" class="px-4 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-bold py-2 rounded-lg transition-colors shadow-sm">
                             取消
                         </button>
                     </div>
-                    <div class="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg text-xs text-blue-300">
+                    <div class="mt-4 p-3 bg-red-50 border border-red-100 rounded-lg text-xs text-red-600 font-medium">
                         提示：儲存後名單只會更新於本地，確認所有修改後，請記得在控制台點擊「推播更新至大螢幕」。
                     </div>
                 </div>
                 
                 <!-- 右側：列表 -->
-                <div class="w-full md:w-2/3 p-4 md:p-6 overflow-y-auto bg-slate-900 flex flex-col">
+                <div class="w-full md:w-2/3 p-4 md:p-6 overflow-y-auto bg-white flex flex-col">
                     <div class="mb-4 flex justify-between items-center shrink-0">
-                        <h4 class="text-lg font-bold text-slate-200">現有賽事資料</h4>
-                        <span id="db-match-count" class="text-sm font-bold text-slate-400 bg-slate-800 px-3 py-1 rounded-full">共 0 場</span>
+                        <h4 class="text-lg font-bold text-black">現有賽事資料</h4>
+                        <span id="db-match-count" class="text-sm font-bold text-gray-700 bg-gray-100 px-3 py-1 rounded-full border border-gray-200">共 0 場</span>
                     </div>
-                    <div class="overflow-x-auto rounded-xl border border-slate-700 bg-slate-950 flex-grow">
-                        <table class="w-full text-left text-sm text-slate-300 relative">
-                            <thead class="bg-slate-800 text-slate-400 sticky top-0 shadow-md">
+                    <div class="overflow-x-auto rounded-xl border border-gray-200 bg-white flex-grow shadow-sm">
+                        <table class="w-full text-left text-sm text-gray-800 relative">
+                            <thead class="bg-gray-50 text-gray-500 sticky top-0 shadow-sm z-10 border-b border-gray-200">
                                 <tr>
                                     <th class="p-3 font-bold w-20">場次</th>
                                     <th class="p-3 font-bold">內容</th>
@@ -244,7 +250,7 @@
                                     <th class="p-3 font-bold text-right w-24">操作</th>
                                 </tr>
                             </thead>
-                            <tbody id="db-match-list" class="divide-y divide-slate-800">
+                            <tbody id="db-match-list" class="divide-y divide-gray-100">
                                 <!-- 動態生成 -->
                             </tbody>
                         </table>
@@ -315,8 +321,8 @@
         function notifyUnpushedChanges() {
             const statusIndicator = document.getElementById('cloud-status');
             if (statusIndicator && !statusIndicator.innerHTML.includes('未推播')) {
-                statusIndicator.className = "flex items-center text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 bg-amber-500/20 text-amber-400 rounded-full border border-amber-500/30 transition-colors hidden md:flex";
-                statusIndicator.innerHTML = '<div class="w-2 h-2 rounded-full bg-amber-500 animate-pulse mr-2"></div> 有未推播更新';
+                statusIndicator.className = "flex items-center text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 bg-red-50 text-red-600 rounded-full border border-red-200 transition-colors hidden md:flex";
+                statusIndicator.innerHTML = '<div class="w-2 h-2 rounded-full bg-red-600 animate-pulse mr-2"></div> 有未推播更新';
             }
         }
 
@@ -375,6 +381,11 @@
                     const prepInput = document.getElementById('input-prep-matches');
                     if (prepInput) prepInput.value = state.prepMatches.join(', ');
                 }
+                const cInput = document.getElementById(`current-${id}`);
+                const nInput = document.getElementById(`next-${id}`);
+                if(cInput) cInput.value = court.currentMatch;
+                if(nInput) nInput.value = court.nextMatch;
+                
                 renderView();
                 notifyUnpushedChanges();
             }
@@ -401,7 +412,15 @@
                 
                 if (state.prepMatches && state.prepMatches.includes(newCurrentMatch)) {
                     state.prepMatches = state.prepMatches.filter(m => m !== newCurrentMatch);
+                    const prepInput = document.getElementById('input-prep-matches');
+                    if (prepInput) prepInput.value = state.prepMatches.join(', ');
                 }
+                
+                const cInput = document.getElementById(`current-${id}`);
+                const nInput = document.getElementById(`next-${id}`);
+                if(cInput) cInput.value = court.currentMatch;
+                if(nInput) nInput.value = court.nextMatch;
+                
                 renderView();
                 notifyUnpushedChanges();
             }
@@ -416,11 +435,11 @@
             const playersContainer = document.getElementById('modal-players-container');
             if (data.players && data.players.length > 0) {
                 playersContainer.innerHTML = data.players.map(player => `
-                    <div class="bg-slate-800 border-2 border-slate-700 rounded-2xl p-5 flex items-center justify-center shadow-lg flex-1 min-w-[160px] max-w-[300px]">
-                        <span class="text-2xl md:text-3xl font-black text-white text-center">${player}</span>
+                    <div class="bg-white border-2 border-gray-200 rounded-2xl p-5 flex items-center justify-center shadow-sm flex-1 min-w-[160px] max-w-[300px]">
+                        <span class="text-2xl md:text-3xl font-black text-black text-center">${player}</span>
                     </div>`).join('');
             } else {
-                playersContainer.innerHTML = `<span class="text-slate-500 text-xl font-bold">暫無選手資料</span>`;
+                playersContainer.innerHTML = `<span class="text-gray-500 text-xl font-bold">暫無選手資料</span>`;
             }
             const modal = document.getElementById('match-modal');
             const content = document.getElementById('match-modal-content');
@@ -465,20 +484,20 @@
             document.getElementById('db-match-count').innerText = `共 ${keys.length} 場`;
             
             if (keys.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-500 font-bold">暫無賽事資料，請新增或匯入 CSV</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-gray-500 font-bold">暫無賽事資料，請新增或匯入 CSV</td></tr>`;
                 return;
             }
             tbody.innerHTML = keys.map(id => {
                 const data = matches[id];
                 const players = (data.players || []).join(', ');
                 return `
-                <tr class="hover:bg-slate-800/50 transition-colors border-b border-slate-800">
-                    <td class="p-3 font-black text-amber-400 whitespace-nowrap">${id}</td>
-                    <td class="p-3 font-medium">${data.content}</td>
-                    <td class="p-3 text-slate-400 text-xs md:text-sm">${players}</td>
+                <tr class="hover:bg-gray-50 transition-colors border-b border-gray-100">
+                    <td class="p-3 font-black text-red-600 whitespace-nowrap">${id}</td>
+                    <td class="p-3 font-bold text-black">${data.content}</td>
+                    <td class="p-3 text-gray-500 text-xs md:text-sm">${players}</td>
                     <td class="p-3 text-right whitespace-nowrap">
-                        <button onclick="editMatchData('${id}')" class="text-blue-400 hover:text-blue-300 mr-2 font-bold p-1">編輯</button>
-                        <button onclick="deleteMatchData('${id}')" class="text-red-400 hover:text-red-300 font-bold p-1">刪除</button>
+                        <button onclick="editMatchData('${id}')" class="text-blue-600 hover:text-blue-800 mr-2 font-bold p-1">編輯</button>
+                        <button onclick="deleteMatchData('${id}')" class="text-red-600 hover:text-red-800 font-bold p-1">刪除</button>
                     </td>
                 </tr>`;
             }).join('');
@@ -647,7 +666,7 @@
                 
                 const statusIndicator = document.getElementById('cloud-status');
                 if (statusIndicator) {
-                    statusIndicator.className = "flex items-center text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 bg-blue-500/20 text-blue-400 rounded-full border border-blue-500/30 transition-colors";
+                    statusIndicator.className = "flex items-center text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 bg-green-50 text-green-600 rounded-full border border-green-200 transition-colors";
                     statusIndicator.innerHTML = '✅ 已成功推播';
                     setTimeout(() => { updateCloudStatus(true, '手動模式'); }, 3000);
                 }
@@ -662,10 +681,10 @@
             const statusIndicator = document.getElementById('cloud-status');
             if (statusIndicator) {
                 if (isConnected) {
-                    statusIndicator.className = "flex items-center text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 bg-emerald-500/20 text-emerald-400 rounded-full border border-emerald-500/30 transition-colors";
-                    statusIndicator.innerHTML = `<div class="w-2 h-2 rounded-full bg-emerald-500 mr-2"></div> ${text}`;
+                    statusIndicator.className = "flex items-center text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 bg-green-50 text-green-600 rounded-full border border-green-200 transition-colors";
+                    statusIndicator.innerHTML = `<div class="w-2 h-2 rounded-full bg-green-500 mr-2"></div> ${text}`;
                 } else {
-                    statusIndicator.className = "flex items-center text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 bg-red-500/20 text-red-400 rounded-full border border-red-500/30 transition-colors";
+                    statusIndicator.className = "flex items-center text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 bg-red-50 text-red-600 rounded-full border border-red-200 transition-colors";
                     statusIndicator.innerHTML = `<div class="w-2 h-2 rounded-full bg-red-500 mr-2"></div> ${text}`;
                 }
             }
@@ -716,25 +735,25 @@
                 const currentData = getMatchData(court.currentMatch);
                 const currentContent = currentData ? currentData.content : "無賽事資料";
                 return `
-                <div class="bg-slate-900 rounded-2xl md:rounded-3xl border border-slate-800 overflow-hidden shadow-2xl flex flex-col h-full min-h-[220px] lg:min-h-0">
-                    <div class="bg-gradient-to-r from-slate-800 to-slate-900 py-2 px-4 border-b border-slate-700 flex justify-between items-center shrink-0 h-10 md:h-12 lg:h-14">
-                        <h2 class="text-[clamp(1rem,2.5vmin,1.5rem)] font-bold text-slate-200 flex items-center">
-                            場地 <span class="text-[clamp(1.25rem,3vmin,2rem)] text-white ml-2">${court.id}</span>
+                <div class="bg-white rounded-2xl md:rounded-3xl border border-gray-200 overflow-hidden shadow-md flex flex-col h-full min-h-[220px] lg:min-h-0">
+                    <div class="bg-gray-50 py-2 px-4 border-b border-gray-200 flex justify-between items-center shrink-0 h-10 md:h-12 lg:h-14">
+                        <h2 class="text-[clamp(1rem,2.5vmin,1.5rem)] font-bold text-gray-500 flex items-center">
+                            場地 <span class="text-[clamp(1.25rem,3vmin,2rem)] text-black ml-2">${court.id}</span>
                         </h2>
                         <div class="flex space-x-2">
-                            <div class="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-blue-600 shadow-[0_0_8px_rgba(37,99,235,0.8)]"></div>
-                            <div class="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-red-600 shadow-[0_0_8px_rgba(220,38,38,0.8)]"></div>
+                            <div class="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-blue-600 shadow-sm"></div>
+                            <div class="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-red-600 shadow-sm"></div>
                         </div>
                     </div>
                     <div class="flex-grow flex flex-col p-2 md:p-3 lg:p-4 gap-2 overflow-hidden min-h-0 h-full">
-                        <div class="flex-[7] w-full flex flex-col justify-center items-center bg-slate-800/50 rounded-xl border border-slate-700/50 cursor-pointer hover:bg-slate-700/70 transition-colors group min-h-0 overflow-hidden p-2" onclick="openMatchModal('${court.currentMatch}')">
-                            <span class="text-[clamp(0.75rem,1.5vh,1.25rem)] text-amber-400 font-semibold tracking-widest shrink-0 mb-1">現正進行</span>
-                            <div class="text-[clamp(3rem,12vh,8rem)] font-black text-white tracking-tighter leading-none drop-shadow-lg group-hover:scale-105 transition-transform shrink-0">
+                        <div class="flex-[7] w-full flex flex-col justify-center items-center bg-white rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors group min-h-0 overflow-hidden p-2 shadow-sm" onclick="openMatchModal('${court.currentMatch}')">
+                            <span class="text-[clamp(0.75rem,1.5vh,1.25rem)] text-red-600 font-bold tracking-widest shrink-0 mb-1">現正進行</span>
+                            <div class="text-[clamp(3rem,12vh,8rem)] font-black text-black tracking-tighter leading-none group-hover:scale-105 transition-transform shrink-0">
                                 ${court.currentMatch || "-"}
                             </div>
                         </div>
-                        <div class="flex-[3] w-full flex justify-center items-center bg-slate-950/60 rounded-xl border border-slate-800 cursor-pointer hover:border-slate-600 transition-colors min-h-0 p-2 px-3" onclick="openMatchModal('${court.currentMatch}')">
-                            <div class="text-[clamp(0.875rem,3vh,1.75rem)] text-cyan-300 font-bold text-center line-clamp-2 leading-tight">
+                        <div class="flex-[3] w-full flex justify-center items-center bg-gray-50 rounded-xl border border-gray-200 cursor-pointer hover:border-gray-300 transition-colors min-h-0 p-2 px-3 shadow-sm" onclick="openMatchModal('${court.currentMatch}')">
+                            <div class="text-[clamp(0.875rem,3vh,1.75rem)] text-gray-800 font-bold text-center line-clamp-2 leading-tight">
                                 ${currentContent}
                             </div>
                         </div>
@@ -745,15 +764,15 @@
             const bannerNumbers = document.getElementById('banner-numbers');
             const prepList = state.prepMatches || [];
             if (prepList.length === 0) {
-                bannerNumbers.innerHTML = `<span class="text-slate-500 font-bold text-lg md:text-xl">暫無準備召集</span>`;
+                bannerNumbers.innerHTML = `<span class="text-gray-400 font-bold text-lg md:text-xl">暫無準備召集</span>`;
             } else {
                 bannerNumbers.innerHTML = prepList.map(matchId => {
                     const nextData = getMatchData(matchId);
                     const nextContent = nextData ? nextData.content : "無資料";
                     return `
-                    <div class="bg-slate-950 px-3 md:px-5 py-1.5 md:py-2 rounded-xl border border-slate-700 flex flex-col items-center justify-center shadow-inner flex-1 min-w-[90px] md:min-w-[120px] md:flex-none cursor-pointer hover:bg-slate-800 transition-colors h-14 md:h-16" onclick="openMatchModal('${matchId}')">
-                        <span class="text-white text-[clamp(1.25rem,3vmin,2rem)] font-black tracking-wider leading-none">${matchId}</span>
-                        <span class="text-[clamp(0.6rem,1.2vmin,0.875rem)] text-slate-400 mt-1 truncate w-full max-w-[90px] md:max-w-[120px] text-center">${nextContent}</span>
+                    <div class="bg-gray-50 px-3 md:px-5 py-1.5 md:py-2 rounded-xl border border-gray-200 flex flex-col items-center justify-center shadow-sm flex-1 min-w-[90px] md:min-w-[120px] md:flex-none cursor-pointer hover:bg-gray-100 transition-colors h-14 md:h-16" onclick="openMatchModal('${matchId}')">
+                        <span class="text-black text-[clamp(1.25rem,3vmin,2rem)] font-black tracking-wider leading-none">${matchId}</span>
+                        <span class="text-[clamp(0.6rem,1.2vmin,0.875rem)] text-gray-500 mt-1 truncate w-full max-w-[90px] md:max-w-[120px] text-center font-medium">${nextContent}</span>
                     </div>`;
                 }).join('');
             }
@@ -762,25 +781,25 @@
         function initControlPanelCourts() {
             const container = document.getElementById('control-panel-courts');
             container.innerHTML = state.courts.map(court => `
-                <div class="bg-slate-900 p-5 md:p-6 rounded-2xl border border-slate-800 shadow-lg flex flex-col justify-between">
-                    <div class="flex justify-between items-center mb-5 border-b border-slate-800 pb-4">
-                        <h3 class="text-xl md:text-2xl font-black text-blue-400 flex items-center">
-                            <span class="text-white mr-2">場地</span> ${court.id}
+                <div class="bg-white p-5 md:p-6 rounded-2xl border border-gray-200 shadow-sm flex flex-col justify-between">
+                    <div class="flex justify-between items-center mb-5 border-b border-gray-100 pb-4">
+                        <h3 class="text-xl md:text-2xl font-black text-black flex items-center">
+                            <span class="text-gray-500 mr-2">場地</span> ${court.id}
                         </h3>
-                        <select id="promote-next-${court.id}" onchange="promoteToCurrent(${court.id}, this.value)" class="flex items-center text-xs md:text-sm font-bold bg-blue-600/20 text-blue-400 hover:bg-blue-600 hover:text-white px-3 py-1.5 md:px-4 md:py-2 rounded-xl transition-colors shadow-sm cursor-pointer focus:outline-none max-w-[140px] md:max-w-[160px]">
-                            <option value="" class="bg-slate-800 text-slate-300">開始準備場次 ▾</option>
+                        <select id="promote-next-${court.id}" onchange="promoteToCurrent(${court.id}, this.value)" class="flex items-center text-xs md:text-sm font-bold bg-red-50 text-red-600 hover:bg-red-600 hover:text-white px-3 py-1.5 md:px-4 md:py-2 rounded-xl transition-colors shadow-sm cursor-pointer focus:outline-none max-w-[140px] md:max-w-[160px] border border-red-100">
+                            <option value="" class="bg-white text-gray-700">開始準備場次 ▾</option>
                         </select>
                     </div>
                     <div class="space-y-4">
                         <div>
-                            <label class="block text-xs md:text-sm font-bold text-slate-400 mb-1.5 tracking-widest">現正進行</label>
-                            <input id="current-${court.id}" type="text" value="${court.currentMatch}" oninput="updateCourt(${court.id}, 'currentMatch', this.value)" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 md:p-4 text-white font-black text-3xl md:text-4xl text-center focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 transition-all">
+                            <label class="block text-xs md:text-sm font-bold text-gray-500 mb-1.5 tracking-widest">現正進行</label>
+                            <input id="current-${court.id}" type="text" value="${court.currentMatch}" oninput="updateCourt(${court.id}, 'currentMatch', this.value)" class="w-full bg-gray-50 border border-gray-300 rounded-xl p-3 md:p-4 text-black font-black text-3xl md:text-4xl text-center focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 shadow-sm transition-all">
                         </div>
                         <div>
-                            <label class="block text-xs md:text-sm font-bold text-amber-500 mb-1.5 tracking-widest">本場地準備場次</label>
+                            <label class="block text-xs md:text-sm font-bold text-black mb-1.5 tracking-widest">本場地準備場次</label>
                             <div class="flex flex-col xl:flex-row gap-2">
-                                <input id="next-${court.id}" type="text" value="${court.nextMatch || ''}" oninput="updateCourt(${court.id}, 'nextMatch', this.value)" class="w-full xl:w-1/2 bg-slate-950 border border-slate-700 rounded-xl p-2.5 md:p-3 text-white font-bold text-lg md:text-xl text-center focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/50 transition-all" placeholder="用逗號分隔多場">
-                                <select id="select-next-${court.id}" onchange="assignNextMatch(${court.id}, this.value)" class="w-full xl:w-1/2 bg-slate-800 border border-slate-700 rounded-xl p-2.5 md:p-3 text-amber-400 font-bold text-sm md:text-base text-center cursor-pointer hover:bg-slate-700 transition-colors focus:outline-none">
+                                <input id="next-${court.id}" type="text" value="${court.nextMatch || ''}" oninput="updateCourt(${court.id}, 'nextMatch', this.value)" class="w-full xl:w-1/2 bg-gray-50 border border-gray-300 rounded-xl p-2.5 md:p-3 text-black font-bold text-lg md:text-xl text-center focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 shadow-sm transition-all" placeholder="用逗號分隔多場">
+                                <select id="select-next-${court.id}" onchange="assignNextMatch(${court.id}, this.value)" class="w-full xl:w-1/2 bg-white border border-gray-300 rounded-xl p-2.5 md:p-3 text-black font-bold text-sm md:text-base text-center cursor-pointer hover:bg-gray-50 transition-colors shadow-sm focus:outline-none focus:border-red-500">
                                     <option value="">+ 從大會名單加入</option>
                                 </select>
                             </div>
