@@ -165,15 +165,21 @@
                     <input id="input-prep-matches" type="text" oninput="updatePrepMatches(this.value)" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 md:p-4 text-lg md:text-xl text-white font-bold focus:outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-500/50 transition-all relative z-10" placeholder="以逗號分隔，例如: 102, 202, 302"/>
                 </div>
 
-                <!-- 匯入賽事對陣名單 (CSV) -->
-                <div class="bg-slate-900 p-4 md:p-6 rounded-2xl border border-slate-800 shadow-lg relative overflow-hidden">
+                <!-- 匯入/管理賽事名單 (CSV & Editor) -->
+                <div class="bg-slate-900 p-4 md:p-6 rounded-2xl border border-slate-800 shadow-lg relative overflow-hidden flex flex-col justify-between">
                     <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl -mr-10 -mt-10"></div>
-                    <label class="block text-xs md:text-sm font-bold text-emerald-400 mb-2 tracking-widest uppercase flex items-center relative z-10">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                        匯入賽事名單 (CSV)
-                    </label>
-                    <input type="file" accept=".csv" onchange="handleCSVUpload(event)" class="w-full text-sm text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-emerald-500/20 file:text-emerald-400 hover:file:bg-emerald-500/30 transition-all cursor-pointer relative z-10 mt-2"/>
-                    <p class="text-[10px] md:text-xs text-slate-500 mt-3 relative z-10">Excel 存為 CSV (UTF-8) 格式<br/>格式：場次, 比賽內容, 選手A, 選手B...</p>
+                    <div>
+                        <label class="block text-xs md:text-sm font-bold text-emerald-400 mb-2 tracking-widest uppercase flex items-center relative z-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                            賽事名單 (Database)
+                        </label>
+                        <input type="file" accept=".csv" onchange="handleCSVUpload(event)" class="w-full text-sm text-slate-400 file:mr-2 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-emerald-500/20 file:text-emerald-400 hover:file:bg-emerald-500/30 transition-all cursor-pointer relative z-10 mt-1 mb-1" title="匯入 CSV 檔案"/>
+                        <p class="text-[10px] text-slate-500 relative z-10">格式：場次, 比賽內容, 選手A, 選手B...</p>
+                    </div>
+                    <button onclick="openDatabaseManager()" class="w-full mt-3 bg-emerald-600/20 hover:bg-emerald-500 hover:text-white text-emerald-400 border border-emerald-500/30 font-bold py-2 md:py-3 px-4 rounded-xl transition-colors relative z-10 text-sm flex justify-center items-center shadow-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                        查看及編輯名單
+                    </button>
                 </div>
             </div>
 
@@ -184,6 +190,75 @@
         </div>
     </div>
 
+    <!-- 賽事名單管理 Modal (Database Manager) -->
+    <div id="database-modal" class="hidden fixed inset-0 z-[70] flex justify-center items-center bg-black/80 backdrop-blur-sm p-4 md:p-6 opacity-0 transition-opacity duration-300">
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl w-full max-w-5xl h-[90vh] flex flex-col overflow-hidden transform scale-95 transition-transform duration-300" id="database-modal-content">
+            <!-- Modal Header -->
+            <div class="bg-slate-800 p-4 md:p-6 flex justify-between items-center border-b border-slate-700 shrink-0">
+                <h3 class="text-xl md:text-2xl font-bold text-white flex items-center">
+                    <svg class="mr-2 text-emerald-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    賽事名單管理 (Database Manager)
+                </h3>
+                <button onclick="closeDatabaseManager()" class="text-slate-400 hover:text-white p-2 rounded-full hover:bg-slate-700 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="flex-grow flex flex-col md:flex-row overflow-hidden min-h-0">
+                <!-- 左側：新增/編輯表單 -->
+                <div class="w-full md:w-1/3 bg-slate-950 p-4 md:p-6 border-b md:border-b-0 md:border-r border-slate-800 flex flex-col gap-4 overflow-y-auto shrink-0">
+                    <h4 id="db-form-title" class="text-lg font-bold text-emerald-400 mb-2">新增場次</h4>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">場次號碼 (必需)</label>
+                        <input id="db-match-id" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white focus:border-emerald-500 focus:outline-none" placeholder="例如: 101">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">比賽內容</label>
+                        <input id="db-match-content" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white focus:border-emerald-500 focus:outline-none" placeholder="例如: 男子組決賽">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">選手名單 (用逗號分隔)</label>
+                        <textarea id="db-match-players" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white focus:border-emerald-500 focus:outline-none resize-none" placeholder="例如: 張家輝, 陳奕迅"></textarea>
+                    </div>
+                    <div class="flex gap-2 mt-2">
+                        <button id="db-save-btn" onclick="saveMatchData()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 rounded-lg transition-colors">
+                            儲存
+                        </button>
+                        <button onclick="resetMatchForm()" class="px-4 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2 rounded-lg transition-colors">
+                            取消
+                        </button>
+                    </div>
+                    <div class="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg text-xs text-blue-300">
+                        提示：儲存後名單只會更新於本地，確認所有修改後，請記得在控制台點擊「推播更新至大螢幕」。
+                    </div>
+                </div>
+                
+                <!-- 右側：名單列表 -->
+                <div class="w-full md:w-2/3 p-4 md:p-6 overflow-y-auto bg-slate-900 flex flex-col">
+                    <div class="mb-4 flex justify-between items-center shrink-0">
+                        <h4 class="text-lg font-bold text-slate-200">現有賽事資料</h4>
+                        <span id="db-match-count" class="text-sm font-bold text-slate-400 bg-slate-800 px-3 py-1 rounded-full">共 0 場</span>
+                    </div>
+                    <div class="overflow-x-auto rounded-xl border border-slate-700 bg-slate-950 flex-grow">
+                        <table class="w-full text-left text-sm text-slate-300 relative">
+                            <thead class="bg-slate-800 text-slate-400 sticky top-0 shadow-md">
+                                <tr>
+                                    <th class="p-3 font-bold w-20">場次</th>
+                                    <th class="p-3 font-bold">內容</th>
+                                    <th class="p-3 font-bold">選手</th>
+                                    <th class="p-3 font-bold text-right w-24">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="db-match-list" class="divide-y divide-slate-800">
+                                <!-- JS 動態生成 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- ==========================================
          SYSTEM LOGIC & FIREBASE CLOUD SYNC
@@ -237,117 +312,117 @@
             return { content: "賽事級別待定", players: ["無資料/未匯入"] };
         }
 
-        // --- Window 掛載函數 (已將 broadcastState 改為本地 renderView) ---
-        window.launchDisplay = () => { window.location.hash = '#display'; window.location.reload(); };
-        window.launchControl = () => { window.location.hash = '#control'; window.location.reload(); };
-        
-        window.updateEventName = (value) => { 
-            state.eventName = value; 
-            renderView(); 
+        // --- 賽事名單管理 (Database Editor) 邏輯 ---
+        let editingMatchId = null;
+
+        window.openDatabaseManager = () => {
+            window.renderDatabaseList();
+            const modal = document.getElementById('database-modal');
+            const content = document.getElementById('database-modal-content');
+            modal.classList.remove('hidden');
+            void modal.offsetWidth;
+            modal.classList.remove('opacity-0');
+            content.classList.remove('scale-95');
         };
-        
-        window.updatePrepMatches = (value) => { 
-            state.prepMatches = value.split(',').map(s => s.trim()).filter(s => s !== ""); 
-            renderView(); 
+
+        window.closeDatabaseManager = () => {
+            const modal = document.getElementById('database-modal');
+            const content = document.getElementById('database-modal-content');
+            modal.classList.add('opacity-0');
+            content.classList.add('scale-95');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+            window.resetMatchForm();
         };
-        
-        window.updateCourt = (id, field, value) => {
-            const court = state.courts.find(c => c.id === id);
-            if (court) { 
-                court[field] = value; 
-                renderView(); 
+
+        window.renderDatabaseList = () => {
+            const tbody = document.getElementById('db-match-list');
+            const matches = state.matchDatabase || {};
+            const keys = Object.keys(matches).sort((a,b) => a.localeCompare(b, undefined, {numeric: true}));
+            
+            document.getElementById('db-match-count').innerText = `共 ${keys.length} 場`;
+            
+            if (keys.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-500 font-bold">暫無賽事資料，請新增或匯入 CSV</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = keys.map(id => {
+                const data = matches[id];
+                const players = (data.players || []).join(', ');
+                return `
+                <tr class="hover:bg-slate-800/50 transition-colors">
+                    <td class="p-3 font-black text-amber-400 whitespace-nowrap">${id}</td>
+                    <td class="p-3 font-medium">${data.content}</td>
+                    <td class="p-3 text-slate-400 text-xs md:text-sm">${players}</td>
+                    <td class="p-3 text-right whitespace-nowrap">
+                        <button onclick="editMatchData('${id}')" class="text-blue-400 hover:text-blue-300 mr-2 font-bold p-1">編輯</button>
+                        <button onclick="deleteMatchData('${id}')" class="text-red-400 hover:text-red-300 font-bold p-1">刪除</button>
+                    </td>
+                </tr>`;
+            }).join('');
+        };
+
+        window.saveMatchData = () => {
+            const idInput = document.getElementById('db-match-id').value.trim();
+            const contentInput = document.getElementById('db-match-content').value.trim();
+            const playersInput = document.getElementById('db-match-players').value.trim();
+
+            if (!idInput) { alert("請輸入場次號碼！"); return; }
+
+            if (!state.matchDatabase) state.matchDatabase = {};
+
+            if (editingMatchId && editingMatchId !== idInput) {
+                delete state.matchDatabase[editingMatchId];
+            }
+
+            state.matchDatabase[idInput] = {
+                content: contentInput || "賽事級別待定",
+                players: playersInput.split(',').map(s=>s.trim()).filter(s=>s!=="")
+            };
+
+            window.resetMatchForm();
+            window.renderDatabaseList();
+            renderView(); // 刷新控制台的下拉選單等 UI
+            
+            // 提醒用家未推播
+            const statusIndicator = document.getElementById('cloud-status');
+            if (statusIndicator && !statusIndicator.innerHTML.includes('未推播')) {
+                statusIndicator.className = "flex items-center text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 bg-amber-500/20 text-amber-400 rounded-full border border-amber-500/30 transition-colors hidden md:flex";
+                statusIndicator.innerHTML = '<div class="w-2 h-2 rounded-full bg-amber-500 animate-pulse mr-2"></div> 有未推播更新';
             }
         };
 
-        window.assignNextMatch = (id, val) => {
-            if (!val) return;
-            const court = state.courts.find(c => c.id === id);
-            if (court) {
-                let currentList = court.nextMatch ? court.nextMatch.split(',').map(s=>s.trim()).filter(s=>s!=="") : [];
-                if (!currentList.includes(val)) currentList.push(val);
-                court.nextMatch = currentList.join(', ');
-                const nInput = document.getElementById(`next-${id}`);
-                if (nInput) nInput.value = court.nextMatch;
-                const select = document.getElementById(`select-next-${id}`);
-                if (select) select.value = "";
-                renderView();
-            }
-        };
-
-        window.promoteToCurrent = (id, val) => {
-            if (!val) return;
-            const court = state.courts.find(c => c.id === id);
-            if (court) {
-                court.currentMatch = val;
-                let currentList = court.nextMatch ? court.nextMatch.split(',').map(s=>s.trim()).filter(s=>s!=="") : [];
-                currentList = currentList.filter(m => m !== val);
-                court.nextMatch = currentList.join(', ');
-                
-                if (state.prepMatches && state.prepMatches.includes(val)) {
-                    state.prepMatches = state.prepMatches.filter(m => m !== val);
-                    const prepInput = document.getElementById('input-prep-matches');
-                    if (prepInput) prepInput.value = state.prepMatches.join(', ');
-                }
-                const cInput = document.getElementById(`current-${id}`);
-                const nInput = document.getElementById(`next-${id}`);
-                if(cInput) cInput.value = court.currentMatch;
-                if(nInput) nInput.value = court.nextMatch;
-                renderView();
-            }
-        };
-
-        window.advanceMatch = (id) => {
-            const court = state.courts.find(c => c.id === id);
-            if (court) {
-                let newCurrentMatch = "";
-                if (court.nextMatch && court.nextMatch.trim() !== "") {
-                    newCurrentMatch = court.nextMatch;
-                } else {
-                    const currentMatchStr = court.currentMatch;
-                    const matchNumber = currentMatchStr.match(/\d+$/);
-                    if (matchNumber) {
-                        const num = parseInt(matchNumber[0], 10) + 1;
-                        const prefix = currentMatchStr.slice(0, matchNumber.index);
-                        const paddedNum = num.toString().padStart(matchNumber[0].length, '0');
-                        newCurrentMatch = `${prefix}${paddedNum}`;
-                    }
-                }
-                
-                court.currentMatch = newCurrentMatch;
-                court.nextMatch = ""; 
-                
-                if (state.prepMatches && state.prepMatches.includes(newCurrentMatch)) {
-                    state.prepMatches = state.prepMatches.filter(m => m !== newCurrentMatch);
-                    const prepInput = document.getElementById('input-prep-matches');
-                    if (prepInput) prepInput.value = state.prepMatches.join(', ');
-                }
-
-                const cInput = document.getElementById(`current-${id}`);
-                const nInput = document.getElementById(`next-${id}`);
-                if(cInput) cInput.value = court.currentMatch;
-                if(nInput) nInput.value = court.nextMatch;
-                
-                renderView();
-            }
-        };
-
-        window.openMatchModal = (matchId) => {
-            if (!matchId || matchId === "-") return;
-            const data = getMatchData(matchId);
+        window.editMatchData = (id) => {
+            const data = state.matchDatabase[id];
             if (!data) return;
-            document.getElementById('modal-match-number').innerText = `場次 ${matchId}`;
-            document.getElementById('modal-match-content').innerText = data.content;
-            const playersContainer = document.getElementById('modal-players-container');
-            if (data.players && data.players.length > 0) {
-                playersContainer.innerHTML = data.players.map(player => `
-                    <div class="bg-slate-800 border-2 border-slate-700 rounded-2xl p-5 flex items-center justify-center shadow-lg flex-1 min-w-[160px] max-w-[300px]">
-                        <span class="text-2xl md:text-3xl font-black text-white text-center">${player}</span>
-                    </div>`).join('');
-            } else {
-                playersContainer.innerHTML = `<span class="text-slate-500 text-xl font-bold">暫無選手資料</span>`;
+            document.getElementById('db-match-id').value = id;
+            document.getElementById('db-match-content').value = data.content;
+            document.getElementById('db-match-players').value = (data.players || []).join(', ');
+            
+            editingMatchId = id;
+            document.getElementById('db-form-title').innerText = `編輯場次: ${id}`;
+            document.getElementById('db-save-btn').innerText = "儲存修改";
+            document.getElementById('db-match-id').focus();
+        };
+
+        window.deleteMatchData = (id) => {
+            if (confirm(`確定要刪除場次 ${id} 嗎？`)) {
+                delete state.matchDatabase[id];
+                window.renderDatabaseList();
+                renderView();
             }
-            const modal = document.getElementById('match-modal');
-            const content = document.getElementById('match-modal-content');
+        };
+
+        window.resetMatchForm = () => {
+            document.getElementById('db-match-id').value = '';
+            document.getElementById('db-match-content').value = '';
+            document.getElementById('db-match-players').value = '';
+            editingMatchId = null;
+            document.getElementById('db-form-title').innerText = "新增場次";
+            document.getElementById('db-save-btn').innerText = "儲存";
+        };
+
+        // --- Window 掛載函數 ---
             modal.classList.remove('hidden');
             void modal.offsetWidth;
             modal.classList.remove('opacity-0');
@@ -392,6 +467,12 @@
                 if (count > 0) {
                     state.matchDatabase = newDatabase;
                     renderView();
+                    
+                    // 如果打開咗 Database Manager，即時更新列表
+                    if (document.getElementById('database-modal').classList.contains('hidden') === false) {
+                        window.renderDatabaseList();
+                    }
+                    
                     alert(`✅ 成功匯入 ${count} 場賽事資料！\n\n⚠️ 請點擊右上角「推播更新至大螢幕」按鈕，將新名單發送至雲端。`);
                 } else {
                     alert("⚠️ 匯入失敗：找不到有效資料。請確保格式為「場次, 比賽內容, 選手1, 選手2」");
