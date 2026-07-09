@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>跆拳道比賽大螢幕</title>
-    <!-- 引入 Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Tailwind CSS 並啟用 container-queries 智能適應插件 -->
+    <script src="https://cdn.tailwindcss.com?plugins=container-queries"></script>
     <style>
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; }
@@ -18,15 +18,15 @@
     <!-- ==========================================
          VIEW 1: 啟動首頁 (Landing Page)
          ========================================== -->
-    <div id="view-landing" class="hidden h-screen flex-col items-center justify-center p-6 text-center w-full">
-        <div class="mb-12">
+    <div id="view-landing" class="hidden h-screen flex-col items-center justify-center p-6 text-center w-full overflow-y-auto">
+        <div class="mb-10 mt-10 md:mt-0">
             <h1 class="text-4xl md:text-6xl font-black mb-4 text-slate-900 drop-shadow-sm">
                 跆拳道比賽<span class="text-red-600">管理系統</span>
             </h1>
             <p class="text-slate-500 text-lg md:text-xl font-medium">支援雲端同步及離線單機測試模式</p>
         </div>
         
-        <div class="flex flex-col md:flex-row gap-6 w-full max-w-4xl justify-center px-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl justify-center px-4 pb-10">
             <!-- 顯示板按鈕 -->
             <button onclick="launchDisplay()" class="flex-1 group bg-white border-2 border-slate-200 hover:border-red-500 rounded-3xl p-6 md:p-8 transition-all hover:shadow-[0_10px_30px_rgba(220,38,38,0.15)] flex flex-col items-center">
                 <div class="bg-red-50 p-5 md:p-6 rounded-full mb-4 md:mb-6 group-hover:bg-red-100 transition-colors">
@@ -36,20 +36,63 @@
                 <p class="text-slate-500 text-sm md:text-base">連接投影機或大電視</p>
             </button>
 
-            <!-- 控制面板按鈕 -->
-            <button onclick="launchControl()" class="flex-1 group bg-white border-2 border-slate-200 hover:border-slate-800 rounded-3xl p-6 md:p-8 transition-all hover:shadow-[0_10px_30px_rgba(15,23,42,0.15)] flex flex-col items-center">
-                <div class="bg-slate-100 p-5 md:p-6 rounded-full mb-4 md:mb-6 group-hover:bg-slate-200 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-700 md:w-16 md:h-16"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+            <!-- 單一場地控制按鈕 (免密碼) -->
+            <button onclick="openCourtSelectModal()" class="flex-1 group bg-white border-2 border-slate-200 hover:border-blue-500 rounded-3xl p-6 md:p-8 transition-all hover:shadow-[0_10px_30px_rgba(59,130,246,0.15)] flex flex-col items-center">
+                <div class="bg-blue-50 p-5 md:p-6 rounded-full mb-4 md:mb-6 group-hover:bg-blue-100 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600 md:w-16 md:h-16"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
                 </div>
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-2">大會控制面板</h2>
-                <p class="text-slate-500 text-sm md:text-base">管理賽事及場地進度</p>
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-2">各場地獨立控制</h2>
+                <p class="text-slate-500 text-sm md:text-base">工作人員專用 (免密碼)</p>
             </button>
+
+            <!-- 總控制面板按鈕 (需密碼) -->
+            <button onclick="openLoginModal()" class="flex-1 group bg-white border-2 border-slate-200 hover:border-slate-800 rounded-3xl p-6 md:p-8 transition-all hover:shadow-[0_10px_30px_rgba(15,23,42,0.15)] flex flex-col items-center">
+                <div class="bg-slate-100 p-5 md:p-6 rounded-full mb-4 md:mb-6 group-hover:bg-slate-200 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-700 md:w-16 md:h-16"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-2">大會總控制台</h2>
+                <p class="text-slate-500 text-sm md:text-base">全域設定及名單 (需密碼)</p>
+            </button>
+        </div>
+    </div>
+
+    <!-- 登入密碼視窗 (Login Modal) -->
+    <div id="login-modal" class="hidden fixed inset-0 z-[80] flex justify-center items-center bg-black/60 backdrop-blur-sm p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm p-6 md:p-8 transform scale-95 transition-transform duration-300 border border-slate-200" id="login-modal-content">
+            <h3 class="text-2xl font-black text-slate-800 mb-2 text-center">控制員登入</h3>
+            <p class="text-sm text-slate-500 mb-6 text-center">請輸入密碼以進入控制面板</p>
+            <input 
+                id="admin-password-input" 
+                type="password" 
+                placeholder="請輸入密碼" 
+                class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 md:p-4 text-slate-900 font-bold focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all mb-4 text-center tracking-widest text-lg"
+                onkeypress="if(event.key === 'Enter') verifyLogin()"
+            />
+            <div class="flex gap-3">
+                <button onclick="closeLoginModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 rounded-xl transition-colors">取消</button>
+                <button onclick="verifyLogin()" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl transition-colors shadow-md">登入</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 場地選擇視窗 (Court Select Modal) -->
+    <div id="court-select-modal" class="hidden fixed inset-0 z-[80] flex justify-center items-center bg-black/60 backdrop-blur-sm p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl p-6 md:p-8 transform scale-95 transition-transform duration-300 border border-slate-200" id="court-select-modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl md:text-3xl font-black text-slate-800">請選擇要控制的場地</h3>
+                <button onclick="closeCourtSelectModal()" class="text-slate-400 hover:text-slate-800 p-2 rounded-full hover:bg-slate-100 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div id="court-select-list" class="grid grid-cols-2 md:grid-cols-3 gap-4 max-h-[60vh] overflow-y-auto p-1">
+                <!-- 由 JS 動態生成 -->
+            </div>
         </div>
     </div>
 
 
     <!-- ==========================================
-         VIEW 2: 大螢幕顯示板 (Display Page) - OMAHK 風格
+         VIEW 2: 大螢幕顯示板 (Display Page)
          ========================================== -->
     <div id="view-display" class="hidden h-screen flex-col overflow-hidden w-full bg-slate-100">
         <!-- 頂部 Header -->
@@ -111,14 +154,14 @@
 
 
     <!-- ==========================================
-         VIEW 3: 大會控制面板 (Control Page)
+         VIEW 3: 大會總控制面板 (Master Control Page)
          ========================================== -->
     <div id="view-control" class="hidden h-screen flex-col overflow-y-auto bg-slate-100 w-full relative">
         <!-- 控制面板 Header -->
         <div class="bg-white border-b border-slate-200 p-4 md:p-6 sticky top-0 z-10 flex flex-wrap gap-4 justify-between items-center shadow-sm">
             <h2 class="text-xl md:text-3xl font-black text-slate-800 flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 md:mr-3 text-red-600"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
-                遙控控制台
+                大會總控制台
             </h2>
             <div class="flex items-center space-x-2 md:space-x-4">
                 <button onclick="pushCloudState()" class="flex items-center px-3 py-1.5 md:px-4 md:py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition-all shadow-md">
@@ -126,18 +169,13 @@
                     <span class="hidden md:inline">推播更新至大螢幕</span>
                     <span class="md:hidden">推播</span>
                 </button>
-                <div id="cloud-status" class="flex items-center text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 bg-slate-100 text-slate-500 rounded-full border border-slate-200 transition-colors">
-                    連線中...
-                </div>
-                <button onclick="window.location.hash=''; window.location.reload();" class="text-slate-500 hover:text-slate-900 px-3 py-1.5 md:px-4 md:py-2 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors font-bold text-xs md:text-sm shadow-sm">
-                    退出
-                </button>
+                <div id="cloud-status" class="flex items-center text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 bg-slate-100 text-slate-500 rounded-full border border-slate-200 transition-colors">連線中...</div>
+                <button onclick="window.location.hash=''; window.location.reload();" class="text-slate-500 hover:text-slate-900 px-3 py-1.5 md:px-4 md:py-2 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg transition-colors font-bold text-xs md:text-sm shadow-sm">退出</button>
             </div>
         </div>
 
         <div class="p-4 md:p-8 max-w-7xl mx-auto w-full space-y-6 md:space-y-8">
-            
-            <!-- 頂部設定區：賽事名稱、統一準備召集及場地設定 -->
+            <!-- 頂部設定區 -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
                 <!-- 1. 賽事名稱設定 -->
                 <div class="bg-white p-4 md:p-6 rounded-2xl border border-slate-200 shadow-md">
@@ -147,19 +185,14 @@
 
                 <!-- 2. 統一準備召集設定 -->
                 <div class="bg-white p-4 md:p-6 rounded-2xl border border-slate-200 shadow-md relative overflow-hidden">
-                    <label class="block text-xs md:text-sm font-bold text-slate-500 mb-2 md:mb-3 tracking-widest uppercase flex items-center relative z-10">
-                        召集名單
-                    </label>
-                    <!-- 修改：加入 onblur 確保在失焦時才觸發全域重新渲染，避免打字時跳轉 -->
-                    <input id="input-prep-matches" type="text" oninput="updatePrepMatchesSoft(this.value)" onblur="updatePrepMatchesForce(this.value)" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 md:p-4 text-lg md:text-xl text-slate-900 font-bold focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all relative z-10" placeholder="以逗號分隔，例如: 102, 202, 302"/>
+                    <label class="block text-xs md:text-sm font-bold text-slate-500 mb-2 md:mb-3 tracking-widest uppercase flex items-center relative z-10">召集名單</label>
+                    <input id="input-prep-matches" type="text" oninput="updatePrepMatchesSoft(this.value)" onblur="updatePrepMatchesForce(this.value)" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 md:p-4 text-lg md:text-xl text-slate-900 font-bold focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all relative z-10" placeholder="以逗號分隔，例如: 102, 202"/>
                 </div>
 
                 <!-- 3. 場地數量及名稱設定 -->
                 <div class="bg-white p-4 md:p-6 rounded-2xl border border-slate-200 shadow-md flex flex-col justify-between">
                     <div>
-                        <label class="block text-xs md:text-sm font-bold text-slate-500 mb-2 tracking-widest uppercase">
-                            場地數量及名稱設定
-                        </label>
+                        <label class="block text-xs md:text-sm font-bold text-slate-500 mb-2 tracking-widest uppercase">場地數量設定</label>
                         <div class="flex gap-2 mb-3">
                             <button onclick="addCourt()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2 rounded-lg transition-colors text-sm border border-slate-300">+ 新增場地</button>
                             <button onclick="removeCourt()" class="flex-1 bg-slate-100 hover:bg-red-50 text-red-600 font-bold py-2 rounded-lg transition-colors text-sm border border-slate-300 hover:border-red-200">- 刪除最後</button>
@@ -181,6 +214,35 @@
 
 
     <!-- ==========================================
+         VIEW 4: 單一場地獨立控制頁 (Single Court Control)
+         ========================================== -->
+    <div id="view-single-court" class="hidden h-screen flex-col overflow-y-auto bg-slate-100 w-full relative">
+        <!-- 獨立控制頁 Header -->
+        <div class="bg-white border-b border-slate-200 p-4 md:p-6 sticky top-0 z-10 flex flex-wrap gap-4 justify-between items-center shadow-sm">
+            <div class="flex items-center gap-3 md:gap-4">
+                <!-- 返回按鈕改為直接返回主頁 (不觸發密碼彈窗) -->
+                <button onclick="window.location.hash=''; window.location.reload();" class="text-slate-500 hover:text-slate-900 px-3 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors flex items-center font-bold text-sm">
+                    <svg class="mr-1" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    返回主頁
+                </button>
+            </div>
+            <div class="flex items-center space-x-2 md:space-x-4">
+                <button onclick="pushCloudState()" class="flex items-center px-3 py-1.5 md:px-4 md:py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-all shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 md:mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    <span class="hidden md:inline">推播更新至大螢幕</span>
+                    <span class="md:hidden">推播</span>
+                </button>
+                <div id="cloud-status-single" class="flex items-center text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 bg-slate-100 text-slate-500 rounded-full border border-slate-200 transition-colors hidden md:flex">連線中...</div>
+            </div>
+        </div>
+
+        <div class="p-4 md:p-8 max-w-4xl mx-auto w-full space-y-6 flex-grow flex flex-col justify-center" id="single-court-container">
+            <!-- 內容由 renderSingleCourt 動態生成 -->
+        </div>
+    </div>
+
+
+    <!-- ==========================================
          賽事名單管理 Modal (Database Manager)
          ========================================== -->
     <div id="database-modal" class="hidden fixed inset-0 z-[70] flex justify-center items-center bg-black/60 backdrop-blur-sm p-4 md:p-6 opacity-0 transition-opacity duration-300">
@@ -196,7 +258,6 @@
             </div>
             
             <div class="flex-grow flex flex-col md:flex-row overflow-hidden min-h-0">
-                <!-- 左側：表單 -->
                 <div class="w-full md:w-1/3 bg-white p-4 md:p-6 border-b md:border-b-0 md:border-r border-slate-200 flex flex-col gap-4 overflow-y-auto shrink-0">
                     <h4 id="db-form-title" class="text-lg font-bold text-slate-800 mb-2">新增場次</h4>
                     <div>
@@ -212,12 +273,8 @@
                         <textarea id="db-match-players" rows="3" class="w-full bg-slate-50 border border-slate-300 rounded-lg p-2 text-slate-900 focus:border-red-500 focus:outline-none focus:ring-1 focus:ring-red-500 resize-none"></textarea>
                     </div>
                     <div class="flex gap-2 mt-2">
-                        <button id="db-save-btn" onclick="saveMatchData()" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded-lg transition-colors">
-                            儲存
-                        </button>
-                        <button onclick="resetMatchForm()" class="px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2 rounded-lg transition-colors">
-                            取消
-                        </button>
+                        <button id="db-save-btn" onclick="saveMatchData()" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded-lg transition-colors">儲存</button>
+                        <button onclick="resetMatchForm()" class="px-4 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2 rounded-lg transition-colors">取消</button>
                     </div>
                     <div class="mt-4 border-t border-slate-200 pt-4">
                         <label class="block text-xs font-bold text-slate-500 mb-2">或大量匯入 CSV 檔案</label>
@@ -225,7 +282,6 @@
                     </div>
                 </div>
                 
-                <!-- 右側：列表 -->
                 <div class="w-full md:w-2/3 p-4 md:p-6 overflow-y-auto bg-slate-50 flex flex-col">
                     <div class="mb-4 flex justify-between items-center shrink-0">
                         <h4 class="text-lg font-bold text-slate-800">現有賽事資料</h4>
@@ -256,8 +312,10 @@
          ========================================== -->
     <script>
         // ==========================================
-        // 🚀 雲端 Firebase 設定區 (可留空作單機測試)
+        // 🚀 用戶設定區
         // ==========================================
+        const ADMIN_PASSWORD = "admin"; // <--- 💡 總控制台登入密碼！
+
         const myFirebaseConfig = {
             // apiKey: "YOUR_API_KEY",
             // authDomain: "YOUR_PROJECT.firebaseapp.com",
@@ -265,17 +323,17 @@
             // storageBucket: "YOUR_PROJECT.firebasestorage.app"
         };
 
-        // 全域變數
         let db, user;
         let isLocalMode = false;
+        let activeSingleCourtId = null; 
 
         let state = {
             eventName: "2026 全港跆拳道錦標賽",
             courts: [
-                { id: "1", name: "場地 1", currentMatch: "101", nextMatch: "102" },
-                { id: "2", name: "場地 2", currentMatch: "201", nextMatch: "202" },
-                { id: "3", name: "場地 3", currentMatch: "301", nextMatch: "302" },
-                { id: "4", name: "場地 4", currentMatch: "401", nextMatch: "402" }
+                { id: "1", name: "場地 1", currentMatch: "101", nextMatch: "102", history: [] },
+                { id: "2", name: "場地 2", currentMatch: "201", nextMatch: "202", history: [] },
+                { id: "3", name: "場地 3", currentMatch: "301", nextMatch: "302", history: [] },
+                { id: "4", name: "場地 4", currentMatch: "401", nextMatch: "402", history: [] }
             ],
             prepMatches: ["102", "202", "302", "402"],
             matchDatabase: {
@@ -292,16 +350,20 @@
         }
 
         function notifyUnpushedChanges() {
-            const statusIndicator = document.getElementById('cloud-status');
-            if (statusIndicator && !statusIndicator.innerHTML.includes('未推播')) {
-                statusIndicator.className = "flex items-center text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 bg-amber-100 text-amber-700 rounded-full border border-amber-300 transition-colors hidden md:flex";
-                statusIndicator.innerHTML = '<div class="w-2 h-2 rounded-full bg-amber-500 animate-pulse mr-2"></div> 有未推播更新';
-            }
+            const updateElement = (id) => {
+                const statusIndicator = document.getElementById(id);
+                if (statusIndicator && !statusIndicator.innerHTML.includes('未推播')) {
+                    statusIndicator.className = "flex items-center text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 bg-amber-100 text-amber-700 rounded-full border border-amber-300 transition-colors hidden md:flex";
+                    statusIndicator.innerHTML = '<div class="w-2 h-2 rounded-full bg-amber-500 animate-pulse mr-2"></div> 有未推播更新';
+                }
+            };
+            updateElement('cloud-status');
+            updateElement('cloud-status-single');
         }
 
         window.addCourt = () => {
             const newId = (state.courts.length > 0 ? Math.max(...state.courts.map(c => parseInt(c.id))) + 1 : 1).toString();
-            state.courts.push({ id: newId, name: `場地 ${newId}`, currentMatch: "", nextMatch: "" });
+            state.courts.push({ id: newId, name: `場地 ${newId}`, currentMatch: "", nextMatch: "", history: [] });
             renderView(); notifyUnpushedChanges();
         };
 
@@ -310,19 +372,76 @@
             else { alert("最少要保留一個場地！"); }
         };
 
+        // --- 登入控制 ---
+        window.openLoginModal = () => {
+            const modal = document.getElementById('login-modal');
+            modal.classList.remove('hidden');
+            void modal.offsetWidth;
+            modal.classList.remove('opacity-0');
+            document.getElementById('login-modal-content').classList.remove('scale-95');
+            setTimeout(() => document.getElementById('admin-password-input').focus(), 100);
+        };
+
+        window.closeLoginModal = () => {
+            const modal = document.getElementById('login-modal');
+            modal.classList.add('opacity-0');
+            document.getElementById('login-modal-content').classList.add('scale-95');
+            setTimeout(() => { 
+                modal.classList.add('hidden'); 
+                document.getElementById('admin-password-input').value = '';
+            }, 300);
+        };
+
+        window.verifyLogin = () => {
+            const inputPwd = document.getElementById('admin-password-input').value;
+            if (inputPwd === ADMIN_PASSWORD) {
+                sessionStorage.setItem('tkd_admin_auth', 'true');
+                const pending = sessionStorage.getItem('tkd_pending_hash');
+                sessionStorage.removeItem('tkd_pending_hash');
+                window.location.hash = pending || '#control';
+                window.location.reload();
+            } else {
+                alert("密碼錯誤，請重新輸入！");
+                document.getElementById('admin-password-input').value = '';
+                document.getElementById('admin-password-input').focus();
+            }
+        };
+
+        // --- 場地選擇 (單一控制) ---
+        window.openCourtSelectModal = () => {
+            const list = document.getElementById('court-select-list');
+            list.innerHTML = state.courts.map(c => `
+                <button onclick="window.location.hash='#single-${c.id}'; window.location.reload();" class="bg-slate-50 hover:bg-blue-50 border border-slate-200 hover:border-blue-300 text-slate-800 font-bold py-6 rounded-2xl transition-all shadow-sm flex flex-col items-center justify-center gap-2 hover:shadow-md">
+                    <span class="text-2xl">${c.name}</span>
+                    <span class="text-sm text-blue-500 font-normal">點擊進入控制</span>
+                </button>
+            `).join('');
+            
+            const modal = document.getElementById('court-select-modal');
+            modal.classList.remove('hidden');
+            void modal.offsetWidth;
+            modal.classList.remove('opacity-0');
+            document.getElementById('court-select-modal-content').classList.remove('scale-95');
+        };
+
+        window.closeCourtSelectModal = () => {
+            const modal = document.getElementById('court-select-modal');
+            modal.classList.add('opacity-0');
+            document.getElementById('court-select-modal-content').classList.add('scale-95');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        };
+
         window.launchDisplay = () => { window.location.hash = '#display'; window.location.reload(); };
-        window.launchControl = () => { window.location.hash = '#control'; window.location.reload(); };
         
         window.updateEventName = (value) => { state.eventName = value; renderView(); notifyUnpushedChanges(); };
 
-        // 解決打字斷開問題：分開 soft update (不觸發 render) 同 force update
         window.updatePrepMatchesSoft = (value) => {
             state.prepMatches = value.split(',').map(s => s.trim()).filter(s => s !== "");
             notifyUnpushedChanges();
         };
         window.updatePrepMatchesForce = (value) => {
             state.prepMatches = value.split(',').map(s => s.trim()).filter(s => s !== "");
-            renderView(); // 只有失焦或需要時先更新成個版面
+            renderView(); 
             notifyUnpushedChanges();
         };
         
@@ -350,6 +469,9 @@
             if (!val) return;
             const court = state.courts.find(c => c.id === id);
             if (court) {
+                if (!court.history) court.history = [];
+                court.history.push({ currentMatch: court.currentMatch, nextMatch: court.nextMatch });
+
                 court.currentMatch = val;
                 let currentList = court.nextMatch ? court.nextMatch.split(',').map(s=>s.trim()).filter(s=>s!=="") : [];
                 court.nextMatch = currentList.filter(m => m !== val).join(', ');
@@ -364,18 +486,19 @@
         window.advanceMatch = (id) => {
             const court = state.courts.find(c => c.id === id);
             if (court) {
+                if (!court.history) court.history = [];
+                court.history.push({ currentMatch: court.currentMatch, nextMatch: court.nextMatch });
+
                 let newCurrentMatch = "";
                 let remainingNextMatch = "";
 
                 if (court.nextMatch && court.nextMatch.trim() !== "") {
-                    // 將準備場次依逗號分開
                     const nextList = court.nextMatch.split(',').map(s => s.trim()).filter(s => s !== "");
                     if (nextList.length > 0) {
-                        newCurrentMatch = nextList[0]; // 只提取第一場
-                        remainingNextMatch = nextList.slice(1).join(', '); // 剩餘的保留
+                        newCurrentMatch = nextList[0]; 
+                        remainingNextMatch = nextList.slice(1).join(', '); 
                     }
                 } else {
-                    // 如果無準備場次，自動加 1
                     const matchNumber = court.currentMatch.match(/\d+$/);
                     if (matchNumber) {
                         const num = parseInt(matchNumber[0], 10) + 1;
@@ -391,6 +514,21 @@
                 }
                 renderView();
                 notifyUnpushedChanges();
+            }
+        };
+
+        window.undoMatch = (id) => {
+            const court = state.courts.find(c => c.id === id);
+            if (court) {
+                if (court.history && court.history.length > 0) {
+                    const lastState = court.history.pop();
+                    court.currentMatch = lastState.currentMatch;
+                    court.nextMatch = lastState.nextMatch;
+                    renderView();
+                    notifyUnpushedChanges();
+                } else {
+                    alert("已經是最初狀態，沒有更早的紀錄可以還原！");
+                }
             }
         };
 
@@ -605,39 +743,128 @@
         };
 
         function updateCloudStatus(isConnected, text = '手動模式') {
-            const statusIndicator = document.getElementById('cloud-status');
-            if (statusIndicator) {
-                if (isLocalMode) {
-                    statusIndicator.className = "flex items-center text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 bg-slate-200 text-slate-700 rounded-full border border-slate-300 transition-colors";
-                    statusIndicator.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg> ${text}`;
-                } else if (isConnected) {
-                    statusIndicator.className = "flex items-center text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 bg-emerald-50 text-emerald-600 rounded-full border border-emerald-200 transition-colors";
-                    statusIndicator.innerHTML = `<div class="w-2 h-2 rounded-full bg-emerald-500 mr-2"></div> ${text}`;
-                } else {
-                    statusIndicator.className = "flex items-center text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 bg-red-50 text-red-600 rounded-full border border-red-200 transition-colors";
-                    statusIndicator.innerHTML = `<div class="w-2 h-2 rounded-full bg-red-500 mr-2"></div> ${text}`;
+            const elements = [document.getElementById('cloud-status'), document.getElementById('cloud-status-single')];
+            elements.forEach(statusIndicator => {
+                if (statusIndicator) {
+                    if (isLocalMode) {
+                        statusIndicator.className = "flex items-center text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 bg-slate-200 text-slate-700 rounded-full border border-slate-300 transition-colors";
+                        statusIndicator.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg> ${text}`;
+                    } else if (isConnected) {
+                        statusIndicator.className = "flex items-center text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 bg-emerald-50 text-emerald-600 rounded-full border border-emerald-200 transition-colors";
+                        statusIndicator.innerHTML = `<div class="w-2 h-2 rounded-full bg-emerald-500 mr-2"></div> ${text}`;
+                    } else {
+                        statusIndicator.className = "flex items-center text-xs md:text-sm font-bold px-3 py-1.5 md:px-4 md:py-2 bg-red-50 text-red-600 rounded-full border border-red-200 transition-colors";
+                        statusIndicator.innerHTML = `<div class="w-2 h-2 rounded-full bg-red-500 mr-2"></div> ${text}`;
+                    }
                 }
-            }
+            });
         }
 
         // --- 渲染 ---
+        function hideAllViewsAndShow(viewId) {
+            const views = ['view-landing', 'view-display', 'view-control', 'view-single-court'];
+            views.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) { el.classList.remove('flex'); el.classList.add('hidden'); }
+            });
+            const target = document.getElementById(viewId);
+            if (target) { target.classList.remove('hidden'); target.classList.add('flex'); }
+        }
+
         function renderView() {
             const hash = window.location.hash;
+            
             if (hash === '#display') {
+                hideAllViewsAndShow('view-display');
                 document.getElementById('display-event-name').innerText = state.eventName;
                 renderDisplays();
+            } else if (hash.startsWith('#single-')) {
+                // 單一場地免密碼直接放行
+                const courtId = hash.replace('#single-', '');
+                activeSingleCourtId = courtId;
+                hideAllViewsAndShow('view-single-court');
+                renderSingleCourt(courtId);
             } else if (hash === '#control') {
-                document.getElementById('input-event-name').value = state.eventName;
-                
-                // 只有當 input 無被 focus 嗰陣先覆蓋數值，避免打字時彈跳
-                const prepInput = document.getElementById('input-prep-matches');
-                if (prepInput && document.activeElement !== prepInput) {
-                    prepInput.value = (state.prepMatches || []).join(', ');
+                if (sessionStorage.getItem('tkd_admin_auth') !== 'true') {
+                    sessionStorage.setItem('tkd_pending_hash', hash);
+                    window.location.hash = ''; window.location.reload(); return;
                 }
-                
+                hideAllViewsAndShow('view-control');
+                document.getElementById('input-event-name').value = state.eventName;
+                const prepInput = document.getElementById('input-prep-matches');
+                if (prepInput && document.activeElement !== prepInput) prepInput.value = (state.prepMatches || []).join(', ');
                 initControlPanelCourts();
+            } else {
+                hideAllViewsAndShow('view-landing');
             }
         }
+
+        function renderSingleCourt(courtId) {
+            const court = state.courts.find(c => c.id === courtId);
+            if (!court) {
+                window.location.hash = '';
+                return;
+            }
+
+            const container = document.getElementById('single-court-container');
+            const currentData = getMatchData(court.currentMatch);
+            const currentContent = currentData ? currentData.content : "無賽事資料";
+
+            const prepList = state.prepMatches || [];
+            let optionsHtml = `<option value="">+ 從召集名單 ▾</option>`;
+            prepList.forEach(m => { optionsHtml += `<option value="${m}">加入場次 ${m}</option>`; });
+
+            let courtPrepList = court.nextMatch ? court.nextMatch.split(',').map(s=>s.trim()).filter(s=>s!=="") : [];
+            let promoteHtml = `<option value="">下一場 ▾</option>`;
+            courtPrepList.forEach(m => { promoteHtml += `<option value="${m}">開始場次 ${m}</option>`; });
+
+            // 保持輸入框內容唔會被打斷
+            const currInputEl = document.getElementById(`single-current`);
+            const nextInputEl = document.getElementById(`single-next`);
+            const currVal = (currInputEl && document.activeElement === currInputEl) ? currInputEl.value : court.currentMatch;
+            const nextVal = (nextInputEl && document.activeElement === nextInputEl) ? nextInputEl.value : (court.nextMatch || '');
+
+            container.innerHTML = `
+                <div class="bg-white p-6 md:p-10 rounded-3xl border border-slate-200 shadow-xl flex flex-col max-w-2xl mx-auto w-full">
+                    <div class="flex justify-between items-center mb-6 pb-6 border-b border-slate-100">
+                        <div class="flex items-center">
+                            <span class="text-3xl md:text-4xl font-black text-slate-800">${court.name}</span>
+                        </div>
+                        <select onchange="promoteToCurrent('${court.id}', this.value)" class="flex items-center text-sm md:text-lg font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 px-4 py-2 md:px-5 md:py-3 rounded-xl transition-colors shadow-sm cursor-pointer focus:outline-none border border-slate-200">
+                            ${promoteHtml}
+                        </select>
+                    </div>
+
+                    <div class="space-y-8">
+                        <div>
+                            <label class="block text-sm font-bold text-slate-500 mb-2 tracking-widest uppercase">現正進行</label>
+                            <input id="single-current" type="text" value="${currVal}" oninput="updateCourtSoft('${court.id}', 'currentMatch', this.value)" onblur="renderView()" class="w-full bg-slate-50 border border-slate-300 rounded-2xl p-4 md:p-6 text-slate-900 font-black text-5xl md:text-7xl text-center focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all shadow-inner">
+                            <div class="mt-3 text-center text-red-600 font-bold text-lg md:text-2xl">${currentContent}</div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-red-600 mb-2 tracking-widest uppercase">準備場次</label>
+                            <div class="flex flex-col sm:flex-row gap-3">
+                                <input id="single-next" type="text" value="${nextVal}" oninput="updateCourtSoft('${court.id}', 'nextMatch', this.value)" onblur="renderView()" class="w-full sm:w-2/3 bg-slate-50 border border-slate-300 rounded-xl p-3 md:p-5 text-slate-800 font-bold text-xl md:text-3xl text-center focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all shadow-inner" placeholder="用逗號分隔">
+                                <select onchange="assignNextMatch('${court.id}', this.value)" class="w-full sm:w-1/3 bg-white border border-slate-300 rounded-xl p-3 md:p-4 text-red-600 font-bold text-base md:text-lg text-center cursor-pointer hover:bg-slate-50 transition-colors focus:outline-none shadow-sm">
+                                    ${optionsHtml}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col-reverse md:flex-row gap-3 mt-8 pt-6 border-t border-slate-100">
+                        <button onclick="undoMatch('${court.id}')" class="flex-1 flex justify-center items-center font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 px-4 py-4 rounded-xl transition-colors border border-slate-300 text-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> 還原
+                        </button>
+                        <button onclick="advanceMatch('${court.id}')" class="flex-[2] flex justify-center items-center font-bold bg-red-600 text-white hover:bg-red-700 px-4 py-4 rounded-xl transition-colors shadow-md text-lg md:text-2xl">
+                            完結並下一場 ▷▷
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
 
         function renderDisplays() {
             const grid = document.getElementById('courts-grid');
@@ -660,7 +887,7 @@
                     <div class="bg-slate-100 py-3 px-4 border-b border-slate-200 flex justify-between items-center shrink-0 h-12 md:h-14">
                         <h2 class="text-[clamp(1.1rem,2.5vmin,1.5rem)] font-bold text-slate-800 flex items-center">
                             ${court.name}
-                            <span class="ml-3 bg-red-600 text-white text-[clamp(0.6rem,1.5vmin,0.85rem)] px-2 md:px-3 py-0.5 md:py-1 rounded-full font-bold animate-pulse shadow-md whitespace-nowrap">現正進行</span>
+                            <span class="ml-3 bg-red-400 text-white text-[clamp(0.6rem,1.5vmin,0.85rem)] px-2 md:px-3 py-0.5 md:py-1 rounded-full font-bold animate-pulse shadow-sm whitespace-nowrap">現正進行</span>
                         </h2>
                         <div class="flex space-x-2">
                             <div class="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-blue-600 shadow-[0_0_5px_rgba(37,99,235,0.5)]"></div>
@@ -668,20 +895,28 @@
                         </div>
                     </div>
 
-                    <div class="flex-grow flex flex-col p-3 md:p-5 gap-2 md:gap-3 overflow-hidden min-h-0 h-full">
-                        <div class="flex-grow flex flex-col gap-2 md:gap-3 min-h-0">
-                            <div class="flex-[6] w-full flex flex-col justify-center items-center bg-white rounded-xl border border-slate-100 cursor-pointer transition-colors group min-h-0 p-2" onclick="openMatchModal('${court.currentMatch}')">
-                                <div class="text-[clamp(3.5rem,10vh,9rem)] font-black text-slate-900 tracking-tighter leading-none group-hover:scale-105 transition-transform shrink-0 drop-shadow-sm">
+                    <div class="flex-grow flex flex-col p-3 md:p-4 gap-2 md:gap-3 overflow-hidden min-h-0 h-full">
+                        <!-- ★ 修改為 flex-row 左右並排顯示 ★ -->
+                        <div class="flex-grow flex flex-row gap-2 md:gap-3 min-h-0 w-full h-full">
+                            
+                            <!-- 左邊：場次 (佔闊度 50%) -->
+                            <div class="w-1/2 h-full flex flex-col justify-center items-center bg-white rounded-xl border border-slate-100 cursor-pointer transition-colors group min-h-0 p-2 overflow-hidden relative shadow-sm" style="container-type: size;" onclick="openMatchModal('${court.currentMatch}')">
+                                <!-- 設定字體大小為 min(50cqw, 90cqh) -->
+                                <div class="text-[length:min(50cqw,90cqh)] font-black text-slate-900 tracking-tighter leading-none group-hover:scale-105 transition-transform shrink-0 drop-shadow-sm flex items-center justify-center w-full h-full absolute inset-0">
                                     ${court.currentMatch || "-"}
                                 </div>
                             </div>
-                            <div class="flex-[4] w-full flex justify-center items-center bg-red-50 rounded-xl border border-red-100 cursor-pointer min-h-0 p-2 px-3" onclick="openMatchModal('${court.currentMatch}')">
-                                <div class="text-[clamp(0.875rem,2.8vh,1.75rem)] text-red-700 font-bold text-center line-clamp-2 leading-tight">
+                            
+                            <!-- 右邊：比賽內容 (佔闊度 50%) -->
+                            <div class="w-1/2 h-full flex justify-center items-center bg-red-50 rounded-xl border border-red-100 cursor-pointer min-h-0 p-2 px-2 overflow-hidden relative shadow-sm" style="container-type: size;" onclick="openMatchModal('${court.currentMatch}')">
+                                <div class="text-[length:min(14cqw,30cqh)] text-red-700 font-bold text-center leading-tight flex items-center justify-center w-full h-full absolute inset-0 p-3" style="word-break: break-word;">
                                     ${currentContent}
                                 </div>
                             </div>
+
                         </div>
                         
+                        <!-- 準備進行列 -->
                         <div class="shrink-0 bg-slate-50 rounded-xl border border-slate-200 py-1.5 md:py-2 px-3 flex items-center justify-center cursor-pointer hover:bg-slate-100 transition-colors" onclick="if('${nextMatchText}' !== '無'){openMatchModal('${nextMatchText.split(',')[0].trim()}')}">
                             <span class="text-[clamp(0.75rem,1.8vh,1.1rem)] text-slate-500 font-bold truncate">
                                 準備進行：<span class="text-slate-800 font-black ml-1">${nextMatchText}</span>
@@ -713,7 +948,6 @@
             let optionsHtml = `<option value="">+ 從召集名單 ▾</option>`;
             prepList.forEach(m => { optionsHtml += `<option value="${m}">加入場次 ${m}</option>`; });
 
-            // 確保唔會覆蓋正在輸入嘅內容
             const currentInputs = {};
             state.courts.forEach(c => {
                 const currInput = document.getElementById(`current-${c.id}`);
@@ -731,13 +965,19 @@
                 const nextVal = currentInputs[`next-${court.id}`] !== undefined ? currentInputs[`next-${court.id}`] : (court.nextMatch || '');
 
                 return `
-                <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-200 shadow-md flex flex-col justify-between">
+                <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-200 shadow-md flex flex-col justify-between relative">
                     <div class="flex justify-between items-center mb-5 border-b border-slate-100 pb-4">
                         <input type="text" value="${court.name}" oninput="updateCourtSoft('${court.id}', 'name', this.value)" onblur="renderView()" class="text-xl md:text-2xl font-black text-slate-800 bg-transparent border-b-2 border-transparent hover:border-slate-300 focus:border-red-500 focus:outline-none w-1/2 transition-colors" placeholder="輸入名稱">
                         
-                        <select id="promote-next-${court.id}" onchange="promoteToCurrent('${court.id}', this.value)" class="flex items-center text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 px-2 py-1.5 md:px-3 md:py-2 rounded-xl transition-colors shadow-sm cursor-pointer focus:outline-none max-w-[120px] border border-slate-200">
-                            ${promoteHtml}
-                        </select>
+                        <div class="flex items-center gap-1">
+                            <button onclick="window.location.hash='#single-${court.id}'; window.location.reload();" class="text-slate-500 hover:text-slate-900 bg-slate-50 hover:bg-slate-200 p-2 md:px-3 md:py-2 rounded-xl transition-colors shadow-sm flex items-center font-bold text-xs md:text-sm border border-slate-200" title="進入單獨控制">
+                                <svg class="w-4 h-4 md:mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M9 21H3v-6"></path><path d="M21 3l-7 7"></path><path d="M3 21l7-7"></path></svg>
+                                <span class="hidden xl:inline">單獨控制</span>
+                            </button>
+                            <select id="promote-next-${court.id}" onchange="promoteToCurrent('${court.id}', this.value)" class="flex items-center text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 px-2 py-1.5 md:px-3 md:py-2 rounded-xl transition-colors shadow-sm cursor-pointer focus:outline-none max-w-[120px] border border-slate-200">
+                                ${promoteHtml}
+                            </select>
+                        </div>
                     </div>
                     <div class="space-y-4">
                         <div>
@@ -754,9 +994,15 @@
                             </div>
                         </div>
                     </div>
-                    <button onclick="advanceMatch('${court.id}')" class="mt-4 w-full flex justify-center items-center text-sm font-bold bg-red-50 text-red-600 hover:bg-red-600 hover:text-white px-4 py-2.5 rounded-xl transition-colors border border-red-200 hover:border-red-600">
-                        完結並下一場 ▷▷
-                    </button>
+                    <div class="flex gap-2 mt-4 border-t border-slate-100 pt-4">
+                        <button onclick="undoMatch('${court.id}')" class="flex-1 flex justify-center items-center text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 px-2 py-2.5 rounded-xl transition-colors border border-slate-200">
+                            <svg class="mr-1" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"></path><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"></path></svg>
+                            還原
+                        </button>
+                        <button onclick="advanceMatch('${court.id}')" class="flex-[2] flex justify-center items-center text-sm font-bold bg-red-50 text-red-600 hover:bg-red-600 hover:text-white px-4 py-2.5 rounded-xl transition-colors border border-red-200 hover:border-red-600">
+                            完結並下一場 ▷▷
+                        </button>
+                    </div>
                 </div>
                 `;
             }).join('');
@@ -765,14 +1011,20 @@
         window.addEventListener('DOMContentLoaded', () => {
             const hash = window.location.hash;
             if (hash === '#display') {
-                document.getElementById('view-display').classList.remove('hidden');
-                document.getElementById('view-display').classList.add('flex');
+                hideAllViewsAndShow('view-display');
+            } else if (hash.startsWith('#single-')) {
+                hideAllViewsAndShow('view-single-court');
             } else if (hash === '#control') {
-                document.getElementById('view-control').classList.remove('hidden');
-                document.getElementById('view-control').classList.add('flex');
+                if (sessionStorage.getItem('tkd_admin_auth') !== 'true') {
+                    sessionStorage.setItem('tkd_pending_hash', hash);
+                    window.location.hash = ''; window.location.reload(); return;
+                }
+                hideAllViewsAndShow('view-control');
             } else {
-                document.getElementById('view-landing').classList.remove('hidden');
-                document.getElementById('view-landing').classList.add('flex');
+                hideAllViewsAndShow('view-landing');
+                if (sessionStorage.getItem('tkd_pending_hash')) {
+                    window.openLoginModal();
+                }
             }
             initSystem();
         });
