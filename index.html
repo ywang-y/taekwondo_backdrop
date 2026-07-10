@@ -11,47 +11,66 @@
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        /* 背景遮罩，令有背景圖時文字依然清晰 */
+        .bg-overlay::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(248, 250, 252, 0.85); /* slate-50 with 85% opacity */
+            z-index: 0;
+            pointer-events: none;
+        }
+        /* Landing 專用深色遮罩 */
+        .bg-overlay-dark::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.4); /* slate-900 with 40% opacity */
+            z-index: 0;
+            pointer-events: none;
+            backdrop-filter: blur(4px);
+        }
     </style>
 </head>
-<body class="h-screen bg-slate-50 text-slate-900 font-sans flex flex-col overflow-hidden selection:bg-red-600 selection:text-white">
+<body class="h-screen bg-slate-50 text-slate-900 font-sans flex flex-col overflow-hidden selection:bg-red-600 selection:text-white relative">
 
     <!-- ==========================================
          VIEW 1: 啟動首頁 (Landing Page)
          ========================================== -->
-    <div id="view-landing" class="hidden h-screen flex-col items-center justify-center p-6 text-center w-full overflow-y-auto">
-        <div class="mb-10 mt-10 md:mt-0">
+    <div id="view-landing" class="hidden h-screen flex-col items-center justify-center p-6 text-center w-full overflow-y-auto relative transition-all duration-500">
+        <div class="mb-10 mt-10 md:mt-0 relative z-10 p-6 bg-white/80 backdrop-blur-md rounded-3xl shadow-xl border border-white/50">
             <h1 class="text-4xl md:text-6xl font-black mb-4 text-slate-900 drop-shadow-sm">
                 跆拳道比賽<span class="text-red-600">管理系統</span>
             </h1>
-            <p class="text-slate-500 text-lg md:text-xl font-medium">支援雲端同步及離線單機測試模式</p>
+            <p class="text-slate-600 text-lg md:text-xl font-bold">支援雲端同步及離線單機測試模式</p>
         </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl justify-center px-4 pb-10">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl justify-center px-4 pb-10 relative z-10">
             <!-- 顯示板按鈕 -->
-            <button onclick="launchDisplay()" class="flex-1 group bg-white border-2 border-slate-200 hover:border-red-500 rounded-3xl p-6 md:p-8 transition-all hover:shadow-[0_10px_30px_rgba(220,38,38,0.15)] flex flex-col items-center">
+            <button onclick="launchDisplay()" class="flex-1 group bg-white/95 backdrop-blur-sm border-2 border-slate-200 hover:border-red-500 rounded-3xl p-6 md:p-8 transition-all hover:shadow-[0_10px_30px_rgba(220,38,38,0.25)] flex flex-col items-center">
                 <div class="bg-red-50 p-5 md:p-6 rounded-full mb-4 md:mb-6 group-hover:bg-red-100 transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-600 md:w-16 md:h-16"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
                 </div>
                 <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-2">大螢幕顯示板</h2>
-                <p class="text-slate-500 text-sm md:text-base">連接投影機或大電視</p>
+                <p class="text-slate-500 text-sm md:text-base font-medium">連接投影機或大電視</p>
             </button>
 
             <!-- 單一場地控制按鈕 (免密碼) -->
-            <button onclick="openCourtSelectModal()" class="flex-1 group bg-white border-2 border-slate-200 hover:border-blue-500 rounded-3xl p-6 md:p-8 transition-all hover:shadow-[0_10px_30px_rgba(59,130,246,0.15)] flex flex-col items-center">
+            <button onclick="openCourtSelectModal()" class="flex-1 group bg-white/95 backdrop-blur-sm border-2 border-slate-200 hover:border-blue-500 rounded-3xl p-6 md:p-8 transition-all hover:shadow-[0_10px_30px_rgba(59,130,246,0.25)] flex flex-col items-center">
                 <div class="bg-blue-50 p-5 md:p-6 rounded-full mb-4 md:mb-6 group-hover:bg-blue-100 transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600 md:w-16 md:h-16"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
                 </div>
                 <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-2">各場地獨立控制</h2>
-                <p class="text-slate-500 text-sm md:text-base">工作人員專用 (免密碼)</p>
+                <p class="text-slate-500 text-sm md:text-base font-medium">工作人員專用 (免密碼)</p>
             </button>
 
             <!-- 總控制面板按鈕 (需密碼) -->
-            <button onclick="openLoginModal()" class="flex-1 group bg-white border-2 border-slate-200 hover:border-slate-800 rounded-3xl p-6 md:p-8 transition-all hover:shadow-[0_10px_30px_rgba(15,23,42,0.15)] flex flex-col items-center">
+            <button onclick="openLoginModal()" class="flex-1 group bg-white/95 backdrop-blur-sm border-2 border-slate-200 hover:border-slate-800 rounded-3xl p-6 md:p-8 transition-all hover:shadow-[0_10px_30px_rgba(15,23,42,0.25)] flex flex-col items-center">
                 <div class="bg-slate-100 p-5 md:p-6 rounded-full mb-4 md:mb-6 group-hover:bg-slate-200 transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-700 md:w-16 md:h-16"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                 </div>
                 <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-2">大會總控制台</h2>
-                <p class="text-slate-500 text-sm md:text-base">全域設定及名單 (需密碼)</p>
+                <p class="text-slate-500 text-sm md:text-base font-medium">全域設定及名單 (需密碼)</p>
             </button>
         </div>
     </div>
@@ -90,17 +109,44 @@
         </div>
     </div>
 
+    <!-- 背景設定視窗 (Background Settings Modal) -->
+    <div id="background-modal" class="hidden fixed inset-0 z-[80] flex justify-center items-center bg-black/60 backdrop-blur-sm p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl p-6 md:p-8 transform scale-95 transition-transform duration-300 border border-slate-200 flex flex-col h-[90vh]" id="background-modal-content">
+            <div class="flex justify-between items-center mb-4 shrink-0">
+                <h3 class="text-2xl md:text-3xl font-black text-slate-800 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-red-600"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                    各頁面背景設定
+                </h3>
+                <button onclick="closeBackgroundModal()" class="text-slate-400 hover:text-slate-800 p-2 rounded-full hover:bg-slate-100 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            
+            <!-- 修改了說明文字 -->
+            <p class="text-sm text-slate-500 mb-6 shrink-0">請輸入放置於伺服器/GitHub上的圖片檔名（例如：<code>bg-main.jpg</code>）或貼上外部圖片網址。</p>
+            
+            <div class="flex-grow overflow-y-auto min-h-0">
+                <div id="bg-settings-list" class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 p-1">
+                    <!-- 由 JS 動態生成 -->
+                </div>
+            </div>
+            
+            <div class="mt-6 pt-4 border-t border-slate-100 shrink-0 text-center text-xs text-slate-400 font-bold">
+                修改後請記得於控制台點擊「推播更新至大螢幕」以同步至所有裝置。
+            </div>
+        </div>
+    </div>
+
 
     <!-- ==========================================
          VIEW 2: 大螢幕顯示板 (Display Page)
          ========================================== -->
-    <div id="view-display" class="hidden h-screen flex-col overflow-hidden w-full bg-slate-100">
+    <div id="view-display" class="hidden h-screen flex-col overflow-hidden w-full bg-slate-100 relative transition-all duration-500">
         <!-- 頂部 Header -->
-        <header class="bg-white border-b-4 border-red-600 py-3 md:py-4 px-8 flex justify-center items-center shadow-sm relative shrink-0">
+        <header class="bg-white/95 backdrop-blur-md border-b-4 border-red-600 py-3 md:py-4 px-8 flex justify-center items-center shadow-sm relative z-10 shrink-0">
             <!-- 手動更新按鈕 -->
-            <button onclick="fetchCloudState()" class="absolute left-6 md:left-8 flex items-center p-2 md:p-3 text-red-600 bg-red-50 hover:bg-red-100 rounded-xl transition-all border border-red-200" title="手動獲取最新資料">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 md:mr-2"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>
-                <span class="font-bold text-sm hidden md:inline">獲取更新</span>
+            <button onclick="fetchCloudState()" class="absolute left-6 md:left-8 flex justify-center items-center p-2.5 md:p-3 text-red-600 bg-red-50 hover:bg-red-100 rounded-xl transition-all border border-red-200 hover:shadow-md" title="手動獲取最新資料">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>
             </button>
             
             <h1 id="display-event-name" class="text-[clamp(1.75rem,4vmin,3rem)] font-black tracking-widest text-slate-900 uppercase">
@@ -112,14 +158,14 @@
         </header>
 
         <!-- 大螢幕主體 -->
-        <main class="flex-grow p-3 md:p-5 lg:p-6 flex flex-col overflow-y-auto overflow-x-hidden min-h-0">
+        <main class="flex-grow p-3 md:p-5 lg:p-6 flex flex-col overflow-y-auto overflow-x-hidden min-h-0 relative z-10">
             <div id="courts-grid" class="grid w-full max-w-screen-2xl mx-auto flex-grow h-auto lg:h-full min-h-0 gap-4 md:gap-5">
                 <!-- 場地內容動態生成 -->
             </div>
         </main>
 
         <!-- 底部準備召集 -->
-        <div class="bg-white border-t-4 border-slate-900 p-3 md:p-4 shadow-[0_-5px_20px_rgba(0,0,0,0.05)] z-10 flex flex-col md:flex-row items-center justify-center gap-3 md:gap-6 shrink-0">
+        <div class="bg-white/95 backdrop-blur-md border-t-4 border-slate-900 p-3 md:p-4 shadow-[0_-5px_20px_rgba(0,0,0,0.1)] z-10 flex flex-col md:flex-row items-center justify-center gap-3 md:gap-6 shrink-0 relative">
             <div class="flex items-center shrink-0">
                 <span class="text-[clamp(1.25rem,2.5vmin,2rem)] font-black text-slate-800 tracking-widest flex items-center">
                     <span class="bg-slate-900 text-white px-2 md:px-3 py-0.5 md:py-1 rounded-lg mr-2 md:mr-3 text-[clamp(1rem,2vmin,1.5rem)] animate-pulse">廣播</span>
@@ -156,14 +202,17 @@
     <!-- ==========================================
          VIEW 3: 大會總控制面板 (Master Control Page)
          ========================================== -->
-    <div id="view-control" class="hidden h-screen flex-col overflow-y-auto bg-slate-100 w-full relative">
+    <div id="view-control" class="hidden h-screen flex-col overflow-y-auto bg-slate-100 w-full relative transition-all duration-500">
         <!-- 控制面板 Header -->
-        <div class="bg-white border-b border-slate-200 p-4 md:p-6 sticky top-0 z-10 flex flex-wrap gap-4 justify-between items-center shadow-sm">
+        <div class="bg-white/95 backdrop-blur-md border-b border-slate-200 p-4 md:p-6 sticky top-0 z-20 flex flex-wrap gap-4 justify-between items-center shadow-sm">
             <h2 class="text-xl md:text-3xl font-black text-slate-800 flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 md:mr-3 text-red-600"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
                 大會總控制台
             </h2>
             <div class="flex items-center space-x-2 md:space-x-4">
+                <button onclick="fetchCloudState()" class="flex justify-center items-center p-2 md:p-2.5 text-emerald-600 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-all border border-emerald-200 shadow-sm" title="手動獲取最新資料 (從雲端下載)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>
+                </button>
                 <button onclick="pushCloudState()" class="flex items-center px-3 py-1.5 md:px-4 md:py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition-all shadow-md">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 md:mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
                     <span class="hidden md:inline">推播更新至大螢幕</span>
@@ -174,33 +223,45 @@
             </div>
         </div>
 
-        <div class="p-4 md:p-8 max-w-7xl mx-auto w-full space-y-6 md:space-y-8">
-            <!-- 頂部設定區 -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+        <div class="p-4 md:p-8 max-w-7xl mx-auto w-full space-y-6 md:space-y-8 relative z-10">
+            <!-- 頂部設定區 (2x2 Grid for better layout) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 <!-- 1. 賽事名稱設定 -->
-                <div class="bg-white p-4 md:p-6 rounded-2xl border border-slate-200 shadow-md">
-                    <label class="block text-xs md:text-sm font-bold text-slate-500 mb-2 md:mb-3 tracking-widest uppercase">全域賽事名稱 (修改需推播)</label>
-                    <input id="input-event-name" type="text" oninput="updateEventName(this.value)" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 md:p-4 text-lg md:text-xl text-slate-900 font-bold focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all"/>
+                <div class="bg-white/95 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-slate-200 shadow-md">
+                    <label class="block text-xs md:text-sm font-bold text-slate-500 mb-2 md:mb-3 tracking-widest uppercase">全域賽事名稱 (需推播)</label>
+                    <input id="input-event-name" type="text" oninput="updateEventName(this.value)" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-lg md:text-xl text-slate-900 font-bold focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all"/>
                 </div>
 
                 <!-- 2. 統一準備召集設定 -->
-                <div class="bg-white p-4 md:p-6 rounded-2xl border border-slate-200 shadow-md relative overflow-hidden">
-                    <label class="block text-xs md:text-sm font-bold text-slate-500 mb-2 md:mb-3 tracking-widest uppercase flex items-center relative z-10">召集名單</label>
-                    <input id="input-prep-matches" type="text" oninput="updatePrepMatchesSoft(this.value)" onblur="updatePrepMatchesForce(this.value)" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 md:p-4 text-lg md:text-xl text-slate-900 font-bold focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all relative z-10" placeholder="以逗號分隔，例如: 102, 202"/>
+                <div class="bg-white/95 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-slate-200 shadow-md">
+                    <label class="block text-xs md:text-sm font-bold text-slate-500 mb-2 md:mb-3 tracking-widest uppercase">召集名單</label>
+                    <input id="input-prep-matches" type="text" oninput="updatePrepMatchesSoft(this.value)" onblur="updatePrepMatchesForce(this.value)" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-lg md:text-xl text-slate-900 font-bold focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all" placeholder="如: 102, 202"/>
                 </div>
 
-                <!-- 3. 場地數量及名稱設定 -->
-                <div class="bg-white p-4 md:p-6 rounded-2xl border border-slate-200 shadow-md flex flex-col justify-between">
+                <!-- 3. 場地數量及名單管理 -->
+                <div class="bg-white/95 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-slate-200 shadow-md flex flex-col justify-between">
                     <div>
-                        <label class="block text-xs md:text-sm font-bold text-slate-500 mb-2 tracking-widest uppercase">場地數量設定</label>
+                        <label class="block text-xs md:text-sm font-bold text-slate-500 mb-2 tracking-widest uppercase">場地數量</label>
                         <div class="flex gap-2 mb-3">
-                            <button onclick="addCourt()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2 rounded-lg transition-colors text-sm border border-slate-300">+ 新增場地</button>
-                            <button onclick="removeCourt()" class="flex-1 bg-slate-100 hover:bg-red-50 text-red-600 font-bold py-2 rounded-lg transition-colors text-sm border border-slate-300 hover:border-red-200">- 刪除最後</button>
+                            <button onclick="addCourt()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2 rounded-lg transition-colors text-sm border border-slate-300">+ 新增</button>
+                            <button onclick="removeCourt()" class="flex-1 bg-slate-100 hover:bg-red-50 text-red-600 font-bold py-2 rounded-lg transition-colors text-sm border border-slate-300 hover:border-red-200">- 刪除</button>
                         </div>
                     </div>
-                    <button onclick="openDatabaseManager()" class="w-full mt-2 bg-slate-800 hover:bg-slate-900 text-white font-bold py-2 md:py-3 px-4 rounded-xl transition-colors text-sm flex justify-center items-center shadow-md">
+                    <button onclick="openDatabaseManager()" class="w-full mt-1 bg-slate-800 hover:bg-slate-900 text-white font-bold py-2 px-4 rounded-xl transition-colors text-sm flex justify-center items-center shadow-md">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                        管理賽事對陣名單 (CSV)
+                        名單 (CSV)
+                    </button>
+                </div>
+
+                <!-- 4. 介面背景設定 -->
+                <div class="bg-white/95 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-slate-200 shadow-md flex flex-col justify-between">
+                    <div>
+                        <label class="block text-xs md:text-sm font-bold text-slate-500 mb-2 tracking-widest uppercase">介面外觀設定</label>
+                        <p class="text-xs text-slate-400 font-medium mb-3">為每個頁面設定自定義背景圖片，提升專業感。</p>
+                    </div>
+                    <button onclick="openBackgroundModal()" class="w-full mt-1 bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold py-2 px-4 rounded-xl transition-colors border border-blue-200 text-sm flex justify-center items-center shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                        更換各頁面背景
                     </button>
                 </div>
             </div>
@@ -216,17 +277,19 @@
     <!-- ==========================================
          VIEW 4: 單一場地獨立控制頁 (Single Court Control)
          ========================================== -->
-    <div id="view-single-court" class="hidden h-screen flex-col overflow-y-auto bg-slate-100 w-full relative">
+    <div id="view-single-court" class="hidden h-screen flex-col overflow-y-auto bg-slate-100 w-full relative transition-all duration-500">
         <!-- 獨立控制頁 Header -->
-        <div class="bg-white border-b border-slate-200 p-4 md:p-6 sticky top-0 z-10 flex flex-wrap gap-4 justify-between items-center shadow-sm">
+        <div class="bg-white/95 backdrop-blur-md border-b border-slate-200 p-4 md:p-6 sticky top-0 z-20 flex flex-wrap gap-4 justify-between items-center shadow-sm">
             <div class="flex items-center gap-3 md:gap-4">
-                <!-- 返回按鈕改為直接返回主頁 (不觸發密碼彈窗) -->
                 <button onclick="window.location.hash=''; window.location.reload();" class="text-slate-500 hover:text-slate-900 px-3 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors flex items-center font-bold text-sm">
                     <svg class="mr-1" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
                     返回主頁
                 </button>
             </div>
             <div class="flex items-center space-x-2 md:space-x-4">
+                <button onclick="fetchCloudState()" class="flex justify-center items-center p-2 md:p-2.5 text-emerald-600 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-all border border-emerald-200 shadow-sm" title="手動獲取最新資料">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>
+                </button>
                 <button onclick="pushCloudState()" class="flex items-center px-3 py-1.5 md:px-4 md:py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-all shadow-md">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1 md:mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
                     <span class="hidden md:inline">推播更新至大螢幕</span>
@@ -236,7 +299,7 @@
             </div>
         </div>
 
-        <div class="p-4 md:p-8 max-w-4xl mx-auto w-full space-y-6 flex-grow flex flex-col justify-center" id="single-court-container">
+        <div class="p-4 md:p-8 max-w-4xl mx-auto w-full space-y-6 flex-grow flex flex-col justify-center relative z-10" id="single-court-container">
             <!-- 內容由 renderSingleCourt 動態生成 -->
         </div>
     </div>
@@ -247,6 +310,7 @@
          ========================================== -->
     <div id="database-modal" class="hidden fixed inset-0 z-[70] flex justify-center items-center bg-black/60 backdrop-blur-sm p-4 md:p-6 opacity-0 transition-opacity duration-300">
         <div class="bg-white border-2 border-slate-300 rounded-3xl shadow-2xl w-full max-w-5xl h-[90vh] flex flex-col overflow-hidden transform scale-95 transition-transform duration-300" id="database-modal-content">
+            <!-- 保持與原本相同 -->
             <div class="bg-slate-50 p-4 md:p-6 flex justify-between items-center border-b border-slate-200 shrink-0">
                 <h3 class="text-xl md:text-2xl font-bold text-slate-800 flex items-center">
                     <svg class="mr-2 text-slate-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
@@ -327,6 +391,7 @@
         let isLocalMode = false;
         let activeSingleCourtId = null; 
 
+        // 加入背景圖片狀態設定 (Base64)
         let state = {
             eventName: "2026 全港跆拳道錦標賽",
             courts: [
@@ -339,7 +404,8 @@
             matchDatabase: {
                 "101": { content: "男子成年組 -68kg 初賽", players: ["張家輝", "陳奕迅"] },
                 "102": { content: "男子成年組 -68kg 初賽", players: ["劉德華", "黎明"] }
-            }
+            },
+            backgrounds: { landing: "", display: "", control: "", single: "" } // 新增背景資料儲存點
         };
 
         function getMatchData(matchId) {
@@ -431,28 +497,77 @@
             setTimeout(() => { modal.classList.add('hidden'); }, 300);
         };
 
+        // --- 背景設定 Modal 邏輯 ---
+        window.openBackgroundModal = () => {
+            if (!state.backgrounds) state.backgrounds = { landing: "", display: "", control: "", single: "" };
+            window.renderBackgroundSettings();
+            const modal = document.getElementById('background-modal');
+            modal.classList.remove('hidden');
+            void modal.offsetWidth;
+            modal.classList.remove('opacity-0');
+            document.getElementById('background-modal-content').classList.remove('scale-95');
+        };
+
+        window.closeBackgroundModal = () => {
+            const modal = document.getElementById('background-modal');
+            modal.classList.add('opacity-0');
+            document.getElementById('background-modal-content').classList.add('scale-95');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        };
+
+        window.renderBackgroundSettings = () => {
+            const keys = [
+                { id: 'landing', name: '首頁 (Landing)' },
+                { id: 'display', name: '大螢幕顯示板' },
+                { id: 'control', name: '大會總控制台' },
+                { id: 'single', name: '單一場地獨立控制頁' }
+            ];
+            const container = document.getElementById('bg-settings-list');
+            container.innerHTML = keys.map(k => {
+                const bgUrl = state.backgrounds[k.id] || "";
+                return `
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-col justify-between">
+                        <h4 class="font-bold text-slate-800 mb-2">${k.name}</h4>
+                        <div class="w-full h-32 bg-slate-200 rounded-xl mb-3 flex items-center justify-center border-2 border-dashed border-slate-300 overflow-hidden relative shadow-inner">
+                            ${bgUrl ? `<img src="${bgUrl}" class="w-full h-full object-cover" onerror="this.outerHTML='<span class=\\'text-red-500 text-sm font-bold\\'>圖片無法載入</span>'">` : `<span class="text-slate-400 text-sm font-bold">無背景圖片</span>`}
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <input type="text" id="bg-input-${k.id}" value="${bgUrl}" placeholder="圖片檔名 (如: bg-main.jpg) 或 網址" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-sm focus:outline-none focus:border-blue-500">
+                            <div class="flex gap-2">
+                                <button onclick="saveBackgroundUrl('${k.id}')" class="flex-1 bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold py-2 rounded-lg transition-colors text-sm border border-blue-200 shadow-sm">設定圖片</button>
+                                ${bgUrl ? `<button onclick="removeBackground('${k.id}')" class="px-4 bg-red-50 hover:bg-red-100 text-red-600 font-bold py-2 rounded-lg transition-colors text-sm border border-red-200">清除</button>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        };
+
+        // 以儲存純檔名/URL 取代 Canvas Base64 壓縮上傳
+        window.saveBackgroundUrl = (pageKey) => {
+            const inputVal = document.getElementById(`bg-input-${pageKey}`).value.trim();
+            if (!state.backgrounds) state.backgrounds = { landing: "", display: "", control: "", single: "" };
+            state.backgrounds[pageKey] = inputVal;
+            
+            renderView();
+            window.renderBackgroundSettings();
+            notifyUnpushedChanges();
+        };
+
+        window.removeBackground = (pageKey) => {
+            if (!state.backgrounds) return;
+            state.backgrounds[pageKey] = "";
+            renderView();
+            window.renderBackgroundSettings();
+            notifyUnpushedChanges();
+        };
+
         window.launchDisplay = () => { window.location.hash = '#display'; window.location.reload(); };
-        
         window.updateEventName = (value) => { state.eventName = value; renderView(); notifyUnpushedChanges(); };
-
-        window.updatePrepMatchesSoft = (value) => {
-            state.prepMatches = value.split(',').map(s => s.trim()).filter(s => s !== "");
-            notifyUnpushedChanges();
-        };
-        window.updatePrepMatchesForce = (value) => {
-            state.prepMatches = value.split(',').map(s => s.trim()).filter(s => s !== "");
-            renderView(); 
-            notifyUnpushedChanges();
-        };
+        window.updatePrepMatchesSoft = (value) => { state.prepMatches = value.split(',').map(s => s.trim()).filter(s => s !== ""); notifyUnpushedChanges(); };
+        window.updatePrepMatchesForce = (value) => { state.prepMatches = value.split(',').map(s => s.trim()).filter(s => s !== ""); renderView(); notifyUnpushedChanges(); };
+        window.updateCourtSoft = (id, field, value) => { const court = state.courts.find(c => c.id === id); if (court) { court[field] = value; notifyUnpushedChanges(); } };
         
-        window.updateCourtSoft = (id, field, value) => {
-            const court = state.courts.find(c => c.id === id);
-            if (court) { 
-                court[field] = value; 
-                notifyUnpushedChanges();
-            }
-        };
-
         window.assignNextMatch = (id, val) => {
             if (!val) return;
             const court = state.courts.find(c => c.id === id);
@@ -460,8 +575,7 @@
                 let currentList = court.nextMatch ? court.nextMatch.split(',').map(s=>s.trim()).filter(s=>s!=="") : [];
                 if (!currentList.includes(val)) currentList.push(val);
                 court.nextMatch = currentList.join(', ');
-                renderView();
-                notifyUnpushedChanges();
+                renderView(); notifyUnpushedChanges();
             }
         };
 
@@ -478,8 +592,7 @@
                 if (state.prepMatches && state.prepMatches.includes(val)) {
                     state.prepMatches = state.prepMatches.filter(m => m !== val);
                 }
-                renderView();
-                notifyUnpushedChanges();
+                renderView(); notifyUnpushedChanges();
             }
         };
 
@@ -508,12 +621,10 @@
                 
                 court.currentMatch = newCurrentMatch;
                 court.nextMatch = remainingNextMatch; 
-                
                 if (state.prepMatches && state.prepMatches.includes(newCurrentMatch)) {
                     state.prepMatches = state.prepMatches.filter(m => m !== newCurrentMatch);
                 }
-                renderView();
-                notifyUnpushedChanges();
+                renderView(); notifyUnpushedChanges();
             }
         };
 
@@ -524,11 +635,8 @@
                     const lastState = court.history.pop();
                     court.currentMatch = lastState.currentMatch;
                     court.nextMatch = lastState.nextMatch;
-                    renderView();
-                    notifyUnpushedChanges();
-                } else {
-                    alert("已經是最初狀態，沒有更早的紀錄可以還原！");
-                }
+                    renderView(); notifyUnpushedChanges();
+                } else alert("已經是最初狀態，沒有更早的紀錄可以還原！");
             }
         };
 
@@ -544,9 +652,8 @@
                     <div class="bg-white border-2 border-slate-200 rounded-2xl p-5 flex items-center justify-center shadow-sm flex-1 min-w-[160px] max-w-[300px]">
                         <span class="text-2xl md:text-3xl font-black text-slate-800 text-center">${player}</span>
                     </div>`).join('');
-            } else {
-                container.innerHTML = `<span class="text-slate-500 text-xl font-bold">暫無選手資料</span>`;
-            }
+            } else container.innerHTML = `<span class="text-slate-500 text-xl font-bold">暫無選手資料</span>`;
+            
             const modal = document.getElementById('match-modal');
             modal.classList.remove('hidden');
             void modal.offsetWidth;
@@ -582,10 +689,8 @@
             const tbody = document.getElementById('db-match-list');
             const keys = Object.keys(state.matchDatabase || {}).sort((a,b) => a.localeCompare(b, undefined, {numeric: true}));
             document.getElementById('db-match-count').innerText = `共 ${keys.length} 場`;
-            
             if (keys.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-400 font-bold">暫無賽事資料</td></tr>`;
-                return;
+                tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-400 font-bold">暫無賽事資料</td></tr>`; return;
             }
             tbody.innerHTML = keys.map(id => {
                 const data = state.matchDatabase[id];
@@ -611,10 +716,7 @@
                 content: document.getElementById('db-match-content').value.trim() || "待定",
                 players: document.getElementById('db-match-players').value.split(',').map(s=>s.trim()).filter(s=>s!=="")
             };
-            window.resetMatchForm();
-            window.renderDatabaseList();
-            renderView();
-            notifyUnpushedChanges();
+            window.resetMatchForm(); window.renderDatabaseList(); renderView(); notifyUnpushedChanges();
         };
         window.editMatchData = (id) => {
             const data = state.matchDatabase[id];
@@ -628,39 +730,29 @@
         };
         window.deleteMatchData = (id) => {
             if (confirm(`確定要刪除場次 ${id} 嗎？`)) {
-                delete state.matchDatabase[id];
-                window.renderDatabaseList();
-                renderView();
-                notifyUnpushedChanges();
+                delete state.matchDatabase[id]; window.renderDatabaseList(); renderView(); notifyUnpushedChanges();
             }
         };
         window.resetMatchForm = () => {
-            document.getElementById('db-match-id').value = '';
-            document.getElementById('db-match-content').value = '';
-            document.getElementById('db-match-players').value = '';
-            editingMatchId = null;
-            document.getElementById('db-form-title').innerText = "新增場次";
-            document.getElementById('db-save-btn').innerText = "儲存";
+            document.getElementById('db-match-id').value = ''; document.getElementById('db-match-content').value = ''; document.getElementById('db-match-players').value = '';
+            editingMatchId = null; document.getElementById('db-form-title').innerText = "新增場次"; document.getElementById('db-save-btn').innerText = "儲存";
         };
         window.handleCSVUpload = (event) => {
             const file = event.target.files[0];
             if (!file) return;
             const reader = new FileReader();
             reader.onload = (e) => {
-                const lines = e.target.result.split('\n');
-                let count = 0;
+                const lines = e.target.result.split('\n'); let count = 0;
                 for (let i = 0; i < lines.length; i++) {
                     const cols = lines[i].split(',').map(c => c.trim());
                     if (cols.length >= 2 && cols[0] !== "場次" && cols[0].toLowerCase() !== "match") {
-                        state.matchDatabase[cols[0]] = { content: cols[1], players: cols.slice(2).filter(p => p !== "") };
-                        count++;
+                        state.matchDatabase[cols[0]] = { content: cols[1], players: cols.slice(2).filter(p => p !== "") }; count++;
                     }
                 }
                 if (count > 0) {
                     renderView();
                     if (!document.getElementById('database-modal').classList.contains('hidden')) window.renderDatabaseList();
-                    notifyUnpushedChanges();
-                    alert(`✅ 成功匯入 ${count} 場賽事資料！請記得推播更新。`);
+                    notifyUnpushedChanges(); alert(`✅ 成功匯入 ${count} 場賽事資料！請記得推播更新。`);
                 } else alert("⚠️ 匯入失敗：格式不正確。");
                 event.target.value = ''; 
             };
@@ -691,7 +783,10 @@
                 console.warn("無法連接雲端，自動切換至「本機單機模式」", error);
                 isLocalMode = true;
                 const localData = localStorage.getItem('tkd-local-state');
-                if (localData) state = JSON.parse(localData);
+                if (localData) {
+                    state = JSON.parse(localData);
+                    if (!state.backgrounds) state.backgrounds = { landing: "", display: "", control: "", single: "" };
+                }
                 renderView();
                 updateCloudStatus(true, '單機離線模式');
             }
@@ -700,11 +795,12 @@
         window.fetchCloudState = async () => {
             if (isLocalMode) {
                 const localData = localStorage.getItem('tkd-local-state');
-                if (localData) state = JSON.parse(localData);
-                renderView();
-                updateCloudStatus(true, '✅ 本機已讀取');
-                setTimeout(() => updateCloudStatus(true, '單機離線模式'), 2000);
-                return;
+                if (localData) {
+                    state = JSON.parse(localData);
+                    if (!state.backgrounds) state.backgrounds = { landing: "", display: "", control: "", single: "" };
+                }
+                renderView(); updateCloudStatus(true, '✅ 本機已讀取');
+                setTimeout(() => updateCloudStatus(true, '單機離線模式'), 2000); return;
             }
             if (!user || !db) return;
             try {
@@ -714,21 +810,18 @@
                 if (docSnap.exists()) {
                     let loadedState = docSnap.data();
                     if (!loadedState.prepMatches) loadedState.prepMatches = loadedState.courts.map(c => c.nextMatch).filter(Boolean);
+                    if (!loadedState.backgrounds) loadedState.backgrounds = { landing: "", display: "", control: "", single: "" };
                     state = loadedState;
                 }
-                renderView();
-                updateCloudStatus(true, '已同步 (雲端)');
-            } catch (error) {
-                updateCloudStatus(false, '雲端連線失敗');
-            }
+                renderView(); updateCloudStatus(true, '已同步 (雲端)');
+            } catch (error) { updateCloudStatus(false, '雲端連線失敗'); }
         };
 
         window.pushCloudState = async () => {
             if (isLocalMode) {
                 localStorage.setItem('tkd-local-state', JSON.stringify(state));
                 updateCloudStatus(true, '✅ 本機已儲存');
-                setTimeout(() => updateCloudStatus(true, '單機離線模式'), 2000);
-                return;
+                setTimeout(() => updateCloudStatus(true, '單機離線模式'), 2000); return;
             }
             if (!user || !db) return;
             try { 
@@ -737,9 +830,7 @@
                 await window.FirebaseSetDoc(docRef, state); 
                 updateCloudStatus(true, '✅ 已成功推播');
                 setTimeout(() => updateCloudStatus(true, '已同步 (雲端)'), 3000);
-            } catch (error) { 
-                updateCloudStatus(false, '推播失敗');
-            }
+            } catch (error) { updateCloudStatus(false, '推播失敗'); }
         };
 
         function updateCloudStatus(isConnected, text = '手動模式') {
@@ -760,6 +851,32 @@
             });
         }
 
+        // --- 背景樣式應用函數 ---
+        const applyBackground = (elementId, bgBase64, isDarker = false) => {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            
+            if (bgBase64) {
+                el.style.backgroundImage = `url(${bgBase64})`;
+                el.style.backgroundSize = 'cover';
+                el.style.backgroundPosition = 'center';
+                el.style.backgroundAttachment = 'fixed';
+                
+                // 動態加入遮罩，確保文字可視性
+                if (isDarker) {
+                    el.classList.add('bg-overlay-dark');
+                    el.classList.remove('bg-overlay');
+                } else {
+                    el.classList.add('bg-overlay');
+                    el.classList.remove('bg-overlay-dark');
+                }
+            } else {
+                el.style.backgroundImage = 'none';
+                el.classList.remove('bg-overlay');
+                el.classList.remove('bg-overlay-dark');
+            }
+        };
+
         // --- 渲染 ---
         function hideAllViewsAndShow(viewId) {
             const views = ['view-landing', 'view-display', 'view-control', 'view-single-court'];
@@ -774,12 +891,19 @@
         function renderView() {
             const hash = window.location.hash;
             
+            // 應用自定義背景
+            if(state.backgrounds) {
+                applyBackground('view-landing', state.backgrounds.landing, true); // 首頁遮罩深啲
+                applyBackground('view-display', state.backgrounds.display, false);
+                applyBackground('view-control', state.backgrounds.control, false);
+                applyBackground('view-single-court', state.backgrounds.single, false);
+            }
+
             if (hash === '#display') {
                 hideAllViewsAndShow('view-display');
                 document.getElementById('display-event-name').innerText = state.eventName;
                 renderDisplays();
             } else if (hash.startsWith('#single-')) {
-                // 單一場地免密碼直接放行
                 const courtId = hash.replace('#single-', '');
                 activeSingleCourtId = courtId;
                 hideAllViewsAndShow('view-single-court');
@@ -801,10 +925,7 @@
 
         function renderSingleCourt(courtId) {
             const court = state.courts.find(c => c.id === courtId);
-            if (!court) {
-                window.location.hash = '';
-                return;
-            }
+            if (!court) { window.location.hash = ''; return; }
 
             const container = document.getElementById('single-court-container');
             const currentData = getMatchData(court.currentMatch);
@@ -818,14 +939,13 @@
             let promoteHtml = `<option value="">下一場 ▾</option>`;
             courtPrepList.forEach(m => { promoteHtml += `<option value="${m}">開始場次 ${m}</option>`; });
 
-            // 保持輸入框內容唔會被打斷
             const currInputEl = document.getElementById(`single-current`);
             const nextInputEl = document.getElementById(`single-next`);
             const currVal = (currInputEl && document.activeElement === currInputEl) ? currInputEl.value : court.currentMatch;
             const nextVal = (nextInputEl && document.activeElement === nextInputEl) ? nextInputEl.value : (court.nextMatch || '');
 
             container.innerHTML = `
-                <div class="bg-white p-6 md:p-10 rounded-3xl border border-slate-200 shadow-xl flex flex-col max-w-2xl mx-auto w-full">
+                <div class="bg-white/95 backdrop-blur-md p-6 md:p-10 rounded-3xl border border-slate-200 shadow-xl flex flex-col max-w-2xl mx-auto w-full">
                     <div class="flex justify-between items-center mb-6 pb-6 border-b border-slate-100">
                         <div class="flex items-center">
                             <span class="text-3xl md:text-4xl font-black text-slate-800">${court.name}</span>
@@ -883,7 +1003,7 @@
                 const nextMatchText = (court.nextMatch && court.nextMatch.trim() !== "") ? court.nextMatch : "無";
 
                 return `
-                <div class="bg-white rounded-2xl md:rounded-3xl border border-slate-200 overflow-hidden shadow-lg flex flex-col h-full min-h-[220px] lg:min-h-0">
+                <div class="bg-white/95 backdrop-blur-sm rounded-2xl md:rounded-3xl border border-slate-200 overflow-hidden shadow-lg flex flex-col h-full min-h-[220px] lg:min-h-0">
                     <div class="bg-slate-100 py-3 px-4 border-b border-slate-200 flex justify-between items-center shrink-0 h-12 md:h-14">
                         <h2 class="text-[clamp(1.1rem,2.5vmin,1.5rem)] font-bold text-slate-800 flex items-center">
                             ${court.name}
@@ -896,18 +1016,14 @@
                     </div>
 
                     <div class="flex-grow flex flex-col p-3 md:p-4 gap-2 md:gap-3 overflow-hidden min-h-0 h-full">
-                        <!-- ★ 修改為 flex-row 左右並排顯示 ★ -->
                         <div class="flex-grow flex flex-row gap-2 md:gap-3 min-h-0 w-full h-full">
                             
-                            <!-- 左邊：場次 (佔闊度 50%) -->
                             <div class="w-1/2 h-full flex flex-col justify-center items-center bg-white rounded-xl border border-slate-100 cursor-pointer transition-colors group min-h-0 p-2 overflow-hidden relative shadow-sm" style="container-type: size;" onclick="openMatchModal('${court.currentMatch}')">
-                                <!-- 設定字體大小為 min(50cqw, 90cqh) -->
                                 <div class="text-[length:min(50cqw,90cqh)] font-black text-slate-900 tracking-tighter leading-none group-hover:scale-105 transition-transform shrink-0 drop-shadow-sm flex items-center justify-center w-full h-full absolute inset-0">
                                     ${court.currentMatch || "-"}
                                 </div>
                             </div>
                             
-                            <!-- 右邊：比賽內容 (佔闊度 50%) -->
                             <div class="w-1/2 h-full flex justify-center items-center bg-red-50 rounded-xl border border-red-100 cursor-pointer min-h-0 p-2 px-2 overflow-hidden relative shadow-sm" style="container-type: size;" onclick="openMatchModal('${court.currentMatch}')">
                                 <div class="text-[length:min(14cqw,30cqh)] text-red-700 font-bold text-center leading-tight flex items-center justify-center w-full h-full absolute inset-0 p-3" style="word-break: break-word;">
                                     ${currentContent}
@@ -916,8 +1032,7 @@
 
                         </div>
                         
-                        <!-- 準備進行列 -->
-                        <div class="shrink-0 bg-slate-50 rounded-xl border border-slate-200 py-1.5 md:py-2 px-3 flex items-center justify-center cursor-pointer hover:bg-slate-100 transition-colors" onclick="if('${nextMatchText}' !== '無'){openMatchModal('${nextMatchText.split(',')[0].trim()}')}">
+                        <div class="shrink-0 bg-slate-50/80 rounded-xl border border-slate-200 py-1.5 md:py-2 px-3 flex items-center justify-center cursor-pointer hover:bg-slate-100 transition-colors" onclick="if('${nextMatchText}' !== '無'){openMatchModal('${nextMatchText.split(',')[0].trim()}')}">
                             <span class="text-[clamp(0.75rem,1.8vh,1.1rem)] text-slate-500 font-bold truncate">
                                 準備進行：<span class="text-slate-800 font-black ml-1">${nextMatchText}</span>
                             </span>
@@ -934,7 +1049,7 @@
                 bannerNumbers.innerHTML = prepList.map(matchId => {
                     const nextData = getMatchData(matchId);
                     return `
-                    <div class="bg-slate-100 px-4 md:px-6 py-1.5 md:py-2 rounded-xl border border-slate-200 flex flex-col items-center justify-center shadow-sm flex-1 min-w-[90px] md:min-w-[120px] md:flex-none cursor-pointer hover:bg-slate-200 transition-colors h-14 md:h-16" onclick="openMatchModal('${matchId}')">
+                    <div class="bg-slate-100/90 backdrop-blur-md px-4 md:px-6 py-1.5 md:py-2 rounded-xl border border-slate-200 flex flex-col items-center justify-center shadow-sm flex-1 min-w-[90px] md:min-w-[120px] md:flex-none cursor-pointer hover:bg-slate-200 transition-colors h-14 md:h-16" onclick="openMatchModal('${matchId}')">
                         <span class="text-slate-900 text-[clamp(1.25rem,3vmin,2rem)] font-black tracking-wider leading-none">${matchId}</span>
                         <span class="text-[clamp(0.6rem,1.2vmin,0.875rem)] text-slate-500 mt-1 truncate w-full max-w-[90px] md:max-w-[120px] text-center">${nextData ? nextData.content : "無資料"}</span>
                     </div>`;
@@ -965,7 +1080,7 @@
                 const nextVal = currentInputs[`next-${court.id}`] !== undefined ? currentInputs[`next-${court.id}`] : (court.nextMatch || '');
 
                 return `
-                <div class="bg-white p-5 md:p-6 rounded-2xl border border-slate-200 shadow-md flex flex-col justify-between relative">
+                <div class="bg-white/95 backdrop-blur-md p-5 md:p-6 rounded-2xl border border-slate-200 shadow-md flex flex-col justify-between relative">
                     <div class="flex justify-between items-center mb-5 border-b border-slate-100 pb-4">
                         <input type="text" value="${court.name}" oninput="updateCourtSoft('${court.id}', 'name', this.value)" onblur="renderView()" class="text-xl md:text-2xl font-black text-slate-800 bg-transparent border-b-2 border-transparent hover:border-slate-300 focus:border-red-500 focus:outline-none w-1/2 transition-colors" placeholder="輸入名稱">
                         
