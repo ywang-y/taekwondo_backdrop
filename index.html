@@ -413,7 +413,7 @@
             backgrounds: { landing: "", display: "", control: "", single: "" } 
         };
 
-        // ★ 核心修復引擎：確保載入舊數據時不會出現 undefined
+        // ★ 核心修復引擎：確保載入舊數據時不會出現 undefined 或 ID 格式不配對
         function sanitizeLoadedState(loadedState) {
             if (!loadedState) return;
             if (!loadedState.prepMatches) {
@@ -425,6 +425,7 @@
             if (loadedState.courts) {
                 loadedState.courts = loadedState.courts.map(c => ({
                     ...c,
+                    id: String(c.id), // 強制將舊有嘅數字 ID 轉換為文字格式，防止空白頁 Bug
                     name: c.name || `場地 ${c.id}`, // 如果冇名，自動補上「場地 X」
                     history: c.history || []
                 }));
@@ -592,11 +593,11 @@
         window.updateEventName = (value) => { state.eventName = value; renderView(); notifyUnpushedChanges(); };
         window.updatePrepMatchesSoft = (value) => { state.prepMatches = value.split(',').map(s => s.trim()).filter(s => s !== ""); notifyUnpushedChanges(); };
         window.updatePrepMatchesForce = (value) => { state.prepMatches = value.split(',').map(s => s.trim()).filter(s => s !== ""); renderView(); notifyUnpushedChanges(); };
-        window.updateCourtSoft = (id, field, value) => { const court = state.courts.find(c => c.id === id); if (court) { court[field] = value; notifyUnpushedChanges(); } };
+        window.updateCourtSoft = (id, field, value) => { const court = state.courts.find(c => String(c.id) === String(id)); if (court) { court[field] = value; notifyUnpushedChanges(); } };
         
         window.assignNextMatch = (id, val) => {
             if (!val) return;
-            const court = state.courts.find(c => c.id === id);
+            const court = state.courts.find(c => String(c.id) === String(id));
             if (court) {
                 let currentList = court.nextMatch ? court.nextMatch.split(',').map(s=>s.trim()).filter(s=>s!=="") : [];
                 if (!currentList.includes(val)) currentList.push(val);
@@ -607,7 +608,7 @@
 
         window.promoteToCurrent = (id, val) => {
             if (!val) return;
-            const court = state.courts.find(c => c.id === id);
+            const court = state.courts.find(c => String(c.id) === String(id));
             if (court) {
                 if (!court.history) court.history = [];
                 court.history.push({ currentMatch: court.currentMatch, nextMatch: court.nextMatch });
@@ -623,7 +624,7 @@
         };
 
         window.advanceMatch = (id) => {
-            const court = state.courts.find(c => c.id === id);
+            const court = state.courts.find(c => String(c.id) === String(id));
             if (court) {
                 if (!court.history) court.history = [];
                 court.history.push({ currentMatch: court.currentMatch, nextMatch: court.nextMatch });
@@ -655,7 +656,7 @@
         };
 
         window.undoMatch = (id) => {
-            const court = state.courts.find(c => c.id === id);
+            const court = state.courts.find(c => String(c.id) === String(id));
             if (court) {
                 if (court.history && court.history.length > 0) {
                     const lastState = court.history.pop();
@@ -943,8 +944,8 @@
         }
 
         function renderSingleCourt(courtId) {
-            const court = state.courts.find(c => c.id === courtId);
-            if (!court) { window.location.hash = ''; return; }
+            const court = state.courts.find(c => String(c.id) === String(courtId));
+            if (!court) { window.location.hash = ''; window.location.reload(); return; }
 
             const container = document.getElementById('single-court-container');
             const currentData = getMatchData(court.currentMatch);
