@@ -46,19 +46,32 @@
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl justify-center px-4 pb-10 relative z-10">
-            <!-- 顯示板按鈕 -->
-            <button onclick="launchDisplay()" class="flex-1 group bg-white/95 backdrop-blur-sm border-2 border-slate-200 hover:border-red-500 rounded-3xl p-6 md:p-8 transition-all hover:shadow-[0_10px_30px_rgba(220,38,38,0.25)] flex flex-col items-center">
-                <div class="bg-red-50 p-5 md:p-6 rounded-full mb-4 md:mb-6 group-hover:bg-red-100 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-600 md:w-16 md:h-16"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+            <!-- 顯示板區塊 (包含手動及自動按鈕) -->
+            <div class="flex-1 group bg-white/95 backdrop-blur-sm border-2 border-slate-200 hover:border-red-500 rounded-3xl p-6 transition-all hover:shadow-[0_10px_30px_rgba(220,38,38,0.25)] flex flex-col items-center">
+                <div class="bg-red-50 p-4 rounded-full mb-3 group-hover:bg-red-100 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-600 md:w-12 md:h-12"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
                 </div>
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-2">大螢幕顯示板</h2>
-                <p class="text-slate-500 text-sm md:text-base font-medium">連接投影機或大電視</p>
-            </button>
+                <h2 class="text-2xl font-bold text-slate-800 mb-1">大螢幕顯示板</h2>
+                <p class="text-slate-500 text-sm font-medium mb-4">連接投影機或大電視</p>
+                
+                <div class="flex flex-col sm:flex-row gap-2 w-full mt-auto">
+                    <button onclick="window.location.hash='#display'; window.location.reload();" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl transition-colors text-xs md:text-sm border border-slate-200 shadow-sm">
+                        手動更新版
+                    </button>
+                    <button onclick="window.location.hash='#display-auto'; window.location.reload();" class="flex-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-600 font-bold py-2.5 rounded-xl transition-colors text-xs md:text-sm border border-emerald-200 shadow-sm flex items-center justify-center">
+                        <span class="relative flex h-2 w-2 mr-1.5">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        </span>
+                        自動同步版
+                    </button>
+                </div>
+            </div>
 
             <!-- 單一場地控制按鈕 (免密碼) -->
             <button onclick="openCourtSelectModal()" class="flex-1 group bg-white/95 backdrop-blur-sm border-2 border-slate-200 hover:border-blue-500 rounded-3xl p-6 md:p-8 transition-all hover:shadow-[0_10px_30px_rgba(59,130,246,0.25)] flex flex-col items-center">
-                <div class="bg-blue-50 p-5 md:p-6 rounded-full mb-4 md:mb-6 group-hover:bg-blue-100 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600 md:w-16 md:h-16"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                <div class="bg-blue-50 p-4 md:p-6 rounded-full mb-4 md:mb-6 group-hover:bg-blue-100 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600 md:w-12 md:h-12"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
                 </div>
                 <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-2">各場地獨立控制</h2>
                 <p class="text-slate-500 text-sm md:text-base font-medium">工作人員專用 (免密碼)</p>
@@ -66,8 +79,8 @@
 
             <!-- 總控制面板按鈕 (需密碼) -->
             <button onclick="openLoginModal()" class="flex-1 group bg-white/95 backdrop-blur-sm border-2 border-slate-200 hover:border-slate-800 rounded-3xl p-6 md:p-8 transition-all hover:shadow-[0_10px_30px_rgba(15,23,42,0.25)] flex flex-col items-center">
-                <div class="bg-slate-100 p-5 md:p-6 rounded-full mb-4 md:mb-6 group-hover:bg-slate-200 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-700 md:w-16 md:h-16"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                <div class="bg-slate-100 p-4 md:p-6 rounded-full mb-4 md:mb-6 group-hover:bg-slate-200 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-700 md:w-12 md:h-12"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                 </div>
                 <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-2">大會總控制台</h2>
                 <p class="text-slate-500 text-sm md:text-base font-medium">全域設定及名單 (需密碼)</p>
@@ -104,7 +117,7 @@
                 </button>
             </div>
             <div id="court-select-list" class="flex flex-wrap justify-center items-stretch gap-4 max-h-[60vh] overflow-y-auto p-1">
-                <!-- 由 JS 動態生成 (使用 flexbox 對齊) -->
+                <!-- 由 JS 動態生成 -->
             </div>
         </div>
     </div>
@@ -143,8 +156,8 @@
     <div id="view-display" class="hidden h-screen flex-col overflow-hidden w-full bg-slate-100 relative transition-all duration-500">
         <!-- 頂部 Header -->
         <header class="bg-white/95 backdrop-blur-md border-b-4 border-red-600 py-3 md:py-4 px-8 flex justify-center items-center shadow-sm relative z-10 shrink-0">
-            <!-- 手動更新按鈕 -->
-            <button onclick="fetchCloudState()" class="absolute left-6 md:left-8 flex justify-center items-center p-2.5 md:p-3 text-red-600 bg-red-50 hover:bg-red-100 rounded-xl transition-all border border-red-200 hover:shadow-md" title="手動獲取最新資料">
+            <!-- 獲取更新按鈕 (動態替換為手動/自動狀態) -->
+            <button id="display-fetch-btn" class="absolute left-6 md:left-8 flex justify-center items-center p-2.5 md:p-3 text-red-600 bg-red-50 hover:bg-red-100 rounded-xl transition-all border border-red-200 hover:shadow-md" title="手動獲取最新資料">
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>
             </button>
             
@@ -158,8 +171,8 @@
 
         <!-- 大螢幕主體 -->
         <main class="flex-grow p-3 md:p-5 lg:p-6 flex flex-col overflow-y-auto overflow-x-hidden min-h-0 relative z-10">
-            <!-- 修改為 flex 以完美居中奇數排 -->
-            <div id="courts-grid" class="flex flex-wrap justify-center content-center items-stretch w-full max-w-screen-2xl mx-auto flex-grow h-auto lg:h-full min-h-0 gap-4 md:gap-5">
+            <!-- 🌟 重大更新：由 justify-center content-center 升級為 content-stretch，場地卡將盡情向下填滿整個屏幕 -->
+            <div id="courts-grid" class="flex flex-wrap justify-center content-stretch items-stretch w-full max-w-screen-2xl mx-auto flex-grow h-full min-h-0 gap-4 md:gap-5 pb-2">
                 <!-- 場地內容動態生成 -->
             </div>
         </main>
@@ -224,7 +237,7 @@
         </div>
 
         <div class="p-4 md:p-8 max-w-7xl mx-auto w-full space-y-6 md:space-y-8 relative z-10">
-            <!-- 頂部設定區 (2x2 Grid for better layout) -->
+            <!-- 頂部設定區 -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                 <!-- 1. 賽事名稱設定 -->
                 <div class="bg-white/95 backdrop-blur-sm p-4 md:p-6 rounded-2xl border border-slate-200 shadow-md">
@@ -310,7 +323,6 @@
          ========================================== -->
     <div id="database-modal" class="hidden fixed inset-0 z-[70] flex justify-center items-center bg-black/60 backdrop-blur-sm p-4 md:p-6 opacity-0 transition-opacity duration-300">
         <div class="bg-white border-2 border-slate-300 rounded-3xl shadow-2xl w-full max-w-5xl h-[90vh] flex flex-col overflow-hidden transform scale-95 transition-transform duration-300" id="database-modal-content">
-            <!-- 保持與原本相同 -->
             <div class="bg-slate-50 p-4 md:p-6 flex justify-between items-center border-b border-slate-200 shrink-0">
                 <h3 class="text-xl md:text-2xl font-bold text-slate-800 flex items-center">
                     <svg class="mr-2 text-slate-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
@@ -385,6 +397,7 @@
             // authDomain: "YOUR_PROJECT.firebaseapp.com",
             // projectId: "YOUR_PROJECT",
             // storageBucket: "YOUR_PROJECT.firebasestorage.app"
+			
             apiKey: "AIzaSyDj1RKbD9GBEC6UVWD8Jgcs_9NlVCgltvU",
             authDomain: "taekwondo-backdrop.firebaseapp.com",
             projectId: "taekwondo-backdrop",
@@ -396,6 +409,7 @@
         let db, user;
         let isLocalMode = false;
         let activeSingleCourtId = null; 
+        let autoUpdateInterval = null; // 新增：用作存放自動更新的計時器
 
         let state = {
             eventName: "2026 全港跆拳道錦標賽",
@@ -413,7 +427,7 @@
             backgrounds: { landing: "", display: "", control: "", single: "" } 
         };
 
-        // ★ 核心修復引擎：確保載入舊數據時不會出現 undefined 或 ID 格式不配對
+        // ★ 核心修復引擎
         function sanitizeLoadedState(loadedState) {
             if (!loadedState) return;
             if (!loadedState.prepMatches) {
@@ -425,8 +439,8 @@
             if (loadedState.courts) {
                 loadedState.courts = loadedState.courts.map(c => ({
                     ...c,
-                    id: String(c.id), // 強制將舊有嘅數字 ID 轉換為文字格式，防止空白頁 Bug
-                    name: c.name || `場地 ${c.id}`, // 如果冇名，自動補上「場地 X」
+                    id: String(c.id), 
+                    name: c.name || `場地 ${c.id}`, 
                     history: c.history || []
                 }));
             }
@@ -501,7 +515,6 @@
         // --- 場地選擇 (單一控制) ---
         window.openCourtSelectModal = () => {
             const list = document.getElementById('court-select-list');
-            // 計算選單內每個格仔的闊度
             let btnWidthClass = "w-full sm:w-[calc(50%-0.5rem)] md:w-[calc(33.333%-0.6rem)]";
 
             list.innerHTML = state.courts.map(c => `
@@ -589,7 +602,6 @@
             notifyUnpushedChanges();
         };
 
-        window.launchDisplay = () => { window.location.hash = '#display'; window.location.reload(); };
         window.updateEventName = (value) => { state.eventName = value; renderView(); notifyUnpushedChanges(); };
         window.updatePrepMatchesSoft = (value) => { state.prepMatches = value.split(',').map(s => s.trim()).filter(s => s !== ""); notifyUnpushedChanges(); };
         window.updatePrepMatchesForce = (value) => { state.prepMatches = value.split(',').map(s => s.trim()).filter(s => s !== ""); renderView(); notifyUnpushedChanges(); };
@@ -818,25 +830,37 @@
             }
         }
 
-        window.fetchCloudState = async () => {
+        // 修改 fetchCloudState 以支援自動靜默更新 (防閃爍)
+        window.fetchCloudState = async (silent = false) => {
             if (isLocalMode) {
                 const localData = localStorage.getItem('tkd-local-state');
                 if (localData) {
-                    state = sanitizeLoadedState(JSON.parse(localData));
+                    const newState = sanitizeLoadedState(JSON.parse(localData));
+                    if (silent && JSON.stringify(newState) === JSON.stringify(state)) return; // 無改變時不重新渲染
+                    state = newState;
                 }
-                renderView(); updateCloudStatus(true, '✅ 本機已讀取');
-                setTimeout(() => updateCloudStatus(true, '單機離線模式'), 2000); return;
+                renderView(); 
+                if (!silent) {
+                    updateCloudStatus(true, '✅ 本機已讀取');
+                    setTimeout(() => updateCloudStatus(true, '單機離線模式'), 2000); 
+                }
+                return;
             }
             if (!user || !db) return;
             try {
-                updateCloudStatus(true, '讀取中...');
+                if (!silent) updateCloudStatus(true, '讀取中...');
                 const docRef = window.FirebaseDoc(db, 'taekwondo', 'custom_app_state');
                 const docSnap = await window.FirebaseGetDoc(docRef);
                 if (docSnap.exists()) {
-                    state = sanitizeLoadedState(docSnap.data());
+                    const newState = sanitizeLoadedState(docSnap.data());
+                    if (silent && JSON.stringify(newState) === JSON.stringify(state)) return; // 雲端無改變時不重新渲染
+                    state = newState;
                 }
-                renderView(); updateCloudStatus(true, '已同步 (雲端)');
-            } catch (error) { updateCloudStatus(false, '雲端連線失敗'); }
+                renderView(); 
+                if (!silent) updateCloudStatus(true, '已同步 (雲端)');
+            } catch (error) { 
+                if (!silent) updateCloudStatus(false, '雲端連線失敗'); 
+            }
         };
 
         window.pushCloudState = async () => {
@@ -919,27 +943,70 @@
                 applyBackground('view-single-court', state.backgrounds.single, false);
             }
 
-            if (hash === '#display') {
+            // 自動更新邏輯與顯示板按鈕狀態切換
+            const isAutoUpdate = hash === '#display-auto';
+            if (hash.startsWith('#display')) {
                 hideAllViewsAndShow('view-display');
                 document.getElementById('display-event-name').innerText = state.eventName;
-                renderDisplays();
-            } else if (hash.startsWith('#single-')) {
-                const courtId = hash.replace('#single-', '');
-                activeSingleCourtId = courtId;
-                hideAllViewsAndShow('view-single-court');
-                renderSingleCourt(courtId);
-            } else if (hash === '#control') {
-                if (sessionStorage.getItem('tkd_admin_auth') !== 'true') {
-                    sessionStorage.setItem('tkd_pending_hash', hash);
-                    window.location.hash = ''; window.location.reload(); return;
+                
+                // 動態更改左上角按鈕外觀
+                const displayHeaderBtn = document.getElementById('display-fetch-btn');
+                if (displayHeaderBtn) {
+                    if (isAutoUpdate) {
+                        displayHeaderBtn.onclick = () => { window.location.hash='#display'; window.location.reload(); };
+                        displayHeaderBtn.className = "absolute left-6 md:left-8 flex justify-center items-center p-2 md:p-3 px-4 text-emerald-600 bg-emerald-50 hover:bg-emerald-100 rounded-xl transition-all border border-emerald-200 hover:shadow-md font-bold text-sm shadow-sm";
+                        displayHeaderBtn.title = "自動同步中 (點擊切換為手動)";
+                        displayHeaderBtn.innerHTML = `
+                            <span class="relative flex h-2.5 w-2.5 mr-2">
+                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                            </span>
+                            <span class="hidden md:inline">自動同步中</span>
+                        `;
+                    } else {
+                        displayHeaderBtn.onclick = () => fetchCloudState(false);
+                        displayHeaderBtn.className = "absolute left-6 md:left-8 flex justify-center items-center p-2.5 md:p-3 text-red-600 bg-red-50 hover:bg-red-100 rounded-xl transition-all border border-red-200 hover:shadow-md";
+                        displayHeaderBtn.title = "手動獲取最新資料";
+                        displayHeaderBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>`;
+                    }
                 }
-                hideAllViewsAndShow('view-control');
-                document.getElementById('input-event-name').value = state.eventName;
-                const prepInput = document.getElementById('input-prep-matches');
-                if (prepInput && document.activeElement !== prepInput) prepInput.value = (state.prepMatches || []).join(', ');
-                initControlPanelCourts();
+
+                renderDisplays();
+
+                // 啟動或關閉定時器
+                if (isAutoUpdate) {
+                    if (!autoUpdateInterval) {
+                        autoUpdateInterval = setInterval(() => { fetchCloudState(true); }, 3000);
+                    }
+                } else {
+                    if (autoUpdateInterval) { clearInterval(autoUpdateInterval); autoUpdateInterval = null; }
+                }
+
             } else {
-                hideAllViewsAndShow('view-landing');
+                // 如果離開大螢幕畫面，必須關閉自動更新定時器
+                if (autoUpdateInterval) { clearInterval(autoUpdateInterval); autoUpdateInterval = null; }
+
+                if (hash.startsWith('#single-')) {
+                    const courtId = hash.replace('#single-', '');
+                    activeSingleCourtId = courtId;
+                    hideAllViewsAndShow('view-single-court');
+                    renderSingleCourt(courtId);
+                } else if (hash === '#control') {
+                    if (sessionStorage.getItem('tkd_admin_auth') !== 'true') {
+                        sessionStorage.setItem('tkd_pending_hash', hash);
+                        window.location.hash = ''; window.location.reload(); return;
+                    }
+                    hideAllViewsAndShow('view-control');
+                    document.getElementById('input-event-name').value = state.eventName;
+                    const prepInput = document.getElementById('input-prep-matches');
+                    if (prepInput && document.activeElement !== prepInput) prepInput.value = (state.prepMatches || []).join(', ');
+                    initControlPanelCourts();
+                } else {
+                    hideAllViewsAndShow('view-landing');
+                    if (sessionStorage.getItem('tkd_pending_hash')) {
+                        window.openLoginModal();
+                    }
+                }
             }
         }
 
@@ -1005,12 +1072,12 @@
             `;
         }
 
-        // ★ 核心升級：Flexbox 智能排版系統 ★
+        // ★ 核心升級：Flexbox 智能排版系統 + content-stretch 填滿高度 ★
         function renderDisplays() {
             const grid = document.getElementById('courts-grid');
             const count = state.courts.length;
             
-            grid.className = `flex flex-wrap justify-center content-center items-stretch w-full max-w-screen-2xl mx-auto flex-grow h-auto lg:h-full min-h-0 gap-4 md:gap-5`;
+            grid.className = `flex flex-wrap justify-center content-stretch items-stretch w-full max-w-screen-2xl mx-auto flex-grow h-full min-h-0 gap-4 md:gap-5 pb-2 pt-2`;
 
             grid.innerHTML = state.courts.map((court, index) => {
                 const currentData = getMatchData(court.currentMatch);
