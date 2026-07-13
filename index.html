@@ -6,8 +6,8 @@
     <title>跆拳道比賽大螢幕</title>
     <!-- 引入 Tailwind CSS 並啟用 container-queries 智能適應插件 -->
     <script src="https://cdn.tailwindcss.com?plugins=container-queries"></script>
-    <style>	
-		::-webkit-scrollbar { width: 8px; }
+    <style>
+        ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
@@ -162,40 +162,40 @@
          VIEW 2: 大螢幕顯示板 (Display Page)
          ========================================== -->
     <div id="view-display" class="hidden h-screen flex-col overflow-hidden w-full bg-slate-100 relative transition-all duration-500">
-        <!-- 頂部 Header：升級為 Flexbox 三分排版 -->
-        <header class="bg-white/95 backdrop-blur-md border-b-4 border-red-600 py-3 md:py-4 px-6 md:px-10 flex justify-between items-center shadow-sm relative z-10 shrink-0 min-h-[4.5rem]">
+        <!-- 頂部 Header：升級為 Flexbox 三分排版 (手機下按鈕縮小50%) -->
+        <header class="bg-white/95 backdrop-blur-md border-b-4 border-red-600 py-2 md:py-4 px-4 md:px-10 flex justify-between items-center shadow-sm relative z-10 shrink-0 min-h-[3.5rem] md:min-h-[4.5rem]">
             
-            <!-- 左邊：更新按鈕區 (移除 absolute，避免移位) -->
+            <!-- 左邊：更新按鈕區 (手機下變小、Padding減半) -->
             <div class="flex-1 flex justify-start items-center">
-                <button id="display-fetch-btn" class="flex justify-center items-center p-2.5 md:p-3 text-red-600 bg-red-50 hover:bg-red-100 rounded-xl transition-all border border-red-200 hover:shadow-md" title="手動獲取最新資料">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>
+                <button id="display-fetch-btn" class="flex justify-center items-center p-1 md:p-3 text-red-600 bg-red-50 hover:bg-red-100 rounded-xl transition-all border border-red-200 hover:shadow-md" title="手動獲取最新資料">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 md:w-[22px] md:h-[22px]"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>
                 </button>
             </div>
             
             <!-- 中間：賽事標題區 (最多雙行，過長自動縮小) -->
-            <div class="flex-[4] flex justify-center items-center px-2 md:px-6 w-full h-full" style="container-type: inline-size;">
+            <div class="flex-[4] flex justify-center items-center px-1 md:px-6 w-full h-full" style="container-type: inline-size;">
                 <h1 id="display-event-name" class="text-[length:clamp(1.1rem,max(2vw,4cqw),3rem)] font-black tracking-widest text-slate-900 uppercase text-center line-clamp-2 leading-tight drop-shadow-sm" style="word-break: keep-all;">
                     載入中...
                 </h1>
             </div>
 
-            <!-- 右邊：全螢幕按鈕區 -->
+            <!-- 右邊：全螢幕按鈕區 (🌟 手機版完美隱藏 hidden md:inline-flex) -->
             <div class="flex-1 flex justify-end items-center">
-                <button onclick="toggleFullScreen()" class="p-2 md:p-3 text-slate-400 hover:text-slate-800 hover:bg-slate-100 rounded-full transition-all" title="全螢幕">
+                <button onclick="toggleFullScreen()" class="hidden md:inline-flex p-2 md:p-3 text-slate-400 hover:text-slate-800 hover:bg-slate-100 rounded-full transition-all" title="全螢幕">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="md:w-7 md:h-7"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
                 </button>
             </div>
         </header>
 
-		<!-- 大螢幕主體 -->
+        <!-- 大螢幕主體 -->
         <main class="flex-grow p-3 md:p-5 lg:p-6 flex flex-col overflow-y-auto overflow-x-hidden min-h-0 relative z-10">
-            <!-- 🌟 重大更新：由 justify-center content-center 升級為 content-stretch，場地卡將盡情向下填滿整個屏幕 -->
+            <!-- 場地卡將盡情向下填滿整個屏幕 -->
             <div id="courts-grid" class="flex flex-wrap justify-center content-stretch items-stretch w-full max-w-screen-2xl mx-auto flex-grow h-full min-h-0 gap-4 md:gap-5 pb-2 pt-2">
                 <!-- 場地內容動態生成 -->
             </div>
         </main>
 
-        <!-- 底部準備召集 (改良版：手機橫向滑動，電腦多行顯示) -->
+        <!-- 底部準備召集 (手機橫向滑動，電腦多行顯示) -->
         <div class="bg-white/95 backdrop-blur-md border-t-4 border-slate-900 p-3 md:p-4 shadow-[0_-5px_20px_rgba(0,0,0,0.1)] z-10 flex flex-col md:flex-row items-center justify-center gap-3 md:gap-6 shrink-0 relative w-full overflow-hidden">
             <div class="flex items-center shrink-0">
                 <span class="text-[clamp(1.25rem,2.5vmin,2rem)] font-black text-slate-800 tracking-widest flex items-center">
@@ -204,7 +204,6 @@
                 </span>
             </div>
             
-            <!-- 容器改為手機橫向捲動 (overflow-x-auto, whitespace-nowrap)，大螢幕自動換行 (md:flex-wrap) -->
             <div class="w-full md:w-auto overflow-x-auto overflow-y-hidden pb-1 md:pb-0 scrollbar-hide">
                 <div id="banner-numbers" class="flex md:flex-wrap justify-start md:justify-center gap-2 md:gap-4 w-max md:w-auto px-1 md:px-0 mx-auto">
                     <!-- 準備場次數字動態生成 -->
@@ -409,17 +408,14 @@
          SYSTEM LOGIC & OFFLINE / CLOUD SYNC
          ========================================== -->
     <script>
-        // ==========================================
-        // 🚀 用戶設定區
-        // ==========================================
-        const ADMIN_PASSWORD = "admin"; // <--- 💡 總控制台登入密碼！
+        const ADMIN_PASSWORD = "admin"; 
 
         const myFirebaseConfig = {
             // apiKey: "YOUR_API_KEY",
             // authDomain: "YOUR_PROJECT.firebaseapp.com",
             // projectId: "YOUR_PROJECT",
             // storageBucket: "YOUR_PROJECT.firebasestorage.app"
-		
+
             apiKey: "AIzaSyDj1RKbD9GBEC6UVWD8Jgcs_9NlVCgltvU",
             authDomain: "taekwondo-backdrop.firebaseapp.com",
             projectId: "taekwondo-backdrop",
@@ -431,7 +427,7 @@
         let db, user;
         let isLocalMode = false;
         let activeSingleCourtId = null; 
-        let autoUpdateInterval = null; // 新增：用作存放自動更新的計時器
+        let autoUpdateInterval = null; 
 
         let state = {
             eventName: "2026 全港跆拳道錦標賽",
@@ -449,7 +445,6 @@
             backgrounds: { landing: "", display: "", control: "", single: "" } 
         };
 
-        // ★ 核心修復引擎
         function sanitizeLoadedState(loadedState) {
             if (!loadedState) return;
             if (!loadedState.prepMatches) {
@@ -499,7 +494,6 @@
             else { alert("最少要保留一個場地！"); }
         };
 
-        // --- 登入控制 ---
         window.openLoginModal = () => {
             const modal = document.getElementById('login-modal');
             modal.classList.remove('hidden');
@@ -534,7 +528,6 @@
             }
         };
 
-        // --- 場地選擇 (單一控制) ---
         window.openCourtSelectModal = () => {
             const list = document.getElementById('court-select-list');
             let btnWidthClass = "w-full sm:w-[calc(50%-0.5rem)] md:w-[calc(33.333%-0.6rem)]";
@@ -560,7 +553,6 @@
             setTimeout(() => { modal.classList.add('hidden'); }, 300);
         };
 
-        // --- 背景設定 Modal 邏輯 ---
         window.openBackgroundModal = () => {
             if (!state.backgrounds) state.backgrounds = { landing: "", display: "", control: "", single: "" };
             window.renderBackgroundSettings();
@@ -610,18 +602,13 @@
             const inputVal = document.getElementById(`bg-input-${pageKey}`).value.trim();
             if (!state.backgrounds) state.backgrounds = { landing: "", display: "", control: "", single: "" };
             state.backgrounds[pageKey] = inputVal;
-            
-            renderView();
-            window.renderBackgroundSettings();
-            notifyUnpushedChanges();
+            renderView(); window.renderBackgroundSettings(); notifyUnpushedChanges();
         };
 
         window.removeBackground = (pageKey) => {
             if (!state.backgrounds) return;
             state.backgrounds[pageKey] = "";
-            renderView();
-            window.renderBackgroundSettings();
-            notifyUnpushedChanges();
+            renderView(); window.renderBackgroundSettings(); notifyUnpushedChanges();
         };
 
         window.updateEventName = (value) => { state.eventName = value; renderView(); notifyUnpushedChanges(); };
@@ -646,7 +633,6 @@
             if (court) {
                 if (!court.history) court.history = [];
                 court.history.push({ currentMatch: court.currentMatch, nextMatch: court.nextMatch });
-
                 court.currentMatch = val;
                 let currentList = court.nextMatch ? court.nextMatch.split(',').map(s=>s.trim()).filter(s=>s!=="") : [];
                 court.nextMatch = currentList.filter(m => m !== val).join(', ');
@@ -734,17 +720,13 @@
         window.openDatabaseManager = () => {
             window.renderDatabaseList();
             const modal = document.getElementById('database-modal');
-            modal.classList.remove('hidden');
-            void modal.offsetWidth;
-            modal.classList.remove('opacity-0');
+            modal.classList.remove('hidden'); void modal.offsetWidth; modal.classList.remove('opacity-0');
             document.getElementById('database-modal-content').classList.remove('scale-95');
         };
         window.closeDatabaseManager = () => {
             const modal = document.getElementById('database-modal');
-            modal.classList.add('opacity-0');
-            document.getElementById('database-modal-content').classList.add('scale-95');
-            setTimeout(() => { modal.classList.add('hidden'); }, 300);
-            window.resetMatchForm();
+            modal.classList.add('opacity-0'); document.getElementById('database-modal-content').classList.add('scale-95');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300); window.resetMatchForm();
         };
         window.renderDatabaseList = () => {
             const tbody = document.getElementById('db-match-list');
@@ -772,7 +754,6 @@
             if (!idInput) { alert("請輸入場次號碼！"); return; }
             if (!state.matchDatabase) state.matchDatabase = {};
             if (editingMatchId && editingMatchId !== idInput) delete state.matchDatabase[editingMatchId];
-            
             state.matchDatabase[idInput] = {
                 content: document.getElementById('db-match-content').value.trim() || "待定",
                 players: document.getElementById('db-match-players').value.split(',').map(s=>s.trim()).filter(s=>s!=="")
@@ -780,14 +761,10 @@
             window.resetMatchForm(); window.renderDatabaseList(); renderView(); notifyUnpushedChanges();
         };
         window.editMatchData = (id) => {
-            const data = state.matchDatabase[id];
-            if (!data) return;
-            document.getElementById('db-match-id').value = id;
-            document.getElementById('db-match-content').value = data.content;
+            const data = state.matchDatabase[id]; if (!data) return;
+            document.getElementById('db-match-id').value = id; document.getElementById('db-match-content').value = data.content;
             document.getElementById('db-match-players').value = (data.players || []).join(', ');
-            editingMatchId = id;
-            document.getElementById('db-form-title').innerText = `編輯場次: ${id}`;
-            document.getElementById('db-save-btn').innerText = "儲存修改";
+            editingMatchId = id; document.getElementById('db-form-title').innerText = `編輯場次: ${id}`; document.getElementById('db-save-btn').innerText = "儲存修改";
         };
         window.deleteMatchData = (id) => {
             if (confirm(`確定要刪除場次 ${id} 嗎？`)) {
@@ -799,8 +776,7 @@
             editingMatchId = null; document.getElementById('db-form-title').innerText = "新增場次"; document.getElementById('db-save-btn').innerText = "儲存";
         };
         window.handleCSVUpload = (event) => {
-            const file = event.target.files[0];
-            if (!file) return;
+            const file = event.target.files[0]; if (!file) return;
             const reader = new FileReader();
             reader.onload = (e) => {
                 const lines = e.target.result.split('\n'); let count = 0;
@@ -811,8 +787,7 @@
                     }
                 }
                 if (count > 0) {
-                    renderView();
-                    if (!document.getElementById('database-modal').classList.contains('hidden')) window.renderDatabaseList();
+                    renderView(); if (!document.getElementById('database-modal').classList.contains('hidden')) window.renderDatabaseList();
                     notifyUnpushedChanges(); alert(`✅ 成功匯入 ${count} 場賽事資料！請記得推播更新。`);
                 } else alert("⚠️ 匯入失敗：格式不正確。");
                 event.target.value = ''; 
@@ -825,79 +800,60 @@
             else if (document.exitFullscreen) document.exitFullscreen();
         };
 
-        // --- Firebase / Offline ---
         async function initSystem() {
             try {
                 if (!navigator.onLine || !myFirebaseConfig.apiKey) throw new Error("Offline or No Firebase Config");
                 const { initializeApp } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js");
                 const { getAuth, signInAnonymously, onAuthStateChanged } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js");
                 const { getFirestore, doc, setDoc, getDoc } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
-                const app = initializeApp(myFirebaseConfig);
-                const auth = getAuth(app);
-                db = getFirestore(app);
+                const app = initializeApp(myFirebaseConfig); const auth = getAuth(app); db = getFirestore(app);
                 await signInAnonymously(auth);
                 onAuthStateChanged(auth, (u) => { 
-                    user = u; 
-                    if (user) { window.FirebaseSetDoc = setDoc; window.FirebaseGetDoc = getDoc; window.FirebaseDoc = doc; window.fetchCloudState(); }
+                    user = u; if (user) { window.FirebaseSetDoc = setDoc; window.FirebaseGetDoc = getDoc; window.FirebaseDoc = doc; window.fetchCloudState(); }
                 });
             } catch (error) {
                 console.warn("無法連接雲端，自動切換至「本機單機模式」", error);
-                isLocalMode = true;
-                const localData = localStorage.getItem('tkd-local-state');
-                if (localData) {
-                    state = sanitizeLoadedState(JSON.parse(localData));
-                }
-                renderView();
-                updateCloudStatus(true, '單機離線模式');
+                isLocalMode = true; const localData = localStorage.getItem('tkd-local-state');
+                if (localData) { state = sanitizeLoadedState(JSON.parse(localData)); }
+                renderView(); updateCloudStatus(true, '單機離線模式');
             }
         }
 
-        // 修改 fetchCloudState 以支援自動靜默更新 (防閃爍)
         window.fetchCloudState = async (silent = false) => {
             if (isLocalMode) {
                 const localData = localStorage.getItem('tkd-local-state');
                 if (localData) {
                     const newState = sanitizeLoadedState(JSON.parse(localData));
-                    if (silent && JSON.stringify(newState) === JSON.stringify(state)) return; // 無改變時不重新渲染
+                    if (silent && JSON.stringify(newState) === JSON.stringify(state)) return;
                     state = newState;
                 }
                 renderView(); 
-                if (!silent) {
-                    updateCloudStatus(true, '✅ 本機已讀取');
-                    setTimeout(() => updateCloudStatus(true, '單機離線模式'), 2000); 
-                }
+                if (!silent) { updateCloudStatus(true, '✅ 本機已讀取'); setTimeout(() => updateCloudStatus(true, '單機離線模式'), 2000); }
                 return;
             }
             if (!user || !db) return;
             try {
                 if (!silent) updateCloudStatus(true, '讀取中...');
-                const docRef = window.FirebaseDoc(db, 'taekwondo', 'custom_app_state');
-                const docSnap = await window.FirebaseGetDoc(docRef);
+                const docRef = window.FirebaseDoc(db, 'taekwondo', 'custom_app_state'); const docSnap = await window.FirebaseGetDoc(docRef);
                 if (docSnap.exists()) {
                     const newState = sanitizeLoadedState(docSnap.data());
-                    if (silent && JSON.stringify(newState) === JSON.stringify(state)) return; // 雲端無改變時不重新渲染
+                    if (silent && JSON.stringify(newState) === JSON.stringify(state)) return;
                     state = newState;
                 }
-                renderView(); 
-                if (!silent) updateCloudStatus(true, '已同步 (雲端)');
-            } catch (error) { 
-                if (!silent) updateCloudStatus(false, '雲端連線失敗'); 
-            }
+                renderView(); if (!silent) updateCloudStatus(true, '已同步 (雲端)');
+            } catch (error) { if (!silent) updateCloudStatus(false, '雲端連線失敗'); }
         };
 
         window.pushCloudState = async () => {
             if (isLocalMode) {
                 localStorage.setItem('tkd-local-state', JSON.stringify(state));
-                updateCloudStatus(true, '✅ 本機已儲存');
-                setTimeout(() => updateCloudStatus(true, '單機離線模式'), 2000); return;
+                updateCloudStatus(true, '✅ 本機已儲存'); setTimeout(() => updateCloudStatus(true, '單機離線模式'), 2000); return;
             }
             if (!user || !db) return;
             try { 
                 updateCloudStatus(true, '寫入中...');
-                const docRef = window.FirebaseDoc(db, 'taekwondo', 'custom_app_state');
-                await window.FirebaseSetDoc(docRef, state); 
-                updateCloudStatus(true, '✅ 已成功推播');
-                setTimeout(() => updateCloudStatus(true, '已同步 (雲端)'), 3000);
+                const docRef = window.FirebaseDoc(db, 'taekwondo', 'custom_app_state'); await window.FirebaseSetDoc(docRef, state); 
+                updateCloudStatus(true, '✅ 已成功推播'); setTimeout(() => updateCloudStatus(true, '已同步 (雲端)'), 3000);
             } catch (error) { updateCloudStatus(false, '推播失敗'); }
         };
 
@@ -919,191 +875,117 @@
             });
         }
 
-        // --- 背景樣式應用函數 ---
         const applyBackground = (elementId, bgBase64, isDarker = false) => {
-            const el = document.getElementById(elementId);
-            if (!el) return;
-            
+            const el = document.getElementById(elementId); if (!el) return;
             if (bgBase64) {
-                el.style.backgroundImage = `url(${bgBase64})`;
-                el.style.backgroundSize = 'cover';
-                el.style.backgroundPosition = 'center';
-                el.style.backgroundAttachment = 'fixed';
-                
-                if (isDarker) {
-                    el.classList.add('bg-overlay-dark');
-                    el.classList.remove('bg-overlay');
-                } else {
-                    el.classList.add('bg-overlay');
-                    el.classList.remove('bg-overlay-dark');
-                }
-            } else {
-                el.style.backgroundImage = 'none';
-                el.classList.remove('bg-overlay');
-                el.classList.remove('bg-overlay-dark');
-            }
+                el.style.backgroundImage = `url(${bgBase64})`; el.style.backgroundSize = 'cover'; el.style.backgroundPosition = 'center'; el.style.backgroundAttachment = 'fixed';
+                if (isDarker) { el.classList.add('bg-overlay-dark'); el.classList.remove('bg-overlay'); } 
+                else { el.classList.add('bg-overlay'); el.classList.remove('bg-overlay-dark'); }
+            } else { el.style.backgroundImage = 'none'; el.classList.remove('bg-overlay'); el.classList.remove('bg-overlay-dark'); }
         };
 
-        // --- 渲染 ---
         function hideAllViewsAndShow(viewId) {
             const views = ['view-landing', 'view-display', 'view-control', 'view-single-court'];
-            views.forEach(id => {
-                const el = document.getElementById(id);
-                if (el) { el.classList.remove('flex'); el.classList.add('hidden'); }
-            });
-            const target = document.getElementById(viewId);
-            if (target) { target.classList.remove('hidden'); target.classList.add('flex'); }
+            views.forEach(id => { const el = document.getElementById(id); if (el) { el.classList.remove('flex'); el.classList.add('hidden'); } });
+            const target = document.getElementById(viewId); if (target) { target.classList.remove('hidden'); target.classList.add('flex'); }
         }
 
         function renderView() {
             const hash = window.location.hash;
-            
             if(state.backgrounds) {
-                applyBackground('view-landing', state.backgrounds.landing, true); 
-                applyBackground('view-display', state.backgrounds.display, false);
-                applyBackground('view-control', state.backgrounds.control, false);
-                applyBackground('view-single-court', state.backgrounds.single, false);
+                applyBackground('view-landing', state.backgrounds.landing, true); applyBackground('view-display', state.backgrounds.display, false);
+                applyBackground('view-control', state.backgrounds.control, false); applyBackground('view-single-court', state.backgrounds.single, false);
             }
 
-            // 自動更新邏輯與顯示板按鈕狀態切換
             const isAutoUpdate = hash === '#display-auto';
             if (hash.startsWith('#display')) {
-                hideAllViewsAndShow('view-display');
-                document.getElementById('display-event-name').innerText = state.eventName;
+                hideAllViewsAndShow('view-display'); document.getElementById('display-event-name').innerText = state.eventName;
                 
-                // 動態更改左上角按鈕外觀 (移除 absolute positioning, 配合 Grid 佈局)
                 const displayHeaderBtn = document.getElementById('display-fetch-btn');
                 if (displayHeaderBtn) {
                     if (isAutoUpdate) {
                         displayHeaderBtn.onclick = () => { window.location.hash='#display'; window.location.reload(); };
-                        displayHeaderBtn.className = "flex justify-center items-center p-2 md:p-3 px-4 text-emerald-600 bg-emerald-50 hover:bg-emerald-100 rounded-xl transition-all border border-emerald-200 hover:shadow-md font-bold text-sm shadow-sm";
+                        displayHeaderBtn.className = "flex justify-center items-center p-1 md:p-3 text-emerald-600 bg-emerald-50 hover:bg-emerald-100 rounded-xl transition-all border border-emerald-200 hover:shadow-md font-bold text-[9px] md:text-sm shadow-sm";
                         displayHeaderBtn.title = "自動同步中 (點擊切換為手動)";
                         displayHeaderBtn.innerHTML = `
-                            <span class="relative flex h-2.5 w-2.5 mr-2">
+                            <span class="relative flex h-1.5 w-1.5 md:h-2.5 md:w-2.5 mr-1 md:mr-2">
                               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                              <span class="relative inline-flex rounded-full h-1.5 w-1.5 md:h-2.5 md:w-2.5 bg-emerald-500"></span>
                             </span>
-                            <span class="hidden md:inline whitespace-nowrap">自動同步中</span>
+                            <span class="hidden md:inline">自動同步中</span>
                         `;
                     } else {
                         displayHeaderBtn.onclick = () => fetchCloudState(false);
-                        displayHeaderBtn.className = "flex justify-center items-center p-2.5 md:p-3 text-red-600 bg-red-50 hover:bg-red-100 rounded-xl transition-all border border-red-200 hover:shadow-md";
+                        displayHeaderBtn.className = "flex justify-center items-center p-1 md:p-3 text-red-600 bg-red-50 hover:bg-red-100 rounded-xl transition-all border border-red-200 hover:shadow-md shadow-sm";
                         displayHeaderBtn.title = "手動獲取最新資料";
-                        displayHeaderBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>`;
+                        // 🌟 已移除這裡結尾的 "测试" 兩字
+                        displayHeaderBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3 md:w-[22px] md:h-[22px]"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>`;
                     }
                 }
 
                 renderDisplays();
-
-                // 啟動或關閉定時器
-                if (isAutoUpdate) {
-                    if (!autoUpdateInterval) {
-                        autoUpdateInterval = setInterval(() => { fetchCloudState(true); }, 3000);
-                    }
-                } else {
-                    if (autoUpdateInterval) { clearInterval(autoUpdateInterval); autoUpdateInterval = null; }
-                }
-
+                if (isAutoUpdate) { if (!autoUpdateInterval) { autoUpdateInterval = setInterval(() => { fetchCloudState(true); }, 3000); } } 
+                else { if (autoUpdateInterval) { clearInterval(autoUpdateInterval); autoUpdateInterval = null; } }
             } else {
-                // 如果離開大螢幕畫面，必須關閉自動更新定時器
                 if (autoUpdateInterval) { clearInterval(autoUpdateInterval); autoUpdateInterval = null; }
-
                 if (hash.startsWith('#single-')) {
-                    const courtId = hash.replace('#single-', '');
-                    activeSingleCourtId = courtId;
-                    hideAllViewsAndShow('view-single-court');
-                    renderSingleCourt(courtId);
+                    const courtId = hash.replace('#single-', ''); activeSingleCourtId = courtId;
+                    hideAllViewsAndShow('view-single-court'); renderSingleCourt(courtId);
                 } else if (hash === '#control') {
-                    if (sessionStorage.getItem('tkd_admin_auth') !== 'true') {
-                        sessionStorage.setItem('tkd_pending_hash', hash);
-                        window.location.hash = ''; window.location.reload(); return;
-                    }
-                    hideAllViewsAndShow('view-control');
-                    document.getElementById('input-event-name').value = state.eventName;
-                    const prepInput = document.getElementById('input-prep-matches');
-                    if (prepInput && document.activeElement !== prepInput) prepInput.value = (state.prepMatches || []).join(', ');
+                    if (sessionStorage.getItem('tkd_admin_auth') !== 'true') { sessionStorage.setItem('tkd_pending_hash', hash); window.location.hash = ''; window.location.reload(); return; }
+                    hideAllViewsAndShow('view-control'); document.getElementById('input-event-name').value = state.eventName;
+                    const prepInput = document.getElementById('input-prep-matches'); if (prepInput && document.activeElement !== prepInput) prepInput.value = (state.prepMatches || []).join(', ');
                     initControlPanelCourts();
                 } else {
-                    hideAllViewsAndShow('view-landing');
-                    if (sessionStorage.getItem('tkd_pending_hash')) {
-                        window.openLoginModal();
-                    }
+                    hideAllViewsAndShow('view-landing'); if (sessionStorage.getItem('tkd_pending_hash')) { window.openLoginModal(); }
                 }
             }
         }
 
         function renderSingleCourt(courtId) {
-            const court = state.courts.find(c => String(c.id) === String(courtId));
-            if (!court) { window.location.hash = ''; window.location.reload(); return; }
-
-            const container = document.getElementById('single-court-container');
-            const currentData = getMatchData(court.currentMatch);
-            const currentContent = currentData ? currentData.content : "無賽事資料";
-
-            const prepList = state.prepMatches || [];
-            let optionsHtml = `<option value="">+ 從召集名單 ▾</option>`;
-            prepList.forEach(m => { optionsHtml += `<option value="${m}">加入場次 ${m}</option>`; });
-
-            let courtPrepList = court.nextMatch ? court.nextMatch.split(',').map(s=>s.trim()).filter(s=>s!=="") : [];
-            let promoteHtml = `<option value="">下一場 ▾</option>`;
-            courtPrepList.forEach(m => { promoteHtml += `<option value="${m}">開始場次 ${m}</option>`; });
-
-            const currInputEl = document.getElementById(`single-current`);
-            const nextInputEl = document.getElementById(`single-next`);
-            const currVal = (currInputEl && document.activeElement === currInputEl) ? currInputEl.value : court.currentMatch;
-            const nextVal = (nextInputEl && document.activeElement === nextInputEl) ? nextInputEl.value : (court.nextMatch || '');
+            const court = state.courts.find(c => String(c.id) === String(courtId)); if (!court) { window.location.hash = ''; window.location.reload(); return; }
+            const container = document.getElementById('single-court-container'); const currentData = getMatchData(court.currentMatch); const currentContent = currentData ? currentData.content : "無賽事資料";
+            const prepList = state.prepMatches || []; let optionsHtml = `<option value="">+ 從召集名單 ▾</option>`; prepList.forEach(m => { optionsHtml += `<option value="${m}">加入場次 ${m}</option>`; });
+            let courtPrepList = court.nextMatch ? court.nextMatch.split(',').map(s=>s.trim()).filter(s=>s!=="") : []; let promoteHtml = `<option value="">下一場 ▾</option>`; courtPrepList.forEach(m => { promoteHtml += `<option value="${m}">開始場次 ${m}</option>`; });
+            const currInputEl = document.getElementById(`single-current`); const nextInputEl = document.getElementById(`single-next`);
+            const currVal = (currInputEl && document.activeElement === currInputEl) ? currInputEl.value : court.currentMatch; const nextVal = (nextInputEl && document.activeElement === nextInputEl) ? nextInputEl.value : (court.nextMatch || '');
 
             container.innerHTML = `
                 <div class="bg-white/95 backdrop-blur-md p-6 md:p-10 rounded-3xl border border-slate-200 shadow-xl flex flex-col max-w-2xl mx-auto w-full">
                     <div class="flex justify-between items-center mb-6 pb-6 border-b border-slate-100">
-                        <div class="flex items-center">
-                            <span class="text-3xl md:text-4xl font-black text-slate-800">${court.name}</span>
-                        </div>
-                        <select onchange="promoteToCurrent('${court.id}', this.value)" class="flex items-center text-sm md:text-lg font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 px-4 py-2 md:px-5 md:py-3 rounded-xl transition-colors shadow-sm cursor-pointer focus:outline-none border border-slate-200">
-                            ${promoteHtml}
-                        </select>
+                        <div class="flex items-center"><span class="text-3xl md:text-4xl font-black text-slate-800">${court.name}</span></div>
+                        <select onchange="promoteToCurrent('${court.id}', this.value)" class="flex items-center text-sm md:text-lg font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 px-4 py-2 md:px-5 md:py-3 rounded-xl transition-colors shadow-sm cursor-pointer focus:outline-none border border-slate-200">${promoteHtml}</select>
                     </div>
-
                     <div class="space-y-8">
                         <div>
                             <label class="block text-sm font-bold text-slate-500 mb-2 tracking-widest uppercase">現正進行</label>
                             <input id="single-current" type="text" value="${currVal}" oninput="updateCourtSoft('${court.id}', 'currentMatch', this.value)" onblur="renderView()" class="w-full bg-slate-50 border border-slate-300 rounded-2xl p-4 md:p-6 text-slate-900 font-black text-5xl md:text-7xl text-center focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all shadow-inner">
                             <div class="mt-3 text-center text-red-600 font-bold text-lg md:text-2xl">${currentContent}</div>
                         </div>
-
                         <div>
                             <label class="block text-sm font-bold text-red-600 mb-2 tracking-widest uppercase">準備場次</label>
                             <div class="flex flex-col sm:flex-row gap-3">
                                 <input id="single-next" type="text" value="${nextVal}" oninput="updateCourtSoft('${court.id}', 'nextMatch', this.value)" onblur="renderView()" class="w-full sm:w-2/3 bg-slate-50 border border-slate-300 rounded-xl p-3 md:p-5 text-slate-800 font-bold text-xl md:text-3xl text-center focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all shadow-inner" placeholder="用逗號分隔">
-                                <select onchange="assignNextMatch('${court.id}', this.value)" class="w-full sm:w-1/3 bg-white border border-slate-300 rounded-xl p-3 md:p-4 text-red-600 font-bold text-base md:text-lg text-center cursor-pointer hover:bg-slate-50 transition-colors focus:outline-none shadow-sm">
-                                    ${optionsHtml}
-                                </select>
+                                <select onchange="assignNextMatch('${court.id}', this.value)" class="w-full sm:w-1/3 bg-white border border-slate-300 rounded-xl p-3 md:p-4 text-red-600 font-bold text-base md:text-lg text-center cursor-pointer hover:bg-slate-50 transition-colors focus:outline-none shadow-sm">${optionsHtml}</select>
                             </div>
                         </div>
                     </div>
-
                     <div class="flex flex-col-reverse md:flex-row gap-3 mt-8 pt-6 border-t border-slate-100">
                         <button onclick="undoMatch('${court.id}')" class="flex-1 flex justify-center items-center font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 px-4 py-4 rounded-xl transition-colors border border-slate-300 text-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg> 還原
                         </button>
-                        <button onclick="advanceMatch('${court.id}')" class="flex-[2] flex justify-center items-center font-bold bg-red-600 text-white hover:bg-red-700 px-4 py-4 rounded-xl transition-colors shadow-md text-lg md:text-2xl">
-                            完結並下一場 ▷▷
-                        </button>
+                        <button onclick="advanceMatch('${court.id}')" class="flex-[2] flex justify-center items-center font-bold bg-red-600 text-white hover:bg-red-700 px-4 py-4 rounded-xl transition-colors shadow-md text-lg md:text-2xl">完結並下一場 ▷▷</button>
                     </div>
                 </div>
             `;
         }
 
-        // ★ 核心升級：Flexbox 智能排版系統 + content-stretch 填滿高度 ★
         function renderDisplays() {
-            const grid = document.getElementById('courts-grid');
-            const count = state.courts.length;
-            
+            const grid = document.getElementById('courts-grid'); const count = state.courts.length;
             grid.className = `flex flex-wrap justify-center content-stretch items-stretch w-full max-w-screen-2xl mx-auto flex-grow h-full min-h-0 gap-4 md:gap-5 pb-2 pt-2`;
 
             grid.innerHTML = state.courts.map((court, index) => {
-                const currentData = getMatchData(court.currentMatch);
-                const currentContent = currentData ? currentData.content : "無賽事資料";
+                const currentData = getMatchData(court.currentMatch); const currentContent = currentData ? currentData.content : "無賽事資料";
                 const nextMatchText = (court.nextMatch && court.nextMatch.trim() !== "") ? court.nextMatch : "無";
 
                 let flexBasis = "w-full";
@@ -1121,29 +1003,21 @@
                             ${court.name}
                             <span class="ml-3 bg-red-400 text-white text-[clamp(0.6rem,1.5vmin,0.85rem)] px-2 md:px-3 py-0.5 md:py-1 rounded-full font-bold animate-pulse shadow-sm whitespace-nowrap">現正進行</span>
                         </h2>
-                        <div class="flex space-x-2">
-                            <div class="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-blue-600 shadow-[0_0_5px_rgba(37,99,235,0.5)]"></div>
-                            <div class="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-red-600 shadow-[0_0_5px_rgba(220,38,38,0.5)]"></div>
-                        </div>
                     </div>
 
                     <div class="flex-grow flex flex-col p-3 md:p-4 gap-2 md:gap-3 overflow-hidden min-h-0 h-full">
                         <div class="flex-grow flex flex-row gap-2 md:gap-3 min-h-0 w-full h-full">
-                            
                             <div class="w-1/2 h-full flex flex-col justify-center items-center bg-white rounded-xl border border-slate-100 cursor-pointer transition-colors group min-h-0 p-2 overflow-hidden relative shadow-sm" style="container-type: size;" onclick="openMatchModal('${court.currentMatch}')">
                                 <div class="text-[length:min(50cqw,90cqh)] font-black text-slate-900 tracking-tighter leading-none group-hover:scale-105 transition-transform shrink-0 drop-shadow-sm flex items-center justify-center w-full h-full absolute inset-0">
                                     ${court.currentMatch || "-"}
                                 </div>
                             </div>
-                            
                             <div class="w-1/2 h-full flex justify-center items-center bg-red-50 rounded-xl border border-red-100 cursor-pointer min-h-0 p-2 px-2 overflow-hidden relative shadow-sm" style="container-type: size;" onclick="openMatchModal('${court.currentMatch}')">
                                 <div class="text-[length:min(14cqw,30cqh)] text-red-700 font-bold text-center leading-tight flex items-center justify-center w-full h-full absolute inset-0 p-3" style="word-break: break-word;">
                                     ${currentContent}
                                 </div>
                             </div>
-
                         </div>
-                        
                         <div class="shrink-0 bg-slate-50/80 rounded-xl border border-slate-200 py-1.5 md:py-2 px-3 flex items-center justify-center cursor-pointer hover:bg-slate-100 transition-colors" onclick="if('${nextMatchText}' !== '無'){openMatchModal('${nextMatchText.split(',')[0].trim()}')}">
                             <span class="text-[clamp(0.75rem,1.8vh,1.1rem)] text-slate-500 font-bold truncate">
                                 準備進行：<span class="text-slate-800 font-black ml-1">${nextMatchText}</span>
@@ -1153,11 +1027,9 @@
                 </div>`;
             }).join('');
 
-            const bannerNumbers = document.getElementById('banner-numbers');
-            const prepList = state.prepMatches || [];
-            if (prepList.length === 0) {
-                bannerNumbers.innerHTML = `<span class="text-slate-400 font-bold text-lg md:text-xl">暫無準備召集</span>`;
-            } else {
+            const bannerNumbers = document.getElementById('banner-numbers'); const prepList = state.prepMatches || [];
+            if (prepList.length === 0) { bannerNumbers.innerHTML = `<span class="text-slate-400 font-bold text-lg md:text-xl">暫無準備召集</span>`; } 
+            else {
                 bannerNumbers.innerHTML = prepList.map(matchId => {
                     const nextData = getMatchData(matchId);
                     return `
@@ -1169,32 +1041,21 @@
             }
         }
 
-        // ★ 核心升級：控制台排版亦轉為 Flexbox
         function initControlPanelCourts() {
-            const container = document.getElementById('control-panel-courts');
-            const count = state.courts.length;
-            
-            const prepList = state.prepMatches || [];
-            let optionsHtml = `<option value="">+ 從召集名單 ▾</option>`;
-            prepList.forEach(m => { optionsHtml += `<option value="${m}">加入場次 ${m}</option>`; });
+            const container = document.getElementById('control-panel-courts'); const count = state.courts.length;
+            const prepList = state.prepMatches || []; let optionsHtml = `<option value="">+ 從召集名單 ▾</option>`; prepList.forEach(m => { optionsHtml += `<option value="${m}">加入場次 ${m}</option>`; });
 
             const currentInputs = {};
             state.courts.forEach(c => {
-                const currInput = document.getElementById(`current-${c.id}`);
-                const nextInput = document.getElementById(`next-${c.id}`);
+                const currInput = document.getElementById(`current-${c.id}`); const nextInput = document.getElementById(`next-${c.id}`);
                 if(currInput && document.activeElement === currInput) currentInputs[`current-${c.id}`] = currInput.value;
                 if(nextInput && document.activeElement === nextInput) currentInputs[`next-${c.id}`] = nextInput.value;
             });
 
             container.className = "flex flex-wrap justify-center w-full gap-4 md:gap-6";
-
             container.innerHTML = state.courts.map(court => {
-                let courtPrepList = court.nextMatch ? court.nextMatch.split(',').map(s=>s.trim()).filter(s=>s!=="") : [];
-                let promoteHtml = `<option value="">下一場 ▾</option>`;
-                courtPrepList.forEach(m => { promoteHtml += `<option value="${m}">開始場次 ${m}</option>`; });
-
-                const currVal = currentInputs[`current-${court.id}`] !== undefined ? currentInputs[`current-${court.id}`] : court.currentMatch;
-                const nextVal = currentInputs[`next-${court.id}`] !== undefined ? currentInputs[`next-${court.id}`] : (court.nextMatch || '');
+                let courtPrepList = court.nextMatch ? court.nextMatch.split(',').map(s=>s.trim()).filter(s=>s!=="") : []; let promoteHtml = `<option value="">下一場 ▾</option>`; courtPrepList.forEach(m => { promoteHtml += `<option value="${m}">開始場次 ${m}</option>`; });
+                const currVal = currentInputs[`current-${court.id}`] !== undefined ? currentInputs[`current-${court.id}`] : court.currentMatch; const nextVal = currentInputs[`next-${court.id}`] !== undefined ? currentInputs[`next-${court.id}`] : (court.nextMatch || '');
 
                 let flexBasis = "w-full";
                 if (count === 1) flexBasis = "w-full max-w-4xl";
@@ -1207,15 +1068,12 @@
                 <div class="${flexBasis} bg-white/95 backdrop-blur-md p-5 md:p-6 rounded-2xl border border-slate-200 shadow-md flex flex-col justify-between relative">
                     <div class="flex justify-between items-center mb-5 border-b border-slate-100 pb-4">
                         <input type="text" value="${court.name}" oninput="updateCourtSoft('${court.id}', 'name', this.value)" onblur="renderView()" class="text-xl md:text-2xl font-black text-slate-800 bg-transparent border-b-2 border-transparent hover:border-slate-300 focus:border-red-500 focus:outline-none w-1/2 transition-colors" placeholder="輸入名稱">
-                        
                         <div class="flex items-center gap-1">
                             <button onclick="window.location.hash='#single-${court.id}'; window.location.reload();" class="text-slate-500 hover:text-slate-900 bg-slate-50 hover:bg-slate-200 p-2 md:px-3 md:py-2 rounded-xl transition-colors shadow-sm flex items-center font-bold text-xs md:text-sm border border-slate-200" title="進入單獨控制">
                                 <svg class="w-4 h-4 md:mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M9 21H3v-6"></path><path d="M21 3l-7 7"></path><path d="M3 21l7-7"></path></svg>
                                 <span class="hidden xl:inline">單獨控制</span>
                             </button>
-                            <select id="promote-next-${court.id}" onchange="promoteToCurrent('${court.id}', this.value)" class="flex items-center text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 px-2 py-1.5 md:px-3 md:py-2 rounded-xl transition-colors shadow-sm cursor-pointer focus:outline-none max-w-[120px] border border-slate-200">
-                                ${promoteHtml}
-                            </select>
+                            <select id="promote-next-${court.id}" onchange="promoteToCurrent('${court.id}', this.value)" class="flex items-center text-xs md:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 px-2 py-1.5 md:px-3 md:py-2 rounded-xl transition-colors shadow-sm cursor-pointer focus:outline-none max-w-[120px] border border-slate-200">${promoteHtml}</select>
                         </div>
                     </div>
                     <div class="space-y-4">
@@ -1227,44 +1085,30 @@
                             <label class="block text-xs md:text-sm font-bold text-red-600 mb-1.5 tracking-widest">準備場次</label>
                             <div class="flex flex-col xl:flex-row gap-2">
                                 <input id="next-${court.id}" type="text" value="${nextVal}" oninput="updateCourtSoft('${court.id}', 'nextMatch', this.value)" onblur="renderView()" class="w-full xl:w-1/2 bg-slate-50 border border-slate-300 rounded-xl p-2.5 md:p-3 text-slate-800 font-bold text-lg md:text-xl text-center focus:outline-none focus:border-red-500 focus:ring-1 transition-all" placeholder="用逗號分隔">
-                                <select id="select-next-${court.id}" onchange="assignNextMatch('${court.id}', this.value)" class="w-full xl:w-1/2 bg-white border border-slate-300 rounded-xl p-2.5 md:p-3 text-red-600 font-bold text-sm md:text-base text-center cursor-pointer hover:bg-slate-50 transition-colors focus:outline-none">
-                                    ${optionsHtml}
-                                </select>
+                                <select id="select-next-${court.id}" onchange="assignNextMatch('${court.id}', this.value)" class="w-full xl:w-1/2 bg-white border border-slate-300 rounded-xl p-2.5 md:p-3 text-red-600 font-bold text-sm md:text-base text-center cursor-pointer hover:bg-slate-50 transition-colors focus:outline-none">${optionsHtml}</select>
                             </div>
                         </div>
                     </div>
                     <div class="flex gap-2 mt-4 border-t border-slate-100 pt-4">
                         <button onclick="undoMatch('${court.id}')" class="flex-1 flex justify-center items-center text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 px-2 py-2.5 rounded-xl transition-colors border border-slate-200">
-                            <svg class="mr-1" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"></path><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"></path></svg>
-                            還原
+                            <svg class="mr-1" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"></path><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"></path></svg>還原
                         </button>
-                        <button onclick="advanceMatch('${court.id}')" class="flex-[2] flex justify-center items-center text-sm font-bold bg-red-50 text-red-600 hover:bg-red-600 hover:text-white px-4 py-2.5 rounded-xl transition-colors border border-red-200 hover:border-red-600">
-                            完結並下一場 ▷▷
-                        </button>
+                        <button onclick="advanceMatch('${court.id}')" class="flex-[2] flex justify-center items-center text-sm font-bold bg-red-50 text-red-600 hover:bg-red-600 hover:text-white px-4 py-2.5 rounded-xl transition-colors border border-red-200 hover:border-red-600">完結並下一場 ▷▷</button>
                     </div>
                 </div>
                 `;
             }).join('');
         }
 
+        // 🌟 核心修復：修正網址比對邏輯，支援 #display-auto 正常跳轉
         window.addEventListener('DOMContentLoaded', () => {
             const hash = window.location.hash;
-            if (hash === '#display') {
-                hideAllViewsAndShow('view-display');
-            } else if (hash.startsWith('#single-')) {
-                hideAllViewsAndShow('view-single-court');
-            } else if (hash === '#control') {
-                if (sessionStorage.getItem('tkd_admin_auth') !== 'true') {
-                    sessionStorage.setItem('tkd_pending_hash', hash);
-                    window.location.hash = ''; window.location.reload(); return;
-                }
+            if (hash.startsWith('#display')) { hideAllViewsAndShow('view-display'); } 
+            else if (hash.startsWith('#single-')) { hideAllViewsAndShow('view-single-court'); } 
+            else if (hash === '#control') {
+                if (sessionStorage.getItem('tkd_admin_auth') !== 'true') { sessionStorage.setItem('tkd_pending_hash', hash); window.location.hash = ''; window.location.reload(); return; }
                 hideAllViewsAndShow('view-control');
-            } else {
-                hideAllViewsAndShow('view-landing');
-                if (sessionStorage.getItem('tkd_pending_hash')) {
-                    window.openLoginModal();
-                }
-            }
+            } else { hideAllViewsAndShow('view-landing'); if (sessionStorage.getItem('tkd_pending_hash')) { window.openLoginModal(); } }
             initSystem();
         });
     </script>
